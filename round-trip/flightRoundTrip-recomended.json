@@ -1,0 +1,43 @@
+{
+  "passengerType": "passengers",
+  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
+  "tripType": "RoundTrip",
+  "branchId": 1233,
+  "agencyId": 35252,
+  "agentId": 1234,
+  "passengers": {
+    "adults": 3,
+    "children": 3,
+    "infants": 3
+  },
+  "nearByAirport": true,
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "isNonStop": true,
+  "isExcludeLcc": true,
+  "allianceName": "*O",
+  "preferredAirline": "VW",
+  "flightwidgetElement": [
+    {
+      "multiOrigins": [
+        "SHH",
+        "DXB",
+        "AUH",
+        "KGL"
+      ],
+      "covercountry": "IN",
+      "residency": "AE",
+      "age": 45,
+      "depCountry": "AE",
+      "originAirportCode": "CAI",
+      "destinationAirportCode": "JED",
+      "onwardDate": "2025-07-22",
+      "returnDate": "2025-07-31",
+      "onwardCabinClass": 3,
+      "onwardRbd": ["A", "E", ""],
+      "returnCabinClass": 4,
+      "returnRbd": ["I", "J", "K"]
+    }
+  ]
+}
+

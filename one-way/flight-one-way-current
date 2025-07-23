@@ -1,0 +1,45 @@
+passengerType       passengers
+flightwidgetElement[0].multiOriginList[0]         SHH
+flightwidgetElement[0].multiOriginNameList[0]         Shishmaref
+flightwidgetElement[0].multiOriginCityNameList[0]         Shishmaref
+flightwidgetElement[0].multiOriginCountryIdList[0]        235
+flightwidgetElement[0].multiOriginList[1]         DXB
+flightwidgetElement[0].multiOriginNameList[1]         Dubai International Airport
+flightwidgetElement[0].multiOriginCityNameList[1]         Dubai
+flightwidgetElement[0].multiOriginCountryIdList[1]        2
+flightwidgetElement[0].covercountry         SA
+flightwidgetElement[0].residency        AE
+flightwidgetElement[0].age        45
+tripType        OneWay
+flightwidgetElement[0].startingFrom         CAI
+flightwidgetElement[0].startingFromName         Cairo International Airport
+flightwidgetElement[0].startingFromCity         Cairo
+flightwidgetElement[0].originCountryId        67
+agencyId        0
+flightwidgetElement[0].goingTo        JED
+flightwidgetElement[0].goingToName        King Abdulaziz International
+flightwidgetElement[0].destCountryId        195
+flightwidgetElement[0].goingToCity        Jeddah
+flightwidgetElement[0].destinationCityId        3635
+flightwidgetElement[0].dateOfJourney        31-07-2025
+flightwidgetElement[0].cabinClass         2
+flightwidgetElement[0].rbd        B,C,D,
+flightwidgetElement[0].preferredAirline
+noOfAdults        3
+noOfChilds        3
+noOfInfants         3
+nearByAirport         true
+_nearByAirport        on
+baggageFareOnly         true
+_baggageFareOnly        on
+returnAllFaresResultFromGal         true
+_returnAllFaresResultFromGal        on
+RBDONEWAY         B
+RBDONEWAY         C
+RBDONEWAY         D
+isNonStop         true
+_isNonStop        on
+isExcludeLcc        true
+_isExcludeLcc         on
+prefferedAirline        VW
+prefferedAirlineName        Transportes Aeromar

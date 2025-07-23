@@ -1,0 +1,41 @@
+{
+  "passengerType": "",
+  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
+  "flightwidgetElement": [
+    {
+      "multiOriginList": ["SHH", "DXB"],
+      "multiOriginNameList": ["Shishmaref", "Dubai International Airport"],
+      "multiOriginCityNameList": ["Shishmaref", "Dubai"],
+      "multiOriginCountryIdList": [235, 2],
+      "covercountry": "SA",
+      "residency": "AE",
+      "age": 45,
+      "startingFrom": "CAI",
+      "startingFromName": "Cairo International Airport",
+      "startingFromCity": "Cairo",
+      "originCountryId": 67,
+      "goingTo": "JED",
+      "goingToName": "King Abdulaziz International",
+      "destCountryId": 195,
+      "goingToCity": "Jeddah",
+      "destinationCityId": 3635,
+      "dateOfJourney": "31-07-2025",
+      "cabinClass": 2,
+      "rbd": "B,C,D,",
+      "preferredAirline": ""
+    }
+  ],
+  "tripType": "OneWay",
+  "agencyId": 0,
+  "noOfAdults": 3,
+  "noOfChilds": 3,
+  "noOfInfants": 3,
+  "nearByAirport": true,
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "RBDONEWAY": ["B", "C", "D"],
+  "isNonStop": true,
+  "isExcludeLcc": true,
+  "prefferedAirline": "VW",
+  "prefferedAirlineName": "Transportes Aeromar"
+}

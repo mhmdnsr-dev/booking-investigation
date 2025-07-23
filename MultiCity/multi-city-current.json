@@ -1,0 +1,70 @@
+{
+  "tripType": "MultiCity",
+  "passengerType": "passengers",
+  "passengerIdList": ["7631-null-Egypt"],
+  "noOfAdults": 2,
+  "noOfChilds": 4,
+  "noOfInfants": 1,
+  "baggageFareOnly": true,
+  "_baggageFareOnly": "on",
+  "returnAllFaresResultFromGal": true,
+  "_returnAllFaresResultFromGal": "on",
+  "flightwidgetElement": [
+    {
+      "startingFrom": "CAI",
+      "startingFromName": "Cairo International Airport",
+      "startingFromCity": "Cairo",
+      "originCountryId": 67,
+      "goingToName": "King Abdulaziz International",
+      "goingTo": "JED",
+      "destCountryId": 195,
+      "goingToCity": "Jeddah",
+      "destinationCityId": 3635,
+      "dateOfJourney": "22-07-2025",
+      "cabinClass": 3,
+      "rbd": ["B", "D", "F", "F"]
+    },
+    {
+      "startingFrom": "JED",
+      "startingFromName": "King Abdulaziz International",
+      "startingFromCity": "Jeddah",
+      "originCountryId": 195,
+      "goingToName": "Dubai International Airport",
+      "goingTo": "DXB",
+      "destCountryId": 2,
+      "goingToCity": "Dubai",
+      "destinationCityId": 0,
+      "dateOfJourney": "31-07-2025",
+      "cabinClass": 4,
+      "rbd": ["U"]
+    },
+    {
+      "startingFrom": "DXB",
+      "startingFromName": "Dubai International Airport",
+      "startingFromCity": "Dubai",
+      "originCountryId": 2,
+      "goingToName": "Abu Dhabi International",
+      "goingTo": "AUH",
+      "destCountryId": 2,
+      "goingToCity": "Abu Dhabi",
+      "destinationCityId": 0,
+      "dateOfJourney": "30-11-2025",
+      "cabinClass": 2,
+      "rbd": ["R", "S", "T"]
+    },
+    {
+      "startingFrom": "AUH",
+      "startingFromName": "Abu Dhabi International",
+      "startingFromCity": "Abu Dhabi",
+      "originCountryId": 2,
+      "goingToName": "Kigalin International",
+      "goingTo": "KGL",
+      "destCountryId": 194,
+      "goingToCity": "Kigali",
+      "destinationCityId": 0,
+      "dateOfJourney": "23-06-2026",
+      "cabinClass": 4,
+      "rbd": ["D", "E", "F", "H"]
+    }
+  ]
+}

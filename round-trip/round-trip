@@ -1,0 +1,52 @@
+passengerType passengers
+passengerIdList[0] 7631-null-Egypt
+flightwidgetElement[0].multiOriginList[0] SHH
+flightwidgetElement[0].multiOriginNameList[0] Shishmaref
+flightwidgetElement[0].multiOriginCityNameList[0] Shishmaref
+flightwidgetElement[0].multiOriginCountryIdList[0] 235
+flightwidgetElement[0].multiOriginList[1] DXB
+flightwidgetElement[0].multiOriginNameList[1] Dubai International Airport
+flightwidgetElement[0].multiOriginCityNameList[1] Dubai
+flightwidgetElement[0].multiOriginCountryIdList[1] 2
+flightwidgetElement[0].covercountry IN
+flightwidgetElement[0].residency AE
+flightwidgetElement[0].age 45
+flightwidgetElement[0].depCountry AE
+tripType RoundTrip
+flightwidgetElement[0].startingFrom CAI
+flightwidgetElement[0].startingFromName Cairo International Airport
+flightwidgetElement[0].startingFromCity Cairo
+flightwidgetElement[0].originCountryId 67
+agencyId 0
+flightwidgetElement[0].goingTo JED
+flightwidgetElement[0].goingToName King Abdulaziz International
+flightwidgetElement[0].destCountryId 195
+flightwidgetElement[0].goingToCity Jeddah
+flightwidgetElement[0].destinationCityId 3635
+flightwidgetElement[0].dateOfJourney 22-07-2025
+flightwidgetElement[0].cabinClass 3
+flightwidgetElement[0].rbd A
+flightwidgetElement[0].rbd E
+flightwidgetElement[0].rbd
+flightwidgetElement[0].preferredAirline
+flightwidgetElement[0].returnDateOfJourney 31-07-2025
+flightwidgetElement[1].cabinClass 4
+flightwidgetElement[1].rbd I
+flightwidgetElement[1].rbd J
+flightwidgetElement[1].rbd K
+flightwidgetElement[1].rbd
+flightwidgetElement[1].preferredAirline
+noOfAdults 1
+noOfChilds 2
+noOfInfants 5
+nearByAirport true
+_nearByAirport on
+baggageFareOnly true
+_baggageFareOnly on
+returnAllFaresResultFromGal true
+_returnAllFaresResultFromGal on
+isNonStop true
+_isNonStop on
+isExcludeLcc true
+_isExcludeLcc on
+allianceName *O

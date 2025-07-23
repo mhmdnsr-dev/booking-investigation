@@ -1,0 +1,51 @@
+{
+  "passengerType": "passengers",
+  "passengerIdList": ["7631-null-Egypt"],
+  "tripType": "RoundTrip",
+  "agencyId": 0,
+  "noOfAdults": 1,
+  "noOfChilds": 2,
+  "noOfInfants": 5,
+  "nearByAirport": true,
+  "_nearByAirport": "on",
+  "baggageFareOnly": true,
+  "_baggageFareOnly": "on",
+  "returnAllFaresResultFromGal": true,
+  "_returnAllFaresResultFromGal": "on",
+  "isNonStop": true,
+  "_isNonStop": "on",
+  "isExcludeLcc": true,
+  "_isExcludeLcc": "on",
+  "allianceName": "*O",
+  "flightwidgetElement": [
+    {
+      "multiOriginList": ["SHH", "DXB"],
+      "multiOriginNameList": ["Shishmaref", "Dubai International Airport"],
+      "multiOriginCityNameList": ["Shishmaref", "Dubai"],
+      "multiOriginCountryIdList": [235, 2],
+      "covercountry": "IN",
+      "residency": "AE",
+      "age": 45,
+      "depCountry": "AE",
+      "startingFrom": "CAI",
+      "startingFromName": "Cairo International Airport",
+      "startingFromCity": "Cairo",
+      "originCountryId": 67,
+      "goingTo": "JED",
+      "goingToName": "King Abdulaziz International",
+      "goingToCity": "Jeddah",
+      "destinationCityId": 3635,
+      "destCountryId": 195,
+      "dateOfJourney": "22-07-2025",
+      "cabinClass": 3,
+      "rbd": ["A", "E", ""],
+      "preferredAirline": "",
+      "returnDateOfJourney": "31-07-2025"
+    },
+    {
+      "cabinClass": 4,
+      "rbd": ["I", "J", "K", ""],
+      "preferredAirline": ""
+    }
+  ]
+}

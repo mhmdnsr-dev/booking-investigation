@@ -1,0 +1,44 @@
+{
+  "tripType": "MultiCity",
+  "passengerIdList": ["7631-Name-Egypt"],
+  "branchId": 1233,
+  "agencyId": 35252,
+  "agentId": 1234,
+  "passengers": {
+    "adults": 3,
+    "children": 3,
+    "infants": 3
+  },
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "flightwidgetElement": [
+    {
+      "originAirportCode": "CAI",
+      "destinationAirportCode": "JED",
+      "dateOfJourney": "2025-07-22",
+      "cabinClass": 3,
+      "rbd": ["B", "D", "F"]
+    },
+    {
+      "originAirportCode": "JED",
+      "destinationAirportCode": "DXB",
+      "dateOfJourney": "2025-07-31",
+      "cabinClass": 4,
+      "rbd": ["U"]
+    },
+    {
+      "originAirportCode": "DXB",
+      "destinationAirportCode": "AUH",
+      "dateOfJourney": "2025-11-30",
+      "cabinClass": 2,
+      "rbd": ["R", "S", "T"]
+    },
+    {
+      "originAirportCode": "AUH",
+      "destinationAirportCode": "KGL",
+      "dateOfJourney": "2026-06-23",
+      "cabinClass": 4,
+      "rbd": ["D", "E", "F", "H"]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+tripType              MultiCity
+passengerType             passengers
+passengerIdList[0]              7631-null-Egypt
+flightwidgetElement[0].startingFrom             CAI
+flightwidgetElement[0].startingFromName             Cairo International Airport
+flightwidgetElement[0].startingFromCity             Cairo
+flightwidgetElement[0].originCountryId              67
+flightwidgetElement[0].goingToName              King Abdulaziz International
+flightwidgetElement[0].goingTo              JED
+flightwidgetElement[0].destCountryId              195
+flightwidgetElement[0].goingToCity              Jeddah
+flightwidgetElement[0].destinationCityId              3635
+flightwidgetElement[0].dateOfJourney              22-07-2025
+flightwidgetElement[0].cabinClass             3
+flightwidgetElement[0].rbd              B
+flightwidgetElement[0].rbd              D
+flightwidgetElement[0].rbd              F
+flightwidgetElement[1].startingFrom             JED
+flightwidgetElement[1].startingFromName             King Abdulaziz International
+flightwidgetElement[1].startingFromCity             Jeddah
+flightwidgetElement[1].originCountryId              195
+flightwidgetElement[1].goingToName              Dubai International Airport
+flightwidgetElement[1].goingTo              DXB
+flightwidgetElement[1].destCountryId              2
+flightwidgetElement[1].goingToCity              Dubai
+flightwidgetElement[1].destinationCityId              0
+flightwidgetElement[1].dateOfJourney              31-07-2025
+flightwidgetElement[1].cabinClass             4
+flightwidgetElement[1].rbd              U
+flightwidgetElement[2].startingFrom             DXB
+flightwidgetElement[2].startingFromName             Dubai International Airport
+flightwidgetElement[2].startingFromCity             Dubai
+flightwidgetElement[2].originCountryId              2
+flightwidgetElement[2].goingToName              Abu Dhabi International
+flightwidgetElement[2].goingTo              AUH
+flightwidgetElement[2].destCountryId              2
+flightwidgetElement[2].goingToCity              Abu Dhabi
+flightwidgetElement[2].destinationCityId              0
+flightwidgetElement[2].dateOfJourney              30-11-2025
+flightwidgetElement[2].cabinClass             2
+flightwidgetElement[2].rbd              R
+flightwidgetElement[2].rbd              S
+flightwidgetElement[2].rbd              T
+flightwidgetElement[3].startingFrom             AUH
+flightwidgetElement[3].startingFromName             Abu Dhabi International
+flightwidgetElement[3].startingFromCity             Abu Dhabi
+flightwidgetElement[3].originCountryId              2
+flightwidgetElement[3].goingToName              Kigalin International
+flightwidgetElement[3].goingTo              KGL
+flightwidgetElement[3].destCountryId              194
+flightwidgetElement[3].goingToCity              Kigali
+flightwidgetElement[3].destinationCityId              0
+flightwidgetElement[3].dateOfJourney              23-06-2026
+flightwidgetElement[3].cabinClass             4
+flightwidgetElement[3].rbd              D
+flightwidgetElement[3].rbd              E
+flightwidgetElement[3].rbd              F
+flightwidgetElement[3].rbd              H
+noOfAdults              2
+noOfChilds              4
+noOfInfants             1
+baggageFareOnly             true
+_baggageFareOnly              on
+returnAllFaresResultFromGal             true
+_returnAllFaresResultFromGal              on
+flightwidgetElement[0].rbd                F

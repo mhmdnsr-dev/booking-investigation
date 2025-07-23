@@ -1,0 +1,261 @@
+// List of branches ==> branchList
+[
+  {
+    "availPiSearch": null,
+    "companyImage": null,
+    "creationTime": 1752659424364,
+    "decription": null,
+    "fqnName": null,
+    "gapprovalStatus": null,
+    "groupCode": "BRN10",
+    "groupId": 964,
+    "groupLevel": null,
+    "groupName": "Mansoura",
+    "importPnr": 1,
+    "mappedagencyid": null,
+    "maxRecordPerPage": 0,
+    "noOfDepartment": null,
+    "oldName": null,
+    "operatingCountry": null,
+    "orgContactModel": null,
+    "orgModal": null,
+    "pageNumber": 1,
+    "parenGroupList": null,
+    "parentGroupId": 0,
+    "phoneCode": null,
+    "phoneCodeOne": null,
+    "siteId": 0,
+    "status": null,
+    "userBranchList": null,
+    "userModel": null,
+    "userOperatingCountryList": null
+  }
+]
+// List of Agency agencyList
+[
+  [
+    10482,
+    "AGN33",
+    67,
+    948,
+    "AGN9590",
+    null
+  ],
+  [
+    10514,
+    "cai",
+    67,
+    948,
+    "AGN9610",
+    null
+  ],
+]
+
+// agentList JSP:
+
+[
+  {
+    "creationTime": null,
+    "password": null,
+    "agentId": 0,
+    "fax": null,
+    "phoneCode": null,
+    "importPnr": null,
+    "transferPnr": null,
+    "sessionId": null,
+    "userId": 12777,
+    "gender": 0,
+    "userAlias": null,
+    "title": 0,
+    "agencyCode": null,
+    "userType": 0,
+    "agencyId": 0,
+    "mobileNo": null,
+    "agencyName": null,
+    "uploadImage": null,
+    "profileImage": null,
+    "operatingCountryList": [],
+    "approvalId": null,
+    "firstName": "ahmed",
+    "lastName": null,
+    "email": null,
+    "dob": null,
+    "clientIp": null,
+    "middleName": null,
+    "agentName": null,
+    "phoneCode1": null,
+    "displayUserType": null,
+    "browserInfo": null,
+    "mobileNo1": null,
+    "userOrganizationId": null,
+    "disableSignIn": 0,
+    "userStatus": 0,
+    "lastModifiedDate": null,
+    "selectedSite": null,
+    "staffDepartmentMappingNewList": [],
+    "uploadProfileImage": null,
+    "lastLoginDate": null,
+    "marritalStatus": 0,
+    "displayTitle": null,
+    "userScopeType": 0,
+    "staffDepartmentMappingList": [],
+    "lastModifiedPassTime": null
+  }
+]
+
+
+//REST
+// Get branch by id ==> branchSelection/selectBranch
+// Not used only for product type to redirect to flight/flightWidget
+{
+  "agencyList1": [
+    [
+      10482,
+      "AGN33",
+      67,
+      948,
+      "AGN9590",
+      null
+    ],
+    [
+      10514,
+      "cai",
+      67,
+      948,
+      "AGN9610",
+      null
+    ],
+  ],
+  "PRODUCTLIST": [
+    1,
+    2,
+    3,
+    4
+  ]
+}
+
+
+// List of agency staff/agent By agency ID
+// flight/selectAgency
+{
+  "agentList": [
+    {
+      "userAlias": null,
+      "password": null,
+      "userId": 12756,
+      "title": 0,
+      "displayTitle": null,
+      "firstName": "sayed",
+      "middleName": null,
+      "lastName": null,
+      "mobileNo": null,
+      "mobileNo1": null,
+      "phoneCode1": null,
+      "dob": null,
+      "profileImage": null,
+      "uploadProfileImage": null,
+      "email": null,
+      "fax": null,
+      "gender": 0,
+      "marritalStatus": 0,
+      "userType": 0,
+      "approvalId": null,
+      "displayUserType": null,
+      "lastLoginDate": null,
+      "creationTime": null,
+      "lastModifiedDate": null,
+      "userStatus": 0,
+      "disableSignIn": 0,
+      "importPnr": null,
+      "transferPnr": null,
+      "userScopeType": 0,
+      "lastModifiedPassTime": null,
+      "selectedSite": null,
+      "userAddressList": [],
+      "userContacts": [],
+      "userRolesList": [],
+      "groupBeanList": [],
+      "operatingCountryList": [],
+      "assignedGroupAdminList": [],
+      "userTemplate": {
+        "templateId": 0,
+        "siteId": 0,
+        "templateName": null,
+        "description": null,
+        "status": 0,
+        "creation_time": null,
+        "created_by": null,
+        "last_updated_by": null,
+        "checkStatus": 0,
+        "templateMenuMapping": [],
+        "menuBeanList": []
+      },
+      "staff": {
+        "id": 0,
+        "staffCode": null,
+        "department": null,
+        "designation": null,
+        "isUndercut": null,
+        "isUndercutBelowNetPrice": null,
+        "status": null,
+        "user": null,
+        "userModal": null,
+        "noOfDepartment": null,
+        "noOfSelectedDepartment": null,
+        "company": null,
+        "userRoleType": null,
+        "userRoleName": null,
+        "branch": null,
+        "branchIds": null,
+        "operatingCountry": null,
+        "firstName": null,
+        "groupId": null,
+        "userAlias": null,
+        "userEmail": null,
+        "action": null,
+        "changeStatus": null,
+        "branchName": null,
+        "roleIds": null,
+        "approvalUserId": null,
+        "approvalStatus": null,
+        "approvalDate": null,
+        "approvalRemarks": null,
+        "approvalBy": null,
+        "displayRights": null,
+        "userType": null,
+        "userTypeName": null,
+        "currentSearchStatus": null,
+        "pageNumber": 1,
+        "maxRecordPerPage": 0,
+        "userBranchList": null,
+        "userOperatingCountryList": null,
+        "staffDepartmentMappingList": []
+      },
+      "userRoleMappings": [],
+      "userOrganizationId": null,
+      "agencyId": 0,
+      "agencyCode": null,
+      "agencyName": null,
+      "agentId": 0,
+      "agentName": null,
+      "clientIp": null,
+      "browserInfo": null,
+      "sessionId": null,
+      "phoneCode": null,
+      "staffDepartmentMappingList": [],
+      "uploadImage": null,
+      "staffDepartmentMappingNewList": []
+    }
+  ],
+  "PRODUCTLIST": [
+    1,
+    2,
+    3,
+    4
+  ]
+}
+
+
+// List of agency staff/agent By agency ID
+// flight/selectAgent
+//null

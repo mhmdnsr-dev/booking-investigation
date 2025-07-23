@@ -1,0 +1,19 @@
+// List of branches ==> branchListJson
+[{
+	"groupId": 964,
+	"groupName": "Mansoura",
+	"groupCode": "BRN10"
+}]
+
+// List of Agency By Branch ID
+[{
+	"agencyId": 10482,
+	"agencyCode": "AGN33",
+	"agencyName": "AGN33"
+}]
+
+// List of agency staff/agent By agency ID
+[{
+	"staffId": 10482,
+	"staffName": "Mohamed Nasr"
+}]
