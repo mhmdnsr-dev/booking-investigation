@@ -579,3 +579,824 @@ Re-fetches previously known values and injects them into the JSP view again:
 - Maintain agent selection state locally in frontend
 
 - Only fire relevant logic when actual submission or validation is needed
+
+
+---
+
+
+## ✈️ Endpoint: `GET /getAllAirports`
+
+### 📄 Description
+
+This endpoint is used to retrieve a **list of all airports**, including metadata like airport code, name, country, and city.  
+Currently, it returns a **heavy and verbose** payload with many unused or redundant fields.
+
+---
+
+### 📥 Current Behavior
+
+- **Method:** `GET`
+- **Response:** Full airport object with 40+ fields
+
+#### 🧾 Sample Response:
+```json
+[
+  {
+    "creationTime": null,
+    "status": 0,
+    "longitute": null,
+    "approvalDate": null,
+    "action": "Create",
+    "lastModTime": null,
+    "createdBy": 0,
+    "approvalUserId": null,
+    "flightSupplierId": null,
+    "userType": null,
+    "maxRecordPerPage": 0,
+    "pageNumber": 1,
+    "airportJson": null,
+    "is_international": false,
+    "is_domestic": false,
+    "approvalStatus": 0,
+    "cityName": "Jeddah",
+    "airportSuppliersList": null,
+    "airportCode": "JED",
+    "latitude": null,
+    "nearByAirport": null,
+    "countryID": 195,
+    "updatedCountryName": "SA",
+    "siteId": 0,
+    "stationType": "1",
+    "airportName": "King Abdulaziz International",
+    "displayRights": null,
+    "cityId": 3635,
+    "airportId": 3231,
+    "selectAirport": null,
+    "approvalRemarks": null,
+    "currentSearchStatus": null,
+    "countryName": "Saudi Arabia",
+    "lastUpdatedBy": 0,
+    "clientIpAddress": null,
+    "updatedCityName": null,
+    "isSource": false,
+    "airportsSubHistory": null,
+    "approvalBy": null,
+    "airportMapModal": null,
+    "airportCheckStatus": false,
+    "updatedCityId": 0,
+    "updatedCountryId": 0,
+    "loggedInUserOperatingCountryList": null,
+    "gmt": 0.0,
+    "statusName": null,
+    "isDestination": false,
+    "type": null
+  }
+]
+```
+### ✅ Recommended Approach: REST API
+
+- GET /api/get-all-airports?search={codeOrName}
+
+#### 🧾 Sample `response` Value:
+```json
+[
+  {
+    "airportId": 3231,
+    "airportCode": "JED",
+    "airportName": "King Abdulaziz International",
+    "cityId": 3635,
+    "cityName": "Jeddah",
+    "countryId": 195,
+    "countryName": "Saudi Arabia"
+  }
+]
+```
+
+- 🎯 Returns just enough information to identify the airport, link it to city/country, and display in dropdowns or selectors.
+
+
+---
+
+## ✈️ Endpoint: `GET /getPreferedAirline`
+
+### 📄 Description
+
+This endpoint is responsible for retrieving **airline information** by name or code, often used when users select or search for a preferred airline.
+
+---
+
+### 📥 Current Behavior
+
+- **Method:** `GET`
+- **Parameters:** airline name or code
+- **Response:** Full airline object with lots of extra and unused data
+
+#### 🧾 Sample Response:
+```json
+[
+  {
+    "userId": null,
+    "action": "",
+    "approvalUserId": null,
+    "approvalDate": null,
+    "displayRights": null,
+    "approvalBy": null,
+    "approvalStatus": 1,
+    "networkType": 2,
+    "imagePath": null,
+    "userType": null,
+    "imgPath": null,
+    "imagePathShowPrice": null,
+    "allianceName": null,
+    "codeSharingAllowed": false,
+    "currentSearchStatus": null,
+    "maxRecordPerPage": 0,
+    "pageNumber": 1,
+    "approvalRemarks": null,
+    "airlineCode": "TEST",
+    "airlineName": "test",
+    "airlineType": 1,
+    "airlinesSubHistory": null,
+    "clientIpAddress": null,
+    "imagePathPriceMatrix": null,
+    "airlinePassport": null,
+    "networkTypeName": null,
+    "creationTime": null,
+    "status": 1,
+    "createdBy": 0,
+    "lastModTime": null,
+    "siteId": 0,
+    "contentId": 746,
+    "lastUpdatedBy": 0
+  }
+]
+```
+
+- ✅ Recommendation
+- 🔄 Replace with:
+- GET /api/get-airline?search={codeOrName} 
+- 🧾 Sample Response (Recommended):
+```json
+[
+  {
+    "airlineCode": "TEST",
+    "airlineName": "test",
+    "airlineType": 1,
+    "approvalStatus": 1,
+    "status": 1
+  }
+]
+```
+- 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic airline info.
+
+---
+
+
+## 👤 Endpoint: `POST /searchPaxByNameMob`
+
+### 📄 Description
+
+Used to search for a passenger using their **name** or **mobile number**. The system attempts to locate and match existing passenger records, most likely for reuse in booking forms.
+
+---
+
+### 📥 Current Behavior
+
+- **Method:** `POST`
+- **Parameters:** Passenger name (and optionally mobile)
+- **Response:** Large response object with redundant and deeply nested metadata.
+
+#### 🧾 Sample Response:
+```json
+{
+  "resultList2": null,
+  "productName": null,
+  "errorCode": null,
+  "errorMessage": null,
+  "resultMap": null,
+  "resultLisOdeysys": null,
+  "entryCount": null,
+  "resultInteger2": 0,
+  "posObjectId": null,
+  "resultString2": null,
+  "resultObject": null,
+  "resultString": null,
+  "resultBoolean": null,
+  "policyNoList": null,
+  "totalRecordsCountForSearch": null,
+  "twoStepProc": null,
+  "cancellationCharge": null,
+  "suppCancellationStatus": null,
+  "resultObject2": null,
+  "productBooked": false,
+  "supplierResponseFailed": false,
+  "resultDouble1": null,
+  "decimalCount": 0,
+  "resultList": [
+    {
+      "oldName": null,
+      "mealPreference": null,
+      "status": 1,
+      "phoneCode": "+20",
+      "seatPreference": null,
+      "depTimePreference": null,
+      "specialPreference": null,
+      "iqamaNumber": null,
+      "iqamaExpiryDate": null,
+      "nationalIdNumber": null,
+      "nationalIdExpiryDate": null,
+      "gender": 0,
+      "createdBy": 790,
+      "title": 0,
+      "maxRecordPerPage": 0,
+      "pageNumber": 1,
+      "branchId": "BRN2",
+      "agencyId": null,
+      "age": 1,
+      "companyId": null,
+      "nationalityCode": "EG",
+      "passportExpiryDate": null,
+      "titleName": null,
+      "firstName": "ahmed",
+      "lastName": "kamel",
+      "email": "akamel@wondertravel-eg.com",
+      "nationalityStr": "Egypt",
+      "phone": "1052454352",
+      "passportNumber": "a987654342",
+      "dob": 1693087200000,
+      "passportIssuedCountryName": null,
+      "oldEmail": null,
+      "hiddenId": null,
+      "city": null,
+      "middleName": null,
+      "branchIds": null,
+      "phone1": null,
+      "iqamaIssueCountry": null,
+      "phoneCode1": null,
+      "nationalIdIssueCountry": null,
+      "journeyDate": null,
+      "fromSearch": false,
+      "paxIds": null,
+      "paxFrequentFlyer": [],
+      "paxRelationList": [],
+      "passportIssueCountry": null,
+      "createdDate": 1742982136000,
+      "mainPaxId": null,
+      "postalCode": null,
+      "paxType": null,
+      "province": null,
+      "nationality": "67",
+      "companyName": null,
+      "mainPaxName": null,
+      "statusUpdateProcess": false,
+      "genderName": null,
+      "hotelPreference": null,
+      "updatedBy": null,
+      "updateDate": 1742982136000,
+      "companyLocation": null,
+      "searchDOB": null,
+      "phoneCodeFlag": null,
+      "countryFlagCode": null,
+      "countryFlagCode1": null,
+      "iqamaIssuedCountryName": null,
+      "nationalIssuedCountryName": null,
+      "address": null,
+      "id": 5118
+    }
+  ],
+  "resultString3": null,
+  "resultInteger": null,
+  "resultDouble": null,
+  "resultIntegerArray": null,
+  "hotelBooked": false,
+  "resultStringHotel": null,
+  "resultObjecOdeysys": null,
+  "cancellationStatus": null,
+  "resultExplanation": null,
+  "roundOffStatus": 0,
+  "resultBoolean1": null
+}
+```
+
+
+- ✅ Recommendation
+- 🔄 Replace with:
+- GET /api/get-passenger?search={passengerName}
+- 🧾 Sample Response (Recommended):
+```json
+[
+  {
+    "name": "ahmed kamel",
+    "id": 5118,
+    "age": 1,
+    "mobile": "1052454352",
+    "gender": "male",
+    "email": "akamel@wondertravel-eg.com",
+    "nationality": "EG",
+    "phoneCode": "+20",
+    "dob": 1693087200000,
+    "type": "adult"
+  }
+]
+```
+- 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic passenger info.
+
+---
+## ✈️ Endpoint: `POST /flightOneWay`
+
+### 📄 Description
+
+This endpoint is responsible for searching one-way flights based on the user-selected criteria on the **Flight Widget Page**.
+
+---
+
+### 🧾 Current Request Format (FormData)
+
+The backend currently accepts the form as **`FormData`**, mostly structured in nested key patterns. It includes flight origin, destination, cabin class, passenger counts, and many options toggled with `on` flags.
+
+#### 🔧 Example FormData:
+```text
+passengerType = passengers
+flightwidgetElement[0].multiOriginList[0] = SHH
+flightwidgetElement[0].multiOriginNameList[0] = Shishmaref
+flightwidgetElement[0].multiOriginCityNameList[0] = Shishmaref
+flightwidgetElement[0].multiOriginCountryIdList[0] = 235
+flightwidgetElement[0].multiOriginList[1] = DXB
+flightwidgetElement[0].multiOriginNameList[1] = Dubai International Airport
+flightwidgetElement[0].multiOriginCityNameList[1] = Dubai
+flightwidgetElement[0].multiOriginCountryIdList[1] = 2
+flightwidgetElement[0].covercountry = SA
+flightwidgetElement[0].residency = AE
+flightwidgetElement[0].age = 45
+tripType = OneWay
+flightwidgetElement[0].startingFrom = CAI
+flightwidgetElement[0].startingFromName = Cairo International Airport
+flightwidgetElement[0].startingFromCity = Cairo
+flightwidgetElement[0].originCountryId = 67
+agencyId = 0
+flightwidgetElement[0].goingTo = JED
+flightwidgetElement[0].goingToName = King Abdulaziz International
+flightwidgetElement[0].destCountryId = 195
+flightwidgetElement[0].goingToCity = Jeddah
+flightwidgetElement[0].destinationCityId = 3635
+flightwidgetElement[0].dateOfJourney = 31-07-2025
+flightwidgetElement[0].cabinClass = 2
+flightwidgetElement[0].rbd = B,C,D,
+noOfAdults = 3
+noOfChilds = 3
+noOfInfants = 3
+nearByAirport = true
+baggageFareOnly = true
+returnAllFaresResultFromGal = true
+RBDONEWAY = B
+RBDONEWAY = C
+RBDONEWAY = D
+isNonStop = true
+isExcludeLcc = true
+prefferedAirline = VW
+prefferedAirlineName = Transportes Aeromar
+```
+
+
+- ✅ Recommendation
+- 🔄 Replace with:
+```http
+- POST /api/flight-one-way 
+- Content-Type: application/json
+```
+- 🧾 Sample Request (Recommended):
+```json
+{
+  "passengerType": null,
+  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
+  "tripType": "OneWay",
+  "branchId": 123,
+  "agencyId": 532,
+  "agentId": 1234,
+  "passengers": {
+    "adults": 3,
+    "children": 3,
+    "infants": 3
+  },
+  "nearByAirport": true,
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "isNonStop": true,
+  "isExcludeLcc": true,
+  "cabinClass": 2,
+  "rbd": ["B", "C", "D"],
+  "preferredAirlineCode": "VW",
+  "allianceName": "*A",
+  "flightWidgetElement": {
+    "multiOrigins": ["SHH", "DXB"],
+    "coverCountry": "SA",
+    "residency": "AE",
+    "originAirportCode": "CAI",
+    "destinationAirportCode": "JED",
+    "dateOfJourney": "31-07-2025"
+  }
+}
+```
+- 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic info.
+
+---
+
+
+
+## 🔁 Endpoint: `POST /flightOneWay` (Used for RoundTrip too!)
+
+### 📄 Description
+
+Although named `flightOneWay`, this endpoint also handles **RoundTrip** bookings. The request body is sent as `FormData`, consisting of multiple scattered fields and indexed lists.
+
+---
+
+### 🧾 Current Request Format (FormData)
+
+This is how the frontend currently sends a **RoundTrip** request:
+
+```plaintext
+passengerType = passengers
+passengerIdList[0] = 7631-null-Egypt
+
+flightwidgetElement[0].multiOriginList[0] = SHH
+flightwidgetElement[0].multiOriginNameList[0] = Shishmaref
+flightwidgetElement[0].multiOriginCityNameList[0] = Shishmaref
+flightwidgetElement[0].multiOriginCountryIdList[0] = 235
+flightwidgetElement[0].multiOriginList[1] = DXB
+flightwidgetElement[0].multiOriginNameList[1] = Dubai International Airport
+flightwidgetElement[0].multiOriginCityNameList[1] = Dubai
+flightwidgetElement[0].multiOriginCountryIdList[1] = 2
+
+flightwidgetElement[0].covercountry = IN
+flightwidgetElement[0].residency = AE
+flightwidgetElement[0].age = 45
+flightwidgetElement[0].depCountry = AE
+
+tripType = RoundTrip
+flightwidgetElement[0].startingFrom = CAI
+flightwidgetElement[0].startingFromName = Cairo International Airport
+flightwidgetElement[0].startingFromCity = Cairo
+flightwidgetElement[0].originCountryId = 67
+
+flightwidgetElement[0].goingTo = JED
+flightwidgetElement[0].goingToName = King Abdulaziz International
+flightwidgetElement[0].goingToCity = Jeddah
+flightwidgetElement[0].destCountryId = 195
+flightwidgetElement[0].destinationCityId = 3635
+
+flightwidgetElement[0].dateOfJourney = 22-07-2025
+flightwidgetElement[0].returnDateOfJourney = 31-07-2025
+
+flightwidgetElement[0].cabinClass = 3
+flightwidgetElement[0].rbd = A
+flightwidgetElement[0].rbd = E
+flightwidgetElement[0].rbd = 
+
+flightwidgetElement[1].cabinClass = 4
+flightwidgetElement[1].rbd = I
+flightwidgetElement[1].rbd = J
+flightwidgetElement[1].rbd = K
+flightwidgetElement[1].rbd = 
+
+agencyId = 0
+noOfAdults = 1
+noOfChilds = 2
+noOfInfants = 5
+
+nearByAirport = true
+baggageFareOnly = true
+returnAllFaresResultFromGal = true
+isNonStop = true
+isExcludeLcc = true
+allianceName = *O
+```
+
+- ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: POST /api/flight-round-trip
+```json
+{
+  "passengerType": "passengers",
+  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
+  "tripType": "RoundTrip",
+  "branchId": 1233,
+  "agencyId": 35252,
+  "agentId": 1234,
+  "passengers": {
+    "adults": 1,
+    "children": 2,
+    "infants": 5
+  },
+  "nearByAirport": true,
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "isNonStop": true,
+  "isExcludeLcc": true,
+  "allianceName": "*O",
+  "preferredAirline": "VW",
+  "flightwidgetElement": [
+    {
+      "multiOrigins": ["SHH", "DXB"],
+      "covercountry": "IN",
+      "residency": "AE",
+      "age": 45,
+      "depCountry": "AE",
+      "originAirportCode": "CAI",
+      "destinationAirportCode": "JED",
+      "onwardDate": "2025-07-22",
+      "returnDate": "2025-07-31",
+      "onwardCabinClass": 3,
+      "onwardRbd": ["A", "E"],
+      "returnCabinClass": 4,
+      "returnRbd": ["I", "J", "K"]
+    }
+  ]
+}
+```
+
+
+---
+
+
+## 🌍 Endpoint: `POST /flightMultiCity`
+
+### 📄 Description
+
+This endpoint is responsible for processing **Multi-City flight bookings**.  
+It currently accepts a `FormData` object containing all segments under indexed `flightwidgetElement[n]` fields, then returns a `ModalAndView` to render the results.
+
+---
+
+### 📥 Current Request Format (FormData)
+
+```text
+tripType              MultiCity
+passengerType             passengers
+passengerIdList[0]              7631-null-Egypt
+flightwidgetElement[0].startingFrom             CAI
+flightwidgetElement[0].startingFromName             Cairo International Airport
+flightwidgetElement[0].startingFromCity             Cairo
+flightwidgetElement[0].originCountryId              67
+flightwidgetElement[0].goingToName              King Abdulaziz International
+flightwidgetElement[0].goingTo              JED
+flightwidgetElement[0].destCountryId              195
+flightwidgetElement[0].goingToCity              Jeddah
+flightwidgetElement[0].destinationCityId              3635
+flightwidgetElement[0].dateOfJourney              22-07-2025
+flightwidgetElement[0].cabinClass             3
+flightwidgetElement[0].rbd              B
+flightwidgetElement[0].rbd              D
+flightwidgetElement[0].rbd              F
+flightwidgetElement[1].startingFrom             JED
+flightwidgetElement[1].startingFromName             King Abdulaziz International
+flightwidgetElement[1].startingFromCity             Jeddah
+flightwidgetElement[1].originCountryId              195
+flightwidgetElement[1].goingToName              Dubai International Airport
+flightwidgetElement[1].goingTo              DXB
+flightwidgetElement[1].destCountryId              2
+flightwidgetElement[1].goingToCity              Dubai
+flightwidgetElement[1].destinationCityId              0
+flightwidgetElement[1].dateOfJourney              31-07-2025
+flightwidgetElement[1].cabinClass             4
+flightwidgetElement[1].rbd              U
+flightwidgetElement[2].startingFrom             DXB
+flightwidgetElement[2].startingFromName             Dubai International Airport
+flightwidgetElement[2].startingFromCity             Dubai
+flightwidgetElement[2].originCountryId              2
+flightwidgetElement[2].goingToName              Abu Dhabi International
+flightwidgetElement[2].goingTo              AUH
+flightwidgetElement[2].destCountryId              2
+flightwidgetElement[2].goingToCity              Abu Dhabi
+flightwidgetElement[2].destinationCityId              0
+flightwidgetElement[2].dateOfJourney              30-11-2025
+flightwidgetElement[2].cabinClass             2
+flightwidgetElement[2].rbd              R
+flightwidgetElement[2].rbd              S
+flightwidgetElement[2].rbd              T
+flightwidgetElement[3].startingFrom             AUH
+flightwidgetElement[3].startingFromName             Abu Dhabi International
+flightwidgetElement[3].startingFromCity             Abu Dhabi
+flightwidgetElement[3].originCountryId              2
+flightwidgetElement[3].goingToName              Kigalin International
+flightwidgetElement[3].goingTo              KGL
+flightwidgetElement[3].destCountryId              194
+flightwidgetElement[3].goingToCity              Kigali
+flightwidgetElement[3].destinationCityId              0
+flightwidgetElement[3].dateOfJourney              23-06-2026
+flightwidgetElement[3].cabinClass             4
+flightwidgetElement[3].rbd              D
+flightwidgetElement[3].rbd              E
+flightwidgetElement[3].rbd              F
+flightwidgetElement[3].rbd              H
+noOfAdults              2
+noOfChilds              4
+noOfInfants             1
+baggageFareOnly             true
+_baggageFareOnly              on
+returnAllFaresResultFromGal             true
+_returnAllFaresResultFromGal              on
+flightwidgetElement[0].rbd                F
+```
+
+- ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: POST /api/flight-multicity
+```json
+{
+  "tripType": "MultiCity",
+  "passengerIdList": ["7631-Name-Egypt"],
+  "branchId": 1233,
+  "agencyId": 35252,
+  "agentId": 1234,
+  "passengers": {
+    "adults": 2,
+    "children": 4,
+    "infants": 1
+  },
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": true,
+  "flightwidgetElement": [
+    {
+      "originAirportCode": "CAI",
+      "destinationAirportCode": "JED",
+      "dateOfJourney": "2025-07-22",
+      "cabinClass": 3,
+      "rbd": ["B", "D", "F"]
+    },
+    {
+      "originAirportCode": "JED",
+      "destinationAirportCode": "DXB",
+      "dateOfJourney": "2025-07-31",
+      "cabinClass": 4,
+      "rbd": ["U"]
+    },
+    {
+      "originAirportCode": "DXB",
+      "destinationAirportCode": "AUH",
+      "dateOfJourney": "2025-11-30",
+      "cabinClass": 2,
+      "rbd": ["R", "S", "T"]
+    },
+    {
+      "originAirportCode": "AUH",
+      "destinationAirportCode": "KGL",
+      "dateOfJourney": "2026-06-23",
+      "cabinClass": 4,
+      "rbd": ["D", "E", "F", "H"]
+    }
+  ]
+}
+
+```
+
+
+--- 
+### 🔐 Endpoint: `/checkIfValidUser/ValidateUserWindow`
+
+#### 📄 Description
+This endpoint is used to validate the user's session and detect if the application is opened in multiple browser tabs. It helps ensure single-tab usage and redirect users when their session is no longer valid.
+
+#### 🛠️ Parameters
+- `t`: The current timestamp. Typically generated on the client side.
+- `windowName`: The name of the current browser window.
+
+#### 🧠 Current Behavior
+- If `windowName` is empty and the server detects an already open session, it assigns `"loginUser"` to the current window.
+- If the server returns `"newTab"`, the application alerts the user and redirects them to an error page — this is used to prevent multiple tabs.
+- If the server returns `1`, it means the session is invalid, and the user should be redirected to the login page.
+
+#### ✅ Recommendation
+- Replace this endpoint with a cleaner version such as:
+  - `/check-validate-user/validate-user?t={ISODateTime}`
+- The backend should accept standard ISO 8601 date strings (e.g., `2025-07-27T11:54:27Z`) for better compatibility and parsing.
+- The response should return structured data with enum-based statuses instead of raw strings or numbers. For example:
+  - `VALID`
+  - `INVALID_SESSION`
+  - `MULTI_TAB_NOT_ALLOWED`
+
+#### 💡 Notes
+- Modern applications (like Angular 2+ frontends) should handle such checks using interceptors or centralized session services.
+- Using blocking synchronous validation methods should be avoided for performance and UX reasons.
+
+--- 
+### 🌐 External Endpoint: `https://salesiq.zohopublic.com/visitor/v2/channels/website`
+
+#### 📄 Description
+This endpoint is part of Zoho SalesIQ’s public API. It is used by Zoho’s website widget to track and manage website visitor sessions.
+
+#### 📥 Request (as query parameters)
+- `widgetcode`: `07de97db4f603764716ff96e7371a6c5eaad4fa5b1b0e215b8de2214ef5bd7c8`
+- `internal_channel_req`: `true`
+- `last_modified_time`: `1737629810707`
+- `version`: `V26`
+- `browser_language`: `en`
+- `current_domain`: `http://192.168.1.210`
+- `pagetitle`: `NDC Admin`
+
+#### 🧠 Implementation Notes
+- This endpoint is **not implemented** anywhere in our application code.
+- It is automatically called and managed by the **Zoho SalesIQ widget**, which is likely embedded via a script tag or external integration.
+
+#### ✅ Recommendation
+- **No action required**.
+- Ensure the widget is correctly configured and does not conflict with core application behavior.
+- This call can be safely ignored in the context of backend/API architecture reviews.
+
+
+--- 
+### 🌐 External Endpoint: `https://salesiq.zohopublic.com/wondertravel/fetchvisitorconfigurations.ls`
+
+#### 📄 Description
+This endpoint belongs to the **Zoho SalesIQ widget** service. It fetches dynamic visitor configuration forms that SalesIQ uses during chat sessions on the embedded widget.
+
+#### 📥 Request (as query parameters)
+- `avuid`: `5aa8e3ec-0e3d-4d59-98d9-ba15bad942d3`
+- `lsid`: `584883000006764759`
+- `visitor_question`: `undefined`
+- `fetchallfields`: `true`
+- `app_status`: `online`
+
+#### 📤 Response (simplified)
+Returns a list containing visitor form configuration including:
+```json
+[
+  {
+    "objString": {
+      "form": {
+        "form_type": "general",
+        "sync_time": 1737629810707,
+        "dname": "",
+        "title": "",
+        "msglist": [
+          {
+            "msg": "",
+            "meta": {
+              "format": "text",
+              "input_card": {
+                "visibility": "online",
+                "maxlength": 100,
+                "options": [],
+                "placeholder": "",
+                "type": "visitor_last_name"
+              },
+              "skippable": false,
+              "field_name": ""
+            },
+            "dname": "",
+            "mtime": "1753617280206"
+          },
+          {
+            "msg": "",
+            "meta": {
+              "format": "email",
+              "input_card": {
+                "visibility": "online",
+                "maxlength": 100,
+                "options": [],
+                "placeholder": "",
+                "type": "visitor_email"
+              },
+              "skippable": false,
+              "field_name": ""
+            },
+            "dname": "",
+            "mtime": "1753617280207"
+          },
+          {
+            "msg": "Can i have your phone number?",
+            "meta": {
+              "format": "phone",
+              "input_card": {
+                "visibility": "online",
+                "maxlength": 100,
+                "options": [],
+                "placeholder": "Enter your phone number",
+                "type": "visitor_phone"
+              },
+              "skippable": false,
+              "field_name": "Phone"
+            },
+            "dname": "",
+            "mtime": "1753617280208"
+          }
+        ],
+        "fields_prefill_type": {
+          "show_fields": true,
+          "prefill": true
+        }
+      }
+    },
+    "module": "fetchvisitorconfigurations",
+    "objType": "object"
+  }
+]
+```
+#### 🧠 Implementation Notes
+- This endpoint is **not part of our application logic**.
+- It is triggered **internally by the Zoho SalesIQ widget** embedded on the site.
+- Its purpose is to load predefined fields and messages used in Zoho's live chat functionality.
+
+#### ✅ Recommendation
+- **No action required** for backend system integration.
+- Confirm widget is properly embedded and allowed on necessary domains.
+- This endpoint can be ignored when designing or migrating internal APIs.
+
