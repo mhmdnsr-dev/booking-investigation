@@ -1400,3 +1400,123 @@ Returns a list containing visitor form configuration including:
 - Confirm widget is properly embedded and allowed on necessary domains.
 - This endpoint can be ignored when designing or migrating internal APIs.
 
+---
+
+### 📘 Endpoint: `GET json/globalProps.json`
+
+#### 📄 Description
+Fetches static global configuration values used across the system, such as validation rules and limits.
+
+#### 📥 Request
+- **Method**: `GET`
+- **URL**: `/json/globalProps.json`
+
+#### 📤 Response (example)
+```json
+{
+  "globalProps": [
+    {
+      "passengerNameLength": 50,
+      "arabicPattern": "[\\u0600-\\u06FF\\u0750-\\u077F]"
+    }
+  ]
+}
+```
+##### ✅ Recommendation
+
+- Functionality is fine as-is.
+
+- Enhancement Suggestion: Rename the endpoint to follow consistent RESTful naming conventions:
+
+- Replace json/globalProps.json with json/global-props
+
+- Benefits: cleaner URL, better maintainability, consistency across other endpoints.
+
+---
+
+### 📘 Endpoint: `GET settings/Up-Selling`
+
+#### 📄 Description
+Fetches the current system configuration status for the **Up-Selling** feature. This configuration helps determine whether the Up-Selling option should be enabled or disabled in the application.
+
+#### 📥 Request
+- **Method**: `GET`
+- **URL**: `/settings/Up-Selling`
+
+#### 📤 Response (example)
+```json
+{
+  "statusCode": 200,
+  "message": "Request Accepted",
+  "actionKey": "Up-Selling",
+  "actionValue": "1"
+}
+```
+
+
+### 📘 Endpoint: `GET settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+
+#### 📄 Description
+Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes.
+
+#### 📥 Request
+- **Method**: `GET`
+- **URL**: `/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+
+#### 📤 Response (example)
+```json
+{
+  "statusCode": 200,
+  "message": "Request Accepted",
+  "actionKey": "CHECK-SUPPLIER-REQUEST-RESPONSE",
+  "actionValue": "0"
+}
+```
+
+---
+
+### ✈️ Endpoint: `GET flight/lastFiveSearchs`
+
+#### 📄 Description
+This endpoint is intended to return the **last five flight search records** for the current user/session. However, in the current implementation, it usually returns an empty or default response.
+
+#### 📥 Request
+- **Method**: `GET`
+- **URL**: `/flight/lastFiveSearchs`
+
+#### 📤 Response (example)
+```json
+{
+  "timeZone": null,
+  "resultString": null,
+  "resultList": [],
+  "resultObject": null,
+  "resultMap": null,
+  "resultList2": null,
+  "resultInteger": 0,
+  "resultString4": null,
+  "errorCode": null,
+  "resultInteger2": 0,
+  "resultBoolean": null,
+  "resultString2": null,
+  "resultObject2": null,
+  "resultDouble1": null,
+  "resultExplanation": null,
+  "productBooked": false,
+  "supplierResponseFailed": false,
+  "decimalCount": 0,
+  "policyNoList": null,
+  "resultString3": null,
+  "errorMessage": null,
+  "resultObjecOdeysys": null,
+  "resultDouble": null,
+  "resultIntegerArray": null,
+  "hotelBooked": false,
+  "resultStringHotel": null,
+  "resultLisOdeysys": null,
+  "roundOffStatus": 0,
+  "error": false
+}
+```
+
+- ✅ Recommended replace response object with just list of data (resultList)
