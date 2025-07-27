@@ -1457,7 +1457,7 @@ Fetches the current system configuration status for the **Up-Selling** feature. 
 ### 📘 Endpoint: `GET settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
 
 #### 📄 Description
-Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes.
+Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes and if we will show "Check Supplier" button or not
 
 #### 📥 Request
 - **Method**: `GET`
@@ -1520,3 +1520,48 @@ This endpoint is intended to return the **last five flight search records** for 
 ```
 
 - ✅ Recommended replace response object with just list of data (resultList)
+
+--- ---
+
+### ✈️ Endpoint: `GET flight/getSuppliersName`
+
+#### 📄 Description
+This endpoint is currently used in the flightWidgetManual page only and includes test/dummy/invalid data.
+#### 📥 Request
+- **Method**: `GET`
+- **URL**: `/flight/getSuppliersName`
+
+#### 📤 Response (example)
+```json
+{
+  "statusCode": 200,
+  "message": "Request Accepted",
+  "suppliersNameList": [
+    "!@#$#%$",
+    "#@$@%^#$",
+    "222",
+    "AirArabiaEgypt",
+    "AirArbia",
+    "AirArbiaUAE",
+    "AirCairo",
+    "Amadeus",
+    "Badr",
+    "DEMO",
+    "FlyDubai",
+    "FlyEgypt",
+    "Galileo",
+    "JazeeraAirways",
+    "JazeeraAirwaysUAE",
+    "LCC",
+    "Reissue",
+    "Sabre",
+    "SalamAir",
+    "ShuraTech",
+    "sssssss",
+    "Tarco",
+    "TEST",
+    "TravelFusion",
+    "UIHUE"
+  ]
+}
+```
