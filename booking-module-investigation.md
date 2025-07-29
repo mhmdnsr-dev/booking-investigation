@@ -34,10 +34,12 @@ Let’s dive into each page or endpoint step by step, comparing how it works now
 ## 🏢 Endpoint: `odeysysadmin/branchSelection/`
 
 ### 📄 Description
-This is one of the legacy endpoints in the booking system. It returns a `ModelAndView` object used to render a **branch selection page** in a JSP view.  
+This is one of the legacy endpoints in the booking system. It returns a `ModelAndView/Document` object used to render a **branch selection page** in a JSP view.  
 As part of the booking workflow, this page allows the user to choose a branch from a dropdown.
 
-### 🔄 My Role in This
+![Branch Selection page](./assets/images/screenshots/branchSelection.png)
+
+#### 🔄 My Role in This
 As part of the Flight Widget/Booking Module investigation, this page is analyzed for potential improvement.  
 It currently works in a traditional Spring MVC + JSP flow, but can be enhanced to better support RESTful, frontend-driven architecture.
 
@@ -45,12 +47,12 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 
 ### 📥 Legacy Behavior
 
-- **Type:** Spring `ModelAndView`
+- **Type:** Spring `ModelAndView/Document`
 - **Injected Property:** `branchList`
 - **Used In:** JSP page to render a branch `<select>` dropdown
 - **Format:** Full list of group/branch models with many unused fields
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample <span style="background:#333; padding:2px; border-radius: 2px">branchList</span> Value:</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>branchList</code> Value:</h4> </summary>
 
 ```json
 [
@@ -88,19 +90,30 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 ```
 </details>
 
-### ✅ Recommended Approach: REST API
+### 🚀 Implementation
 
-- GET /api/branches
+- Just render data in dropdown
+
+### ✅ Recommended Approach: REST API which already implemented in system
+
+- POST Master2/Branch/search
 
 #### 🧾 Sample `response` Value:
 ```json
-[
-  {
-    "branchId": 964,
-    "branchName": "Mansoura",
-    "branchCode": "BRN10"
-  }
-]
+{
+  "payload": [
+    {
+      "branchId": 948,
+      "branchCode": "BRN2",
+      "branchName": "Test",
+      "countryId": 67,
+      "countryName": "Egypt",
+      "cityName": "Dahab",
+      "approvalStatus": 1
+    }
+  ],
+  "total": 53
+}
 ```
 
 ---
@@ -143,6 +156,12 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
   "PRODUCTLIST": [1, 2, 3, 4]
 }
 ```
+
+
+### 🚀 Implementation
+
+- Not found
+
 ### 🔍 Observation
 - No values from this response are used in the UI or any known logic
 
@@ -150,8 +169,12 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 
 - The actual page load is handled separately by a ModelAndView, which we'll describe shortly
 
+- Backend need to call this endpoint thus we can replace it with  `agencyList` property of agencies (nested arrays)
+
 ### ✅ Recommendation
+
 - 🧼 Recommended Action: Ignore or Deprecate
+
 - ✅ Do not rely on or maintain this endpoint
 
 - ✅ Remove or comment out frontend call
@@ -166,15 +189,18 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 
 ### 📄 Description
 This is the main **entry point** of the flight booking page.  
-It returns a `ModelAndView` that provides required data to the JSP view, including branch and agency information, which are then rendered in dropdowns.
+It returns a `ModelAndView/Document` that provides required data to the JSP view, including branch and agency information, which are then rendered in dropdowns.
 
 > 🧠 This is part of the legacy server-rendered flow. Our goal is to modernize it by replacing it with a clean REST structure.
+
+![Branch Selection page](./assets/images/screenshots/flightWidget.png)
+
 
 ---
 
 ### 📥 Current Behavior
 
-- **Type:** `ModelAndView`
+- **Type:** `ModelAndView/Document`
 - **View:** JSP
 - **Injected Properties:**
     - `branchList`: List of branches
@@ -239,24 +265,33 @@ It returns a `ModelAndView` that provides required data to the JSP view, includi
 ]
 ```
 
+### 🚀 Implementation
+- Just render data in dropdown
+
 ---
 ### ✅ Recommended Approach: REST API
 
-- GET /api/agencies/{branchId}
+- POST api/branches/{branchId}/agencies
 - (Dynamically load agencies based on selected branch)
 
 #### 🧾 Sample `response` Value:
 ```json
-[
-  {
-    "agencyId": 10482,
-    "agencyCode": "AGN33",
-    "agencyName": "AGN33"
-  }
-]
+{
+  "payload": [
+    {
+      "id": 10696,
+      "name": "samir",
+      "code": "AGN9663",
+      "countryName": "Egypt",
+      "cityName": "aswan",
+      "branchName": "samir",
+      "status": 1,
+      "approvalStatus": 1
+    }
+  ],
+  "total": 66
+}
 ```
-
-
 
 
 ---
@@ -412,7 +447,7 @@ It returns a list of **agents (staff users)** under that agency, which is render
 ---
 ### ✅ Recommended Approach: REST API
 
-- GET /api/agents/{agencyId}
+- GET /api/agencies/{agencyId}/agents
 - (Dynamically load agents based on selected agency)
 
 #### 🧾 Sample `response` Value:

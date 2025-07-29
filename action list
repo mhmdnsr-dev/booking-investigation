@@ -1,0 +1,15 @@
+Booking cycle FE Action list
+
+1- Add two sections (Endpoints and validation)
+1.1- Endpoints
+1.1.1- Make each endpoint as a section
+1.1.2- Add description section in very brief
+1.1.3- Add request (current/will be done/recommended) and implementation
+1.1.4- Add response (current/will be done/recommended) and implementation
+1.1.5- Observation (optionally)
+1.1.6- optionally add screenshots in the description section under the endpoint section to highlight in which area the endpoint getting called
+
+1.2- FE validations (under work)
+
+2- Add screenshot for the target page in focus area
+2.1- Write all JSP pages in section (Related JSPs)
