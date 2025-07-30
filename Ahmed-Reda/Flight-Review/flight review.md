@@ -110,9 +110,27 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ---
 
+### 🏷️ Legacy Endpoint Reference
+
+- **Endpoint URL:**  
+  `odeysysadmin/flight/flightReview`
+- **Request Method:**  
+  `POST`
+- **Payload Parameters:**
+  - `requestBean`
+  - `onwardFlightOptionJson`
+  - `fareResponse`
+  - `fromSaveQuote`
+  - `quotationId`
+  - `productSequence`
+
+This legacy endpoint handled the flight review page using a POST request with multiple complex payload objects.
+
+---
+
 ### ✅ Recommended REST API `requestBean` Structure
 
-- **API Endpoint:** `GET /flight/request`
+- **API Endpoint:** `GET /flight/request/${flightId}or{bookingRef}or${orderId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 - only 14 proprties
@@ -711,7 +729,7 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ### ✅ Recommended REST API `Flight option `(one way) Structure
 
-- **API Endpoint:** `GET /flight-review/oneway`
+- **API Endpoint:** `GET /flight-review/oneway/${flightId}or{bookingRef}or${orderId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 
@@ -775,7 +793,6 @@ As part of the modernization effort, we compare the old legacy structure against
       "totalFees": "number",
       "totalSurchargeAmout": "number",
       "bundledServiceCharge": "number",
-      "odeysysPrice": "number",
       "cancelPanelty": "string",
       "changePanelty": "string"
     },
@@ -1022,100 +1039,217 @@ As part of the modernization effort, we compare the old legacy structure against
       "fareType": "Published Fare",
       "paxAdtTaxBreakup": [
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "EG",
-          "taxAmount": 200
+          "taxAmount": 200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "EQ",
-          "taxAmount": 100
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "JK",
-          "taxAmount": 100
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "O2",
-          "taxAmount": 100
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "O9",
-          "taxAmount": 100
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "QH",
-          "taxAmount": 1000
+          "taxAmount": 1000,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "S4",
-          "taxAmount": 200
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "XK",
-          "taxAmount": 200
+          "taxAmount": 200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "E3",
-          "taxAmount": 200
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         },
         {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "IO",
-          "taxAmount": 1600
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "T2",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
           "taxCode": "YR",
-          "taxAmount": 2400
+          "taxAmount": 1200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
         }
       ],
-      "paxChdTaxBreakup": null,
-      "paxInfTaxBreakup": null,
-      "markupPrice": 0,
-      "discountPrice": 0,
-      "serviceChargePrice": 200,
-      "totalNet": 0,
-      "displayOnlycabinClass": null,
-      "adultActualTotalFare": 0,
-      "childActualTotalFare": 0,
-      "infantActualTotalFare": 0,
-      "adultNegoFare": false,
-      "childNegoFare": false,
-      "infantNegoFare": false,
-      "infantTourCode": null,
-      "adultFareType": "Published",
-      "manualDealCode": null,
+      "paxChdTaxBreakup": [
+        {
+          "taxCode": "EG",
+          "taxAmount": 200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "EQ",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "JK",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "O2",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "O9",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "QH",
+          "taxAmount": 1000,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "S4",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "XK",
+          "taxAmount": 200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "E3",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "YR",
+          "taxAmount": 1200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        }
+      ],
+      "paxInfTaxBreakup": [
+        {
+          "taxCode": "EG",
+          "taxAmount": 200,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "EQ",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "JK",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "O2",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "O9",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "QH",
+          "taxAmount": 1000,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "XK",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        },
+        {
+          "taxCode": "E3",
+          "taxAmount": 100,
+          "actualTaxAmount": 0,
+          "taxDesc": ""
+        }
+      ],
       "fareTypeCode": "Published Fare",
+      "cabinClass": "Economy",
+      "actualTotalChildBaseFare": 0,
+      "actualTotalChildTax": 0,
+      "actualTotalChildFee": 0,
+      "actualTotalInfantBaseFare": 0,
+      "actualTotalInfantTax": 0,
+      "actualTotalInfantFee": 0,
+      "travelFusionFeeDescription": null,
+      "travelFusionBookingFee": 0,
+      "adultFareType": "Published",
+      "childFareType": "Published",
+      "infantFareType": "Published",
+      "fareBrand": "BASIC ECO",
+      "fareTypeID": null,
+      "totalAgencyCommission": 0,
+      "actualTotalAgencyCommission": 0,
+      "bundledServiceCharge": 0,
+      "actualBundledServiceCharge": 0,
+      "childCorporateDealCode": null,
+      "infantCorporateDealCode": null,
+      "adultAllowedCheckinBaggage": "",
+      "adultAllowedHandBaggage": "",
+      "childAllowedCheckinBaggage": "",
+      "childAllowedHandBaggage": "",
+      "infantAllowedCheckinBaggage": "",
+      "infantAllowedHandBaggage": "",
+      "fareClass": "V",
+      "plb": 0,
+      "refundableInfo": "WT 1U-REFUNDABLE",
+      "serviceFee": 0,
+      "tds": 0,
+      "transactionFee": 0,
+      "paxAdtFeesBreakup": null,
       "paxChdFeesBreakup": null,
       "paxInfFeesBreakup": null,
       "fareNote": null,
-      "cancelPanelty": null,
-      "changePanelty": null,
+      "cancelPanelty": "AED350.00",
+      "changePanelty": "AED200.00",
       "baggageIncluded": false,
       "actualTotalFee": 0,
       "airpricingInfoADT": null,
@@ -1336,401 +1470,31 @@ As part of the modernization effort, we compare the old legacy structure against
         "classOfService": "V",
         "fareInfoRefKey": null,
         "segmentSellKeyOld": null,
-        "operatedByAirlineName": "Saudi Arabian",
-        "technicalStopList": null,
-        "depTerminal": "2",
-        "depTime": "01:50:00",
-        "equipment": "330",
-        "flightNumber": "386",
-        "journeyDuration": "2h 15m",
-        "stopover": "0",
-        "operatedByFound": false
+        "bookingClass": "V",
+        "cabinClass": "Economy",
+        "segmentKeyUsed": false,
+        "resBookDesignCode": null,
+        "supplierDepDate": null
       }
     ],
     "optionSegmentBean": null,
-    "supplierCurrency": "AED",
-    "laggage": null,
-    "agencyCurrencyCode": null,
-    "tagFlight": null,
-    "spiceFlightOptionDetails": null,
-    "quantity": 1,
-    "moreOptions": null,
-    "lccPromoCode": null,
-    "adtBagCode": null,
-    "chdBagCode": null,
-    "originCityCode": "CAI",
-    "destinationCityCode": "JED",
-    "offerItemID": null,
-    "orderItemID": null,
-    "carryOnCharges": null,
     "ticketUsingSearchPCC": true,
     "ticketingPCCId": null,
-    "flightFare": {
-      "currency": "EGP",
-      "markup": false,
-      "offerID": null,
-      "adultTourCode": null,
-      "childTourCode": null,
-      "agentMarkup": 0,
-      "adultBaseFare": 1200,
-      "adultTax": 6300,
-      "childBaseFare": 0,
-      "childTax": 0,
-      "infantBaseFare": 0,
-      "infantTax": 0,
-      "adultFees": 0,
-      "childFees": 0,
-      "infantFees": 0,
-      "agencyMarkup": 0,
-      "offerItemID": null,
-      "markdown": false,
-      "actualTotalBaseFare": 120,
-      "totalBaseFare": 1200,
-      "actualTotalFare": 750,
-      "actualTotalTaxFare": 630,
-      "totalTax": 6300,
-      "totalFees": 0,
-      "bookingPcc": null,
-      "rph": null,
-      "fareSellKey": "rX+5rfeEuDKA4XUx4uAAAA==",
-      "baggageOptionsList": null,
-      "branchMarkup": 0,
-      "fareBasisCode": null,
-      "voluntaryRefundsAdult": null,
-      "voluntaryChangesChild": null,
-      "voluntaryRefundsChild": null,
-      "voluntaryChangesInfant": null,
-      "voluntaryRefundsInfant": null,
-      "voluntaryChangesAdult": null,
-      "actualTravelFusionFee": 0,
-      "actualAdultBaseFare": 0,
-      "actualAdultTax": 0,
-      "actualAdultFees": 0,
-      "actualChildBaseFare": 0,
-      "actualChildTax": 0,
-      "actualchildFees": 0,
-      "actualInfantBaseFare": 0,
-      "actualInfantTax": 0,
-      "actualInfantFees": 0,
-      "actualTotalAdultBaseFare": 0,
-      "actualTotalAdultTax": 0,
-      "actualTotalAdultFee": 0,
-      "actualTotalChildBaseFare": 0,
-      "actualTotalChildTax": 0,
-      "actualTotalChildFee": 0,
-      "actualTotalInfantBaseFare": 0,
-      "actualTotalInfantTax": 0,
-      "actualTotalInfantFee": 0,
-      "travelFusionFeeDescription": null,
-      "travelFusionBookingFee": 0,
-      "childFareType": null,
-      "infantFareType": null,
-      "fareBrand": "BASIC ECO",
-      "fareTypeID": null,
-      "totalAgencyCommission": 0,
-      "actualTotalAgencyCommission": 0,
-      "bundledServiceCharge": 0,
-      "actualBundledServiceCharge": 0,
-      "childCorporateDealCode": null,
-      "infantCorporateDealCode": null,
-      "adultAllowedCheckinBaggage": "",
-      "adultAllowedHandBaggage": "",
-      "childAllowedCheckinBaggage": "",
-      "childAllowedHandBaggage": "",
-      "infantAllowedCheckinBaggage": "",
-      "infantAllowedHandBaggage": "",
-      "fareClass": "V",
-      "plb": 0,
-      "refundableInfo": "WT 1U-REFUNDABLE",
-      "serviceFee": 0,
-      "tds": 0,
-      "transactionFee": 0,
-      "paxAdtFeesBreakup": null,
-      "actualSsrMealAmt": 0,
-      "actualSsrBaggageAmt": 0,
-      "actualSsrSeatAmt": 0,
-      "serviceTax": 0,
-      "cabinClass": "Economy",
-      "corporateDealCode": null,
-      "adultDiscountPrice": 0,
-      "adultMarkupPrice": 0,
-      "adultServiceChargePrice": 200,
-      "childDiscountPrice": 0,
-      "childMarkupPrice": 0,
-      "childServiceChargePrice": 0,
-      "infantDiscountPrice": 0,
-      "infantMarkupPrice": 0,
-      "infantServiceChargePrice": 0,
-      "remark": null,
-      "odeysysPrice": 7700,
-      "fareType": "Published Fare",
-      "paxAdtTaxBreakup": [
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "EG",
-          "taxAmount": 200
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "EQ",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "JK",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "O2",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "O9",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "QH",
-          "taxAmount": 1000
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "S4",
-          "taxAmount": 200
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "XK",
-          "taxAmount": 200
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "E3",
-          "taxAmount": 200
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "IO",
-          "taxAmount": 1600
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "T2",
-          "taxAmount": 100
-        },
-        {
-          "actualTaxAmount": 0,
-          "taxDesc": "",
-          "taxCode": "YR",
-          "taxAmount": 2400
-        }
-      ],
-      "paxChdTaxBreakup": null,
-      "paxInfTaxBreakup": null,
-      "markupPrice": 0,
-      "discountPrice": 0,
-      "serviceChargePrice": 200,
-      "totalNet": 7500,
-      "displayOnlycabinClass": null,
-      "adultActualTotalFare": 0,
-      "childActualTotalFare": 0,
-      "infantActualTotalFare": 0,
-      "adultNegoFare": false,
-      "childNegoFare": false,
-      "infantNegoFare": false,
-      "infantTourCode": null,
-      "adultFareType": "Published",
-      "manualDealCode": null,
-      "fareTypeCode": "Published Fare",
-      "paxChdFeesBreakup": null,
-      "paxInfFeesBreakup": null,
-      "fareNote": null,
-      "cancelPanelty": "AED350.00",
-      "changePanelty": "AED200.00",
-      "baggageIncluded": false,
-      "actualTotalFee": 0,
-      "airpricingInfoADT": null,
-      "adultFareId": null,
-      "childFareId": null,
-      "infantFareId": null,
-      "adultFareInfoRef": [
-        {
-          "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA+9AUf3xBI7zxWa1uaqI55k3aSkvhp2ybTTIBPj51E08N/TcS5jHwyVN3J3NyYpz6ThlgYCxLjBqyst5h5wAlv4yumg2vpWQVmLgFn3B9sPdSU8gecfbWEnMU535bvD9TB5ilQoX7RIZzukd+fDqEGh3YT9dyBPONkPFc7ZmQhP+mpBH9wehGMEn6V7c0rHrrX6RvvlIHW87/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/qc2V/LDU7azsIhAEP8Hr99wXtO9a1rEPVV9ISKSaAaI=",
-          "fareInfoRef": "rX+5rfeEuDKAIYUx4uAAAA==",
-          "airSegmentRef": "rX+5rfeEuDKA0XUx4uAAAA=="
-        },
-        {
-          "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA+9AUf3xBI7zxWa1uaqI55k3aSkvhp2ybW0MSoJeDhyitwsu4DCIgHVN3J3NyYpz6ThlgYCxLjBqyst5h5wAlv78n4ExpM8cvmLgFn3B9sPdSU8gecfbWEnMU535bvD9TB5ilQoX7RIZzukd+fDqEGh3YT9dyBPONk4nKb2G5mOFmpBH9wehGMGpPTEoLP/Eo36RvvlIHW87/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/qc2V/LDU7azsIhAEP8Hr99wXtO9a1rEPVV9ISKSaAaI=",
-          "fareInfoRef": "rX+5rfeEuDKAsYUx4uAAAA==",
-          "airSegmentRef": "rX+5rfeEuDKA2XUx4uAAAA=="
-        }
-      ],
-      "childFareInfoRef": null,
-      "infantFareInfoRef": null,
-      "galileoHostTokenList": null,
-      "airPricingSolution": null,
-      "airPricingInfoMapCHD": null,
-      "airPricingInfoMapINFT": null,
-      "paxRefID": null,
-      "paxJourneyRefID": null,
-      "totalSurchargeAmout": 0,
-      "flightSurchargeBreakUps": null
-    },
-    "flightOptionKey": "RoundTrip|GAL|CAI|2025-09-18|SV|386|V|2025-09-18|JED",
-    "originCountry": "67",
-    "destinationCountry": "195",
-    "fullLaggage": false,
-    "multiCarrier": false,
-    "journeySellKey": null,
-    "amadeusFlightOptionDetails": null,
-    "onwardJourneyDateFormat": null,
-    "lccflight": false,
-    "noOfAdults": 1,
-    "noOfChilds": 0,
-    "multiCarrierForApplyRule": false,
-    "responseID": null,
-    "connecting": false,
-    "serviceVendor": "Galileo",
-    "orderID": null,
-    "airAirarabiaFlightOptionDetails": null,
-    "viaFlight": false,
-    "originCountryCode": null,
-    "destinationCountryCode": null,
-    "adultHandBaggage": "",
-    "childHandBaggage": "",
-    "infantHandBaggage": "",
-    "journeyDurationInMinutes": 0,
-    "marketingCarrier": "SV",
-    "ndcSearchResponseID": null,
-    "ndcRulesAndPenalties": null,
-    "baggageAllowed": false,
-    "nDCjourneyID": null,
-    "platingCarrierName": "Saudi Arabian",
-    "noOfTotalStops": 0,
-    "flyDubaiFlightOptionDetails": null,
-    "discountIdAdult": null,
-    "discountIdChild": null,
-    "discountIdInfant": null,
-    "destinationId": null,
+    "platingAirlineType": 1,
+    "domestic": false,
     "passengerList": null,
-    "ssrPrice": 0,
-    "fareAvailabilityKey": null,
-    "trackingId": "0b0aeb7d-7d1d-48fd-a04b-00e88d8adf3c",
-    "bookAndHoldAllowedForSupplier": false,
-    "baggageAllowedForSupplier": false,
-    "brandCodeSabre": [],
-    "fareBaseCodeSabre": [],
-    "supplierSettings": {
-      "gdsSupplier": false,
-      "fareConfirmBeforePayAfterHoldAllowed": false,
-      "iqamaAllowed": false,
-      "dynamicCurrencyAllowed": false,
-      "bookAndHoldAllowed": false,
-      "baggageAllowed": false,
-      "cancelBookAndHoldAllowed": false,
-      "ticketVoidAllowed": false,
-      "bundleAllowed": false,
-      "syncPnrAllowed": false
-    },
     "serviceProviderPNR": null,
+    "multiCarrierForApplyRule": false,
+    "rulesCommonBean": null,
+    "baggageAllowed": false,
+    "supplierCurrency": "AED",
     "originCity": "1300",
     "originId": null,
-    "domestic": false,
-    "fareRule": null,
-    "offerId": null,
-    "platingAirlineType": 1,
-    "destinationCity": "3635",
-    "onwardJourneyDate": "2025-09-18",
-    "totalJourneyDuration": "135",
-    "childCheckinBaggage": "",
-    "adultCheckinBaggage": "1P",
-    "infantCheckinBaggage": "",
-    "currencyRate": 10,
-    "noOfInfants": 0,
-    "importPnr": false,
-    "totalFare": 7500,
-    "flightUUID": null,
-    "bundledServiceId": null,
-    "bundledServiceName": null,
-    "includedServies": null,
-    "gdsOfficeId": "P3429834",
-    "noOfConnectingPoints": 0,
-    "airMultiAvailabilityResp": false,
-    "flightDetKey": "SV386|GAL",
-    "ndcintegration": false,
-    "validLaggage": false,
-    "cardPreRegister": false,
-    "useTFPrepay": false,
-    "vendorSignature": null,
-    "routingId": null,
-    "lfId": null,
-    "airIndiaExpressFlightOption": null,
-    "offerImgPath": null,
-    "offerDesc": null,
-    "tagFlightDesc": "",
-    "airlinePNR": null,
-    "rulesCommonBean": null,
-    "hazUmarhJed": false,
-    "promoFare": false
-  },
-  "multiAirline": false,
-  "actualSsrMealAmt": 0,
-  "actualSsrBaggageAmt": 0,
-  "actualSsrSeatAmt": 0,
-  "totalFee": 0,
-  "cabinClass": "Economy",
-  "ndcRulesAndPenalties": null,
-  "discountIdAdult": null,
-  "discountIdChild": null,
-  "discountIdInfant": null,
-  "adultDiscountPrice": 0,
-  "adultMarkupPrice": 0,
-  "adultServiceChargePrice": 200,
-  "childDiscountPrice": 0,
-  "childMarkupPrice": 0,
-  "childServiceChargePrice": 0,
-  "infantDiscountPrice": 0,
-  "infantMarkupPrice": 0,
-  "infantServiceChargePrice": 0,
-  "trackingId": "0b0aeb7d-7d1d-48fd-a04b-00e88d8adf3c",
-  "supplierSettings": {
-    "gdsSupplier": false,
-    "fareConfirmBeforePayAfterHoldAllowed": false,
-    "iqamaAllowed": false,
-    "dynamicCurrencyAllowed": false,
-    "bookAndHoldAllowed": false,
-    "baggageAllowed": false,
-    "cancelBookAndHoldAllowed": false,
-    "ticketVoidAllowed": false,
-    "bundleAllowed": false,
-    "syncPnrAllowed": false
-  },
-  "remark": null,
-  "odeysysPrice": 7700,
-  "offerId": null,
-  "markupPrice": 0,
-  "discountPrice": 0,
-  "serviceChargePrice": 200,
-  "totalJourneyDuration": "270",
-  "flightUUID": null,
-  "ndcintegration": false,
-  "offerImgPath": null,
-  "offerDesc": null,
-  "tagFlightDesc": null,
-  "rulesCommonBean": null
+    "marketingCarrier": "SV",
+    "nDCjourneyID": null,
+    "adultHandBaggage": "",
+    "childHandBaggage": "",
+    "infantHandBaggage": ""
 }
 ```
 
@@ -1740,7 +1504,7 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ### ✅ Recommended REST API `Flight option `(round) Structure
 
-- **API Endpoint:** `GET /flight-review/round`
+- **API Endpoint:** `GET /flight-review/round/${flightId}or{bookingRef}or${orderId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 <details>
@@ -2697,12 +2461,12 @@ As part of the modernization effort, we compare the old legacy structure against
         "airSegmentRef": "qOTurfRAuDKA4kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2eWvZiPOF0Vr+9G5zTqJvncRRTPY+LUXr4KdSuQmrpsZQeH32IWnpe+fiwB0NqM9S2lbLAkJLmOE2EW9wzrfZ9toUT/EtP+YT7CiwEAgYv96fqWEsga9GrK0vPw0AdOBxIzS7vXJkNm3nPOvXkrT+ckErhoAAn55Dv83fZ3yCAPareYpDyJ5rb9WnNNcPVDbKyGWXoXHIgLpw2x+5ldzl1f++5kL4P+XIA+Fh8c5DYA46F/oTXxxF6MVFd29m/nJr/ln6LBZJHTtAlH90JVn05R+pDw/9iYJc/pofldJx4gyuakEf3B6EYwSpTidrC7Di4S0oOPF0O7yPM2DP23u/XKsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwM8w+FnY2pdnx52tR+ULC3RmjYuszn207WO+9JiRxifDLjjvsKRwy/SqIySm202WhYHtC/KW3FpMlZEJOm4RHLp",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2e9FgIhvdpcFZsAAj+BuCugLfy3wMN9r38Y/mSeFJuPTpMIuND+gKg/oSO/ccnsft/5H7vDXWBywjJl05nNLZqOs6oaHkyP37L/f4rfU1ufcFx6+oRDDo25zGMhnSuhxgABZlh9ApfHhVdcf3rSVre6rcHhghHI+LHAanDB/IrHxgzcTGpKgbTnRZGZcRLetlfGqWWrczPHvckdfIMBLpdcuDMFdwI5fQuZ+mAxfE8usRc7GfnmwzVslFd29m/nJr/SU8gecfbWEnFYRggmRA5VpHRFfOGk1iaywFLwGa5JvTU6uDNOFnAkEPFc7ZmQhP+3lgY/QVsQ6sn6V7c0rHrrT3Ti/yujLNa/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/Y1hQE97vjMSGa/jnHeJQjdwXtO9a1rEPZoueQ3FkE4Y=",
         "fareInfoRef": "qOTurfRAuDKAPmGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA6kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2eWvZiPOF0Vr+9G5zTqJvncZfvsHurXJyFKdSuQmrpsZQeH32IWnpe+fiwB0NqM9S2lbLAkJLmOE2EW9wzrfZ9toUT/EtP+YT7CiwEAgYv96eoZ+jI8V2t3kvPw0AdOBxIzS7vXJkNm3nPOvXkrT+ckErhoAAn55Dv83fZ3yCAPap++MoDftUT0Z3fotfFyW3pdnh4rXYhVVngzBXcCOX0LrwZbN5KCi0p2Qj2h6woen9JTyB5x9tYSVby9IE1rxlSqufOCYxTojcYmtXMshoI2jtG0MFS2uK4Q9/nEFxiJkSAdcY0m0a4yqPEokc7Ks035bqCRvMIoTmA70ro/ClmMYq+cJFUBzrily5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA3N5jV9Rrzq8nS+z6OxXpxJxi/Bcq3sXvB2WN4EjYakqeV2sLV4gSIBTLxZgyS7c0zO+PXml19s+VkQk6bhEcuk=",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2e9FgIhvdpcFZsAAj+BuCugHb79BGR+l9AY/mSeFJuPTpMIuND+gKg/oSO/ccnsft/5H7vDXWBywjJl05nNLZqOs6oaHkyP37L/f4rfU1ufcFx6+oRDDo25zGMhnSuhxgAhabxp9X1oDhdcf3rSVre6rcHhghHI+LHAanDB/IrHxgzcTGpKgbTnQrrFrElUcdS29FoU8KSiet47hPwL7bBn98ffNzQ2FIwJOAm97Kr6CngqLLRCmd4oFby9IE1rxlS4li0Xv08LdiTSddRKqi7xdVblOlRGNfxuymvCsB6Zn2dayjURTw+8ODYEwnSo6Z1zhhMKC0JUJzKvigNL8V0YoBv36hHUMXpfEpGxkydh+2/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDH7+F729rtUMfw42FXnSg17GXLmrFneovA3VHfIgBmQRL37HV/uV0byT2MjYCl5PrPIehbwqUxRJ09fBlKODAZSlmi55DcWQThg==",
         "fareInfoRef": "qOTurfRAuDKAHnGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA8kGGAvAAAA=="
       }
@@ -2736,7 +2500,7 @@ As part of the modernization effort, we compare the old legacy structure against
         "airSegmentRef": "qOTurfRAuDKA6kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAxlpMnOssuF4xWa1uaqI55k3aSkvhp2ybRWCr7Cc8ewMG3ZyGOOHXWTnWmtUsVS8UVRqC/rsCwsm9O3nw4EXTCdR6kR7F0LFNMCIbRqMTJch6v9tEaRJgF6N3TEpBNIygiYIbNpGFgiVtXl4ZcfCsz9JTyB5x9tYSQLWhthMb3jl9WdIG1jtEIP7+JEehaejyH3voh5pu7vxly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA2+QKPIWaRvq6oxE1UL944AzNvCWbTnKgPaVUAnec78/mHCIUdzqnbDJX9xvaZNe2hIqjC2Sa17EYXG9bbt770Y=",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAxlpMnOssuF4xWa1uaqI55k3aSkvhp2ybRWCr7Cc8ewMG3ZyGOOHXWTnWmtUsVS8UVRqC/rsCwsm9O3nw4EXTCdR6kR7F0LFNMCIbRqMTJch6v9tEaRJgF6N3TEpBNIygiYIbNpGFgiVtXl4ZcfCsz9JTyB5x9tYSQLWhthMb3jl9WdIG1jtEIP7+JEehaejyH3voh5pu7vxly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA3N5jV9Rrzq8nS+z6OxXpxJxi/Bcq3sXvB2WN4EjYakqeV2sLV4gSIBTLxZgyS7c0zO+PXml19s+VkQk6bhEcuk=",
         "fareInfoRef": "qOTurfRAuDKABqGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA8kGGAvAAAA=="
       }
@@ -2847,7 +2611,7 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ### ✅ Recommended REST API `Flight option `(multi City) Structure
 
-- **API Endpoint:** `GET /flight-review/multi`
+- **API Endpoint:** `GET /flight-review/multi/${flightId}or{bookingRef}or${orderId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 <details>
@@ -2929,20 +2693,17 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ---
 
-### 🧠 Observations
+## 🌟 Summary of Changes
 
-- Old object includes multiple nulls, nested unused lists, and internal logic variables
-- Recommended structure includes **only user-facing, required fields**
-- Easier to validate, test, and debug in frontend/backend interaction
-- Designed to support all trip types with a normalized structure
+This document meticulously detailed the legacy structures of the `requestBean` and `flightOption` objects, prevalent in the Flight Review Page of our Booking Module. Through a series of methodical comparisons, we showcased the transformation from the old verbose structures to modern, RESTful, and Angular-friendly formats. The recommended changes emphasize simplicity, relevance, and clarity, ensuring a cleaner and more efficient codebase. Additionally, the document provided insights into the legacy endpoint used for the flight review page, further aiding in understanding the previous system's intricacies.
 
 ---
 
-## `this page have no validation  its  olny for reveiwing the flight Details  `
+## `this page have no validation  its  only for reviewing the flight Details  `
 
-# Releted JSP
+# related JSP
 
-we have two main JSP releted file those files are : <br>
+we have two main JSP related files those files are : <br>
 <code>baggageDetailsjsp.jsp</code> and <code>fareDetailsjsp.jsp</code><br>
 Baggage ScreenShot
 ![Image 1](./BaggageDetails.png)

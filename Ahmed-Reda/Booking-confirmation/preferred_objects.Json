@@ -1,0 +1,191 @@
+{
+  "FlightOption": {
+    "importPnr": "boolean" // Indicates if PNR is imported
+  },
+  "requestBean": {
+    "noOfAdults": "number",
+    "noOfChilds": "number",
+    "noOfInfants": "number"
+  },
+  "airlinePNR": {
+    "errorList": [
+      {
+        "action": "string",
+        "errorCode": "number",
+        "errorDesc": "string",
+        "product": "string",
+        "serviceName": "string",
+        "vendorName": "string"
+      }
+    ],
+    "supllierdespleyname": "string"
+  },
+  "SSRService": {
+    "onwardBaggageServiceList": [
+      {
+        "baggageList": [
+          {
+            "departureAiport": "string",
+            "arrivalAiport": "string",
+            "baggageOptionsList": [
+              {
+                "baggageDescription": "string",
+                "currencyCode": "string",
+                "baggageCharge": "number"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "returnBaggageServiceList": [
+      {
+        "baggageList": [
+          {
+            "departureAiport": "string",
+            "arrivalAiport": "string",
+            "baggageOptionsList": [
+              {
+                "baggageDescription": "string",
+                "currencyCode": "string",
+                "baggageCharge": "number"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "onwardMealServiceList": [
+      {
+        "mealOptionList": [
+          {
+            "mealDescription": "string",
+            "mealCharge": "number",
+            "flightNumber": "string"
+          }
+        ]
+      }
+    ],
+    "returnMealServiceList": [
+      {
+        "mealOptionList": [
+          {
+            "mealDescription": "string",
+            "mealCharge": "number",
+            "flightNumber": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "productInformation": {
+    "resultObject": {
+      "flightBookingDetails": {
+        "origin": "string",
+        "destination": "string",
+        "tripType": "number",
+        "bookingStatus": "number",
+        "bookingRefNo": "string",
+        "emailNotification": "number",
+        "totalFeeNTaxes": "number",
+        "supplierName": "string",
+        "currencyExchangeRate": "number",
+        "ttFlightSegmentDetails": [
+          {
+            "spPNR": "string",
+            "airlinePNR": "string",
+            "vendorType": "number",
+            "originCity": "string",
+            "destinationCity": "string",
+            "inclCheckInBaggAllowance": "string",
+            "adultCabinBagAllowance": "string",
+            "childInclChkInBagAllowance": "string",
+            "childCabinBagAllowance": "string",
+            "infantInclChkInBagAllowance": "string",
+            "infantCabinBagAllowance": "string"
+          }
+        ],
+        "ttFlightLegDetails": [
+          {
+            "segmentRefNo": "number",
+            "flightSwitchingWaitingTime": "string",
+            "cabinClass": "string",
+            "deptDate": "string",
+            "deptTime": "string",
+            "originCityName": "string",
+            "originName": "string",
+            "origin": "string",
+            "deptTerminal": "string",
+            "arrTime": "string",
+            "operatingCarrier": "string",
+            "destinationCityName": "string",
+            "destinationName": "string",
+            "destination": "string",
+            "arrTerminal": "string",
+            "flightDuration": "string",
+            "airlineCode": "string",
+            "airlineName": "string",
+            "flightNo": "string"
+          }
+        ],
+        "ttFlightInvoiceDetails": [
+          {
+            "currency": "string",
+            "tthreeOdeysysMarkup": "number",
+            "tthreeAgencyMarkup": "number",
+            "tthreeAgencyOnflyMarkup": "number",
+            "feeNTaxes": "number",
+            "branchMarkup": "number",
+            "baseFare": "number",
+            "agencyInvoiceAmt": "number",
+            "totalSurchargeAmount": "number",
+            "tthreeServiceCharge": "number",
+            "tthreeDiscount": "number"
+          }
+        ],
+        "ttFlightPassengerDetails": [
+          {
+            "firstName": "string",
+            "lastName": "string",
+            "middleName": "string",
+            "title": "string",
+            "passengerType": "number",
+            "gender": "number",
+            "age": "number",
+            "passportNo": "string"
+          }
+        ],
+        "ttFlightPassengerSsrs": [
+          {
+            "passengerNo": "number",
+            "segmentRefNo": "number",
+            "ssrType": "number",
+            "ssrNo": "number",
+            "ssrCode": "string",
+            "ssrAmount": "number",
+            "description": "string",
+            "currency": "string",
+            "legNo": "number"
+          }
+        ],
+        "ttFlightPaxSegmentBookDetails": [
+          {
+            "ticketNo": "string",
+            "passengerNo": "number"
+          }
+        ]
+      },
+      "insuranceBookEntity": "string"
+    },
+    "resultList": [
+      {
+        "orderType": "string"
+      }
+    ]
+  },
+  "roundUpStatus": "number",
+  "paymentResponseStatus": "boolean",
+  "paymentResponse": {
+    "errorMsg": "string"
+  }
+}
