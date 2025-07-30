@@ -626,8 +626,9 @@ Re-fetches previously known values and injects them into the JSP view again:
 - Ignore`branchList` property for `POST Master2/Branch/search` which already implemented in system
 - Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
 - Ignore `agentList` property for `GET agencies/{agencyId}/agents` recommended endpoint
----
 
+
+---
 
 ## ✈️ Endpoint: `GET /getAllAirports`
 
@@ -698,23 +699,30 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
   }
 ]
 ```
-### ✅ Recommended Approach: REST API
 
-- GET /api/get-all-airports?search={codeOrName}
+### ✅ Recommended Approach
+- Use REST API already implemented in system `POST Master2/airport/search`
+#### 🧾 Sample `request` body value:
+```json
+{
+  "status": 1,
+  "code": "CAI",
+  "name": "Cairo"
+}
+```
 
 #### 🧾 Sample `response` Value:
 ```json
-[
-  {
-    "airportId": 3231,
-    "airportCode": "JED",
-    "airportName": "King Abdulaziz International",
-    "cityId": 3635,
-    "cityName": "Jeddah",
-    "countryId": 195,
-    "countryName": "Saudi Arabia"
-  }
-]
+{
+  "payload": [
+    {
+      "id": 1075,
+      "name": "Cairo International Airport",
+      "iataCode": "CAI"
+    }
+  ],
+  "total": 1
+}
 ```
 
 - 🎯 Returns just enough information to identify the airport, link it to city/country, and display in dropdowns or selectors.
@@ -777,23 +785,47 @@ This endpoint is responsible for retrieving **airline information** by name or c
 ]
 ```
 
-- ✅ Recommendation
-- 🔄 Replace with:
-- GET /api/get-airline?search={codeOrName} 
-- 🧾 Sample Response (Recommended):
+### ✅ Recommended Approach
+- Use REST API already implemented in system `GET Master2/airline/`
+- Recommend to short of response value ( id, name, code )
+#### 🧾 Sample `request` query params value:
 ```json
-[
-  {
-    "airlineCode": "TEST",
-    "airlineName": "test",
-    "airlineType": 1,
-    "approvalStatus": 1,
-    "status": 1
-  }
-]
+{
+  "status": 1,
+  "airlineCode": "test",
+  "airlineName": "test"
+}
 ```
-- 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic airline info.
 
+#### 🧾 Sample `response` Value:
+```json
+{
+  "payload": [
+    {
+      "id": 783,
+      "name": "test1",
+      "code": "TES",
+      "type": 0,
+      "networkType": 2,
+      "status": 1,
+      "approvalStatus": 1,
+      "userId": 1,
+      "airlineHistory": [
+        {
+          "operationType": "Approve",
+          "operationDate": "2021-10-11 08:11:47",
+          "userName": "odeysysadmin",
+          "clientIP": "59.152.40.227",
+          "modificationValues": "STATUS=Active,APPROVAL_STATUS=Approved"
+        }
+      ]
+    }
+  ],
+  "total": 2
+}
+```
+
+- 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic airline info.
 ---
 
 
