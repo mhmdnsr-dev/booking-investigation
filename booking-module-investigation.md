@@ -31,7 +31,32 @@ Each flow is analyzed for:
 Let’s dive into each page or endpoint step by step, comparing how it works now vs how it *should*.
 
 
-## 🏢 Endpoint: `odeysysadmin/branchSelection/`
+---
+
+## 📚 Table of Contents
+
+- [🏢 Endpoint: odeysysadmin/branchSelection/](#🏢-endpoint-odeysysadminbranchselection)
+- [🏢 Endpoint: branchSelection/selectBranch](#🏢-endpoint-branchselectionselectbranch)
+- [✈️ Endpoint: /flight/flightWidget](#✈️-endpoint-flightflightwidget)
+- [🧑‍💼 Endpoint: POST /flight/selectAgency](#🧑‍💼-endpoint-post-flightselectagency)
+- [👤 Endpoint: POST /flight/selectAgent](#👤-endpoint-post-flightselectagent)
+- [✈️ Endpoint: GET /getAllAirports](#✈️-endpoint-get-getallairports)
+- [✈️ Endpoint: GET /getPreferedAirline](#✈️-endpoint-get-getpreferedairline)
+- [👤 Endpoint: POST /searchPaxByNameMob](#👤-endpoint-post-searchpaxbynamemob)
+- [✈️ Endpoint: POST /flightOneWay (OneWay)](#✈️-endpoint-post-flightoneway-oneway)
+- [🔁 Endpoint: POST /flightOneWay (RoundTrip)](#🔁-endpoint-post-flightoneway-roundtrip)
+- [🌍 Endpoint: POST /flightMultiCity](#🌍-endpoint-post-flightmulticity)
+- [🔐 Endpoint: GET /checkIfValidUser/ValidateUserWindow](#🔐-endpoint-get-checkifvaliduservalidateuserwindow)
+- [📘 Endpoint: GET /settings/Up-Selling](#📘-endpoint-get-settingsup-selling)
+- [📘 Endpoint: GET /settings/CHECK-SUPPLIER-REQUEST-RESPONSE](#📘-endpoint-get-settingscheck-supplier-request-response)
+- [✈️ Endpoint: GET /flight/lastFiveSearchs](#✈️-endpoint-get-flightlastfivesearchs)
+- [✈️ Endpoint: GET /flight/getSuppliersName](#✈️-endpoint-get-flightgetsuppliersname)
+- [🧾 Endpoint: GET /check-supplier/supplier-data](#🧾-endpoint-get-check-suppliersupplier-data)
+- [🧾 Endpoint: POST /check-supplier/check-supplier-search](#🧾-endpoint-post-check-suppliercheck-supplier-search)
+
+---
+
+## 🏢 Endpoint: GET `odeysysadmin/branchSelection/`
 
 ### 📄 Description
 This is one of the legacy endpoints in the booking system. It returns a `ModelAndView/Document` object used to render a **branch selection page** in a JSP view.  
@@ -39,7 +64,7 @@ As part of the booking workflow, this page allows the user to choose a branch fr
 
 ![Branch Selection page](./assets/images/screenshots/branchSelection.png)
 
-#### 🔄 My Role in This
+#### 🔄 Role in This
 As part of the Flight Widget/Booking Module investigation, this page is analyzed for potential improvement.  
 It currently works in a traditional Spring MVC + JSP flow, but can be enhanced to better support RESTful, frontend-driven architecture.
 
@@ -118,13 +143,11 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 
 ---
 
-## 🚫 Endpoint: `branchSelection/selectBranch`
+## 🏢 Endpoint: POST `branchSelection/selectBranch`
 
 ### 📄 Description
 This endpoint is triggered when a user selects a branch in the branch selection dropdown.  
-It returns some backend data, but it is **not used meaningfully** anywhere in the frontend or backend logic.
-
----
+It returns some backend data, but it is **not used meaningfully** anywhere in the frontend.
 
 ### 📥 Current Behavior
 
@@ -157,35 +180,40 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 }
 ```
 
-
 ### 🚀 Implementation
-
-- Not found
+- N/A
 
 ### 🔍 Observation
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agencyList property founded in ModalAndView
 - No values from this response are used in the UI or any known logic
-
 - The only side effect is navigating the browser to flight/flightWidget
-
 - The actual page load is handled separately by a ModelAndView, which we'll describe shortly
 
-- Backend need to call this endpoint thus we can replace it with  `agencyList` property of agencies (nested arrays)
-
-### ✅ Recommendation
-
-- 🧼 Recommended Action: Ignore or Deprecate
-
-- ✅ Do not rely on or maintain this endpoint
-
-- ✅ Remove or comment out frontend call
-
-- ✅ Redirect/navigation should be handled directly without needing a fake API
-
-- ✅ All real data loading is handled by the next endpoint: flight/flightWidget
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Return consistent values
+```http
+GET branch/{branchId}/agencies
+```
+#### 🧾 Sample `response` Value:
+```json
+[
+  {
+    "id": 10696,
+    "name": "samir",
+    "code": "AGN9663",
+    "countryName": "Egypt",
+    "cityName": "aswan",
+    "branchName": "samir",
+    "status": 1,
+    "approvalStatus": 1
+  }
+]
+```
 
 ---
 
-## ✈️ Endpoint: `/flight/flightWidget`
+## ✈️ Endpoint: GET `/flight/flightWidget`
 
 ### 📄 Description
 This is the main **entry point** of the flight booking page.  
@@ -266,33 +294,12 @@ It returns a `ModelAndView/Document` that provides required data to the JSP view
 ```
 
 ### 🚀 Implementation
-- Just render data in dropdown
+- Just render data in dropdown lists
 
 ---
 ### ✅ Recommended Approach: REST API
-
-- POST api/branches/{branchId}/agencies
-- (Dynamically load agencies based on selected branch)
-
-#### 🧾 Sample `response` Value:
-```json
-{
-  "payload": [
-    {
-      "id": 10696,
-      "name": "samir",
-      "code": "AGN9663",
-      "countryName": "Egypt",
-      "cityName": "aswan",
-      "branchName": "samir",
-      "status": 1,
-      "approvalStatus": 1
-    }
-  ],
-  "total": 66
-}
-```
-
+- Ignore`branchList` property for `POST Master2/Branch/search` which already implemented in system
+- Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
 
 ---
 
@@ -438,29 +445,28 @@ It returns a list of **agents (staff users)** under that agency, which is render
 
 
 ## ⚠️ Observations
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agentList property founded in ModalAndView
 - Overloaded, verbose payload with many unused fields
-
 - Nested structure makes it difficult to extract what’s actually needed
-
 - PRODUCTLIST is again unused, as in previous endpoints
 
 ---
-### ✅ Recommended Approach: REST API
 
-- GET /api/agencies/{agencyId}/agents
-- (Dynamically load agents based on selected agency)
-
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Return consistent values
+```http
+GET agencies/{agencyId}/agents
+```
 #### 🧾 Sample `response` Value:
 ```json
 [{
   "staffId": 10482,
   "staffName": "Mohamed Nasr"
 }]
-
 ```
 
 ---
-
 
 ## 👤 Endpoint: `POST /flight/selectAgent`
 
@@ -477,9 +483,19 @@ However, it does **not** return any meaningful data — instead, it simply navig
 - **Triggered By:** Agent selection
 - **Effect:** Redirects to `/flight/flightWidget`
 
+## ⚠️ Observations
+- The backend needs to call this end point absolutely, but nothing is done in the frontend; Thus, the backend can ignore the return of any data
+
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Ignore the return of any data
+```http
+GET agents/{agentId}
+```
+
 ---
 
-## 🔁 `/flight/flightWidget` (Again)
+## 🔁 GET `/flight/flightWidget` (Again)
 
 Re-fetches previously known values and injects them into the JSP view again:
 
@@ -521,7 +537,7 @@ Re-fetches previously known values and injects them into the JSP view again:
 ]
 ```
 
-#### 🏢 2) `branchList`:
+#### 🏢 2) `agencyList`:
 ```json
 [
   [
@@ -543,7 +559,7 @@ Re-fetches previously known values and injects them into the JSP view again:
 ]
 ```
 
-#### 🏢 3) `branchList`:
+#### 🏢 3) `agentList`:
 ```json
 [
   {
@@ -599,23 +615,17 @@ Re-fetches previously known values and injects them into the JSP view again:
 
 ### ⚠️ Observations
 - This flow creates an unnecessary page reload
-
 - All values (branchList, agencyList, agentList) are already retrieved in previous steps
-
 - No meaningful state is changed during this POST
 
-### ✅ Recommendation
-#### ❌ Skip this step entirely.
+### 🚀 Implementation
+- Just render data in dropdown lists
 
-- Do not call POST /flight/selectAgent
-
-- Avoid re-navigating to /flight/flightWidget
-
-- Maintain agent selection state locally in frontend
-
-- Only fire relevant logic when actual submission or validation is needed
-
-
+---
+### ✅ Recommended Approach: REST API
+- Ignore`branchList` property for `POST Master2/Branch/search` which already implemented in system
+- Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
+- Ignore `agentList` property for `GET agencies/{agencyId}/agents` recommended endpoint
 ---
 
 
@@ -1149,9 +1159,7 @@ allianceName = *O
 }
 ```
 
-
 ---
-
 
 ## 🌍 Endpoint: `POST /flightMultiCity`
 
@@ -1280,11 +1288,10 @@ flightwidgetElement[0].rbd                F
     }
   ]
 }
-
 ```
 
-
 --- 
+
 ### 🔐 Endpoint: `/checkIfValidUser/ValidateUserWindow`
 
 #### 📄 Description
@@ -1312,160 +1319,8 @@ This endpoint is used to validate the user's session and detect if the applicati
 - Modern applications (like Angular 2+ frontends) should handle such checks using interceptors or centralized session services.
 - Using blocking synchronous validation methods should be avoided for performance and UX reasons.
 
---- 
-### 🌐 External Endpoint: `https://salesiq.zohopublic.com/visitor/v2/channels/website`
-
-#### 📄 Description
-This endpoint is part of Zoho SalesIQ’s public API. It is used by Zoho’s website widget to track and manage website visitor sessions.
-
-#### 📥 Request (as query parameters)
-- `widgetcode`: `07de97db4f603764716ff96e7371a6c5eaad4fa5b1b0e215b8de2214ef5bd7c8`
-- `internal_channel_req`: `true`
-- `last_modified_time`: `1737629810707`
-- `version`: `V26`
-- `browser_language`: `en`
-- `current_domain`: `http://192.168.1.210`
-- `pagetitle`: `NDC Admin`
-
-#### 🧠 Implementation Notes
-- This endpoint is **not implemented** anywhere in our application code.
-- It is automatically called and managed by the **Zoho SalesIQ widget**, which is likely embedded via a script tag or external integration.
-
-#### ✅ Recommendation
-- **No action required**.
-- Ensure the widget is correctly configured and does not conflict with core application behavior.
-- This call can be safely ignored in the context of backend/API architecture reviews.
-
-
---- 
-### 🌐 External Endpoint: `https://salesiq.zohopublic.com/wondertravel/fetchvisitorconfigurations.ls`
-
-#### 📄 Description
-This endpoint belongs to the **Zoho SalesIQ widget** service. It fetches dynamic visitor configuration forms that SalesIQ uses during chat sessions on the embedded widget.
-
-#### 📥 Request (as query parameters)
-- `avuid`: `5aa8e3ec-0e3d-4d59-98d9-ba15bad942d3`
-- `lsid`: `584883000006764759`
-- `visitor_question`: `undefined`
-- `fetchallfields`: `true`
-- `app_status`: `online`
-
-#### 📤 Response (simplified)
-Returns a list containing visitor form configuration including:
-```json
-[
-  {
-    "objString": {
-      "form": {
-        "form_type": "general",
-        "sync_time": 1737629810707,
-        "dname": "",
-        "title": "",
-        "msglist": [
-          {
-            "msg": "",
-            "meta": {
-              "format": "text",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "",
-                "type": "visitor_last_name"
-              },
-              "skippable": false,
-              "field_name": ""
-            },
-            "dname": "",
-            "mtime": "1753617280206"
-          },
-          {
-            "msg": "",
-            "meta": {
-              "format": "email",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "",
-                "type": "visitor_email"
-              },
-              "skippable": false,
-              "field_name": ""
-            },
-            "dname": "",
-            "mtime": "1753617280207"
-          },
-          {
-            "msg": "Can i have your phone number?",
-            "meta": {
-              "format": "phone",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "Enter your phone number",
-                "type": "visitor_phone"
-              },
-              "skippable": false,
-              "field_name": "Phone"
-            },
-            "dname": "",
-            "mtime": "1753617280208"
-          }
-        ],
-        "fields_prefill_type": {
-          "show_fields": true,
-          "prefill": true
-        }
-      }
-    },
-    "module": "fetchvisitorconfigurations",
-    "objType": "object"
-  }
-]
-```
-#### 🧠 Implementation Notes
-- This endpoint is **not part of our application logic**.
-- It is triggered **internally by the Zoho SalesIQ widget** embedded on the site.
-- Its purpose is to load predefined fields and messages used in Zoho's live chat functionality.
-
-#### ✅ Recommendation
-- **No action required** for backend system integration.
-- Confirm widget is properly embedded and allowed on necessary domains.
-- This endpoint can be ignored when designing or migrating internal APIs.
-
----
-
-### 📘 Endpoint: `GET json/globalProps.json`
-
-#### 📄 Description
-Fetches static global configuration values used across the system, such as validation rules and limits.
-
-#### 📥 Request
-- **Method**: `GET`
-- **URL**: `/json/globalProps.json`
-
-#### 📤 Response (example)
-```json
-{
-  "globalProps": [
-    {
-      "passengerNameLength": 50,
-      "arabicPattern": "[\\u0600-\\u06FF\\u0750-\\u077F]"
-    }
-  ]
-}
-```
-##### ✅ Recommendation
-
-- Functionality is fine as-is.
-
-- Enhancement Suggestion: Rename the endpoint to follow consistent RESTful naming conventions:
-
-- Replace json/globalProps.json with json/global-props
-
-- Benefits: cleaner URL, better maintainability, consistency across other endpoints.
+### 🚀 Implementation
+![ValidateUserWindow](./assets/images/screenshots/ValidateUserWindow.png)
 
 ---
 
@@ -1555,8 +1410,9 @@ This endpoint is intended to return the **last five flight search records** for 
 ```
 
 - ✅ Recommended replace response object with just list of data (resultList)
+- 🧼 Ignore this end point if it is not already used in the system
 
---- ---
+---
 
 ### ✈️ Endpoint: `GET flight/getSuppliersName`
 
@@ -1600,3 +1456,187 @@ This endpoint is currently used in the flightWidgetManual page only and includes
   ]
 }
 ```
+
+--- 
+# GET /check-supplier/supplier-data
+
+## Description
+Returns a mapping of supplier names to their respective credential details.
+
+---
+
+## Request
+
+- **Method:** GET
+- **URL:** `/check-supplier/supplier-data`
+- **Query Parameters:** None
+
+---
+
+## Response
+
+The response is a JSON object where:
+- Each key is a supplier name.
+- Each value is a list of credential objects for that supplier.
+
+```json
+{
+  "AirArabiaEgypt": [
+    {
+      "supplierName": "AirArabiaEgypt",
+      "credId": 281,
+      "credName": "AirArabiaEgypt",
+      "pccType": null
+    }
+  ],
+  "Galileo": [
+    {
+      "supplierName": "Galileo",
+      "credId": 271,
+      "credName": "Galileo live",
+      "pccType": null
+    }
+  ]
+}
+```
+
+### ✅ Recommended Approach: Enhancing
+
+- Enhance response value
+
+#### 🧾 Sample `response` Value:
+```json
+[
+  {
+    "id": 171,
+    "name": "TravelportNdc",
+    "supplierCredential": [
+      {
+        "id": 329,
+        "name": "staging"
+      },
+      {
+        "id": 330,
+        "name": "StagingEGY"
+      }
+    ]
+  }
+]
+```
+
+---
+
+# POST /check-supplier/check-supplier-search
+
+## Description
+Checks supplier request/response status based on search input and credential.  
+**Only `supplierRequest` and `supplierResponse` fields in the response are useful.**
+
+---
+
+## Request
+
+- **Method:** POST
+- **URL:** `/check-supplier/check-supplier-search`
+- **Content-Type:** `application/json`
+
+### Request Body
+
+```json
+{
+  "flightWidget": {
+    "corporateIdList": [],
+    "dataFromCacheOrNot": true,
+    "tripType": "OneWay",
+    "upgradeBooking": 0,
+    "fareMismatch": 0,
+    "prefferedAirlineName": null,
+    "passengerType": "",
+    "hotelRequestBean": null,
+    "selectedHotel": null,
+    "isExcludeLcc": false,
+    "orderId": null,
+    "nearByAirport": false,
+    "seeMore": false,
+    "allianceName": "",
+    "isDateFlexible": false,
+    "isNonStop": false,
+    "hotelCrossSell": false,
+    "baggageFareOnly": false,
+    "multiAvailability": false,
+    "noOfAdults": "1",
+    "noOfChilds": "",
+    "noOfInfants": "",
+    "searchId": 0,
+    "prefferedAirline": null,
+    "passengerIdList": [],
+    "lastFiveSearch": false,
+    "returnAllFaresResultFromGal": false,
+    "flightwidgetElement": [
+      {
+        "destinationCityId": "3635",
+        "age": [45],
+        "multiOriginNameList": null,
+        "multiOriginCityNameList": null,
+        "multiOriginCountryIdList": null,
+        "preferredAirline": "",
+        "residency": "AE",
+        "residencyId": null,
+        "startingFrom": "CAI",
+        "goingTo": "JED",
+        "depCountry": null,
+        "rbd": "",
+        "goingToCity": "Jeddah",
+        "cabinClass": "1",
+        "dateOfJourney": "28-08-2025",
+        "returnDateOfJourney": null,
+        "multiOriginList": null,
+        "destCountryId": "195",
+        "originCountryId": 67,
+        "goingToName": "King Abdulaziz International",
+        "covercountry": "SA",
+        "sourceCityId": 0,
+        "recheck": 0,
+        "startingFromCity": "Cairo",
+        "startingFromName": "Cairo International Airport"
+      }
+    ],
+    "flexibleDateForCaching": false,
+    "bookingViaSearch": null
+  },
+  "supplierCredDto": {
+    "supplierName": "AmdNDC",
+    "credId": 333,
+    "credName": "Amadeus NDC",
+    "pccType": "SEARCH"
+  }
+}
+
+```
+
+## RESPONSE
+
+- **Content-Type:** `application/json`
+
+### Request Body
+
+```json
+{
+  "supplierRequest": "<RAW XML or JSON request to supplier>",
+  "supplierResponse": "<RAW XML or JSON response from supplier>",
+  "...": "// many other fields to be ignored"
+}
+```
+
+#### 📝 Notes
+- This endpoint is used mainly for debugging supplier integration.
+
+- Use only the supplierRequest and supplierResponse to validate supplier communication.
+
+- Rest of the response data is verbose and non-critical for most use cases.
+
+
+#### Recommended
+- Ignore all unused filed in response object
+
+
