@@ -829,18 +829,18 @@ This endpoint is responsible for retrieving **airline information** by name or c
 ---
 
 
-## 👤 Endpoint: `POST /searchPaxByNameMob`
+## 👤 Endpoint: `POST /odeysysadmin/pax/searchPaxByNameMob`
 
 ### 📄 Description
 
-Used to search for a passenger using their **name** or **mobile number**. The system attempts to locate and match existing passenger records, most likely for reuse in booking forms.
+Used to search for a passenger using their **name**. The system attempts to locate and match existing passenger records, most likely for reuse in booking forms.
 
 ---
 
 ### 📥 Current Behavior
 
 - **Method:** `POST`
-- **Parameters:** Passenger name (and optionally mobile)
+- **Parameters:** Passenger name
 - **Response:** Large response object with redundant and deeply nested metadata.
 
 #### 🧾 Sample Response:
@@ -956,9 +956,8 @@ Used to search for a passenger using their **name** or **mobile number**. The sy
 ```
 
 
-- ✅ Recommendation
-- 🔄 Replace with:
-- GET /api/get-passenger?search={passengerName}
+### ✅ Recommended Approach
+- 🔄 Replace with `GET /odeysysadmin/passengers?search={name}`
 - 🧾 Sample Response (Recommended):
 ```json
 [
@@ -1035,21 +1034,13 @@ prefferedAirlineName = Transportes Aeromar
 ```
 
 
-- ✅ Recommendation
-- 🔄 Replace with:
-```http
-- POST /api/flight-one-way 
-- Content-Type: application/json
-```
-- 🧾 Sample Request (Recommended):
+## ✅ Recommendation
+- 🔄 Replace with: `POST /odeysysadmin/flight-one-way`
+- 🧾 Sample `Request` (Recommended):
 ```json
 {
-  "passengerType": null,
-  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
+  "passengerIdList": [7631, 7661],
   "tripType": "OneWay",
-  "branchId": 123,
-  "agencyId": 532,
-  "agentId": 1234,
   "passengers": {
     "adults": 3,
     "children": 3,
@@ -1064,19 +1055,22 @@ prefferedAirlineName = Transportes Aeromar
   "rbd": ["B", "C", "D"],
   "preferredAirlineCode": "VW",
   "allianceName": "*A",
-  "flightWidgetElement": {
-    "multiOrigins": ["SHH", "DXB"],
-    "coverCountry": "SA",
-    "residency": "AE",
-    "originAirportCode": "CAI",
-    "destinationAirportCode": "JED",
-    "dateOfJourney": "31-07-2025"
-  }
+  "legs": [
+    {
+      "origins": ["CAI", "SHH", "DXB"],
+      "coverCountry": "SA",
+      "residency": "AE",
+      "destination": "JED",
+      "dateOfJourney": "31-07-2025"
+    }
+  ]
 }
 ```
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic info.
 
 ---
+
+RESPONSE ------------------------------------------------ (Under work)
 
 
 
