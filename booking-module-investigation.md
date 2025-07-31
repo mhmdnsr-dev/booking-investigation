@@ -978,7 +978,7 @@ Used to search for a passenger using their **name**. The system attempts to loca
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic passenger info.
 
 ---
-## ✈️ Endpoint: `POST /flightOneWay`
+## ✈️ Endpoint: `POST odeysysadmin/flight/flightOneWay`
 
 ### 📄 Description
 
@@ -1035,50 +1035,291 @@ prefferedAirlineName = Transportes Aeromar
 
 
 ## ✅ Recommendation
-- 🔄 Replace with: `POST /odeysysadmin/flight-one-way`
-- 🧾 Sample `Request` (Recommended):
-```json
-{
-  "passengerIdList": [7631, 7661],
-  "tripType": "OneWay",
-  "passengers": {
-    "adults": 3,
-    "children": 3,
-    "infants": 3
+- 🔄 Replace with: `POST odeysysadmin/flight/flight-one-way`
+- ###### 🧾 Sample of the request for flights (Long-time Recommended):
+```ts
+export enum CabinClass {
+  ECONOMY = 1,
+  PREMIUM_ECONOMY,
+  BUSINESS,
+  FIRST_CLASS,
+}
+
+export enum TripType {
+  OneWay = 1,
+  RoundTrip,
+  MultiCity,
+}
+
+export interface LegsModal {
+  origins: string[] // In Multicity It will be one element in the list
+  destination: string
+  
+  coverCountry?: string // One way and Round trip
+  residency?: string // One way and Round trip
+  depCountry?: string // Round trip
+  
+  dateOfJourney?: Date //Oneway and Multicity
+  cabinClass?: number, // Multicity
+  rbd?: number[] // enums Multicity
+  
+  onwardDateOfJourney?: Date // Round trip
+  onwardCabinClass?: number, // Round trip
+  onwardRbd?: number[], // enums Round trip
+  
+  returnDateOfJourney?: Date  // Round trip
+  returnCabinClass?: number, // Round trip
+  returnRbd?: number[] // enums Round trip
+}
+
+export interface FlightSearchRequestModal {
+  tripType: TripType.RoundTrip,
+  passengers: {
+    adults: number,
+    children: number,
+    infants: number
   },
-  "nearByAirport": true,
+
+  baggageFareOnly: boolean,
+  returnAllFaresResultFromGal: boolean
+  passengerIdList: number[],
+
+  nearByAirport?: boolean,  // Oneway and round trip
+  isNonStop?: boolean, // Oneway and round trip
+  isExcludeLcc?: boolean, // Oneway and round trip
+
+  cabinClass?: CabinClass.ECONOMY, // enum   OneWay
+  rbd?: number[], // enums      OneWay
+
+  allianceName?: string, //Oneway and round trip
+  preferredAirline?: string, //Oneway and round trip
+  
+  legs: LegsModal[]
+}
+```
+
+```json
+
+{
+  "tripType": 1,
+  "passengers": {
+    "adults": 2,
+    "children": 3,
+    "infants": 1
+  },
+
   "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "isNonStop": true,
-  "isExcludeLcc": true,
-  "cabinClass": 2,
-  "rbd": ["B", "C", "D"],
-  "preferredAirlineCode": "VW",
-  "allianceName": "*A",
+  "returnAllFaresResultFromGal": false,
+  "passengerIdList": [1213, 2525, 2422],
+
+  "nearByAirport": true,
+  "isNonStop": true, 
+  "isExcludeLcc": false, 
+
+  "cabinClass": 3,
+  "rbd": [1 ,4, 6],
+
+  "allianceName": "test", 
+  "preferredAirline": "AUG",
+  
   "legs": [
     {
-      "origins": ["CAI", "SHH", "DXB"],
-      "coverCountry": "SA",
-      "residency": "AE",
-      "destination": "JED",
-      "dateOfJourney": "31-07-2025"
+        "origins": ["CAI", "DXB"],
+        "destination": "JDE",
+  
+        "coverCountry": "AE",
+        "residency": "SA",
+        "depCountry": "HT",
+  
+        "dateOfJourney": "31-07-2025",
+        "cabinClass": 5,
+        "rbd": [1, 6, 6] ,
+
+        "onwardDateOfJourney": "31-07-2025" ,
+        "onwardCabinClass": 5, 
+        "onwardRbd": [1, 2, 3, 4] , 
+  
+        "returnDateOfJourney": "31-07-2025",
+        "returnCabinClass": 3,
+        "returnRbd": [1, 2, 3, 4] 
     }
   ]
 }
 ```
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "tripType": {
+      "type": "number"
+    },
+    "passengers": {
+      "type": "object",
+      "properties": {
+        "adults": {
+          "type": "number"
+        },
+        "children": {
+          "type": "number"
+        },
+        "infants": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "adults",
+        "children",
+        "infants"
+      ]
+    },
+    "baggageFareOnly": {
+      "type": "boolean"
+    },
+    "returnAllFaresResultFromGal": {
+      "type": "boolean"
+    },
+    "passengerIdList": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "nearByAirport": {
+      "type": "boolean"
+    },
+    "isNonStop": {
+      "type": "boolean"
+    },
+    "isExcludeLcc": {
+      "type": "boolean"
+    },
+    "cabinClass": {
+      "type": "number"
+    },
+    "rbd": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "allianceName": {
+      "type": "string"
+    },
+    "preferredAirline": {
+      "type": "string"
+    },
+    "legs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "destination": {
+            "type": "string"
+          },
+          "coverCountry": {
+            "type": "string"
+          },
+          "residency": {
+            "type": "string"
+          },
+          "depCountry": {
+            "type": "string"
+          },
+          "dateOfJourney": {
+            "type": "string"
+          },
+          "cabinClass": {
+            "type": "number"
+          },
+          "rbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "onwardDateOfJourney": {
+            "type": "string"
+          },
+          "onwardCabinClass": {
+            "type": "number"
+          },
+          "onwardRbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "returnDateOfJourney": {
+            "type": "string"
+          },
+          "returnCabinClass": {
+            "type": "number"
+          },
+          "returnRbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "origins",
+          "destination",
+          "coverCountry",
+          "residency",
+          "depCountry",
+          "dateOfJourney",
+          "cabinClass",
+          "rbd",
+          "onwardDateOfJourney",
+          "onwardCabinClass",
+          "onwardRbd",
+          "returnDateOfJourney",
+          "returnCabinClass",
+          "returnRbd"
+        ]
+      }
+    }
+  },
+  "required": [
+    "tripType",
+    "passengers",
+    "baggageFareOnly",
+    "returnAllFaresResultFromGal",
+    "passengerIdList",
+    "nearByAirport",
+    "isNonStop",
+    "isExcludeLcc",
+    "cabinClass",
+    "rbd",
+    "allianceName",
+    "preferredAirline",
+    "legs"
+  ]
+}
+```
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic info.
+---
+
+### 🧾 Current Response [Link to Response Section]()
 
 ---
 
-RESPONSE ------------------------------------------------ (Under work)
 
-
-
-## 🔁 Endpoint: `POST /flightOneWay` (Used for RoundTrip too!)
+## 🔁 Endpoint: `POST odeysysadmin/flight/flightRoundTrip`
 
 ### 📄 Description
 
-Although named `flightOneWay`, this endpoint also handles **RoundTrip** bookings. The request body is sent as `FormData`, consisting of multiple scattered fields and indexed lists.
+This endpoint also handles **RoundTrip** bookings. The request body is sent as `FormData`, consisting of multiple scattered fields and indexed lists.
 
 ---
 
@@ -1086,7 +1327,7 @@ Although named `flightOneWay`, this endpoint also handles **RoundTrip** bookings
 
 This is how the frontend currently sends a **RoundTrip** request:
 
-```plaintext
+```text
 passengerType = passengers
 passengerIdList[0] = 7631-null-Egypt
 
@@ -1128,7 +1369,7 @@ flightwidgetElement[1].cabinClass = 4
 flightwidgetElement[1].rbd = I
 flightwidgetElement[1].rbd = J
 flightwidgetElement[1].rbd = K
-flightwidgetElement[1].rbd = 
+flightwidgetElement[1].rbd = M
 
 agencyId = 0
 noOfAdults = 1
@@ -1143,51 +1384,20 @@ isExcludeLcc = true
 allianceName = *O
 ```
 
-- ✅ Recommended Request Format (JSON API)
-- 🔁 Replace with: POST /api/flight-round-trip
-```json
-{
-  "passengerType": "passengers",
-  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
-  "tripType": "RoundTrip",
-  "branchId": 1233,
-  "agencyId": 35252,
-  "agentId": 1234,
-  "passengers": {
-    "adults": 1,
-    "children": 2,
-    "infants": 5
-  },
-  "nearByAirport": true,
-  "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "isNonStop": true,
-  "isExcludeLcc": true,
-  "allianceName": "*O",
-  "preferredAirline": "VW",
-  "flightwidgetElement": [
-    {
-      "multiOrigins": ["SHH", "DXB"],
-      "covercountry": "IN",
-      "residency": "AE",
-      "age": 45,
-      "depCountry": "AE",
-      "originAirportCode": "CAI",
-      "destinationAirportCode": "JED",
-      "onwardDate": "2025-07-22",
-      "returnDate": "2025-07-31",
-      "onwardCabinClass": 3,
-      "onwardRbd": ["A", "E"],
-      "returnCabinClass": 4,
-      "returnRbd": ["I", "J", "K"]
-    }
-  ]
-}
-```
+## ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: `POST odeysysadmin/flight/flight-round-trip`
+- #### [ 🧾 Sample of the `request` for flights (Long-time Recommended):](#-Sample-of-the-request-for-flights-Long-time-Recommended)
 
 ---
 
-## 🌍 Endpoint: `POST /flightMultiCity`
+
+### 🧾 Current Response [Link to Response Section]()
+
+--- 
+
+
+
+## 🌍 Endpoint: `POST POST /odeysysadmin/flight//flightMultiCity`
 
 ### 📄 Description
 
@@ -1267,56 +1477,17 @@ _returnAllFaresResultFromGal              on
 flightwidgetElement[0].rbd                F
 ```
 
-- ✅ Recommended Request Format (JSON API)
-- 🔁 Replace with: POST /api/flight-multicity
-```json
-{
-  "tripType": "MultiCity",
-  "passengerIdList": ["7631-Name-Egypt"],
-  "branchId": 1233,
-  "agencyId": 35252,
-  "agentId": 1234,
-  "passengers": {
-    "adults": 2,
-    "children": 4,
-    "infants": 1
-  },
-  "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "flightwidgetElement": [
-    {
-      "originAirportCode": "CAI",
-      "destinationAirportCode": "JED",
-      "dateOfJourney": "2025-07-22",
-      "cabinClass": 3,
-      "rbd": ["B", "D", "F"]
-    },
-    {
-      "originAirportCode": "JED",
-      "destinationAirportCode": "DXB",
-      "dateOfJourney": "2025-07-31",
-      "cabinClass": 4,
-      "rbd": ["U"]
-    },
-    {
-      "originAirportCode": "DXB",
-      "destinationAirportCode": "AUH",
-      "dateOfJourney": "2025-11-30",
-      "cabinClass": 2,
-      "rbd": ["R", "S", "T"]
-    },
-    {
-      "originAirportCode": "AUH",
-      "destinationAirportCode": "KGL",
-      "dateOfJourney": "2026-06-23",
-      "cabinClass": 4,
-      "rbd": ["D", "E", "F", "H"]
-    }
-  ]
-}
-```
+## ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: `POST odeysysadmin/flight/flight-multicity`
+- #### [ 🧾 Sample of the `request` for flights (Long-time Recommended):](#-Sample-of-the-request-for-flights-Long-time-Recommended)
 
 --- 
+
+
+### 🧾 Current Response [Link to Response Section]()
+
+
+---
 
 ### 🔐 Endpoint: `/checkIfValidUser/ValidateUserWindow`
 
@@ -1340,6 +1511,13 @@ This endpoint is used to validate the user's session and detect if the applicati
   - `VALID`
   - `INVALID_SESSION`
   - `MULTI_TAB_NOT_ALLOWED`
+```ts
+export enum UserValidateStatus  {
+    VALID,
+    INVALID_SESSION,
+    MULTI_TAB_NOT_ALLOWED
+}
+```
 
 #### 💡 Notes
 - Modern applications (like Angular 2+ frontends) should handle such checks using interceptors or centralized session services.
@@ -1354,6 +1532,7 @@ This endpoint is used to validate the user's session and detect if the applicati
 
 #### 📄 Description
 Fetches the current system configuration status for the **Up-Selling** feature. This configuration helps determine whether the Up-Selling option should be enabled or disabled in the application.
+![CKeck Supplier](./assets/images/screenshots/up-sell.png)
 
 #### 📥 Request
 - **Method**: `GET`
@@ -1374,6 +1553,7 @@ Fetches the current system configuration status for the **Up-Selling** feature. 
 
 #### 📄 Description
 Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes and if we will show "Check Supplier" button or not
+![CKeck Supplier](./assets/images/screenshots/check-supplier.png)
 
 #### 📥 Request
 - **Method**: `GET`
@@ -1484,17 +1664,14 @@ This endpoint is currently used in the flightWidgetManual page only and includes
 ```
 
 --- 
-# GET /check-supplier/supplier-data
+### ✈️ Endpoint: `GET /check-supplier/supplier-data`
 
 ## Description
-Returns a mapping of supplier names to their respective credential details.
+Returns a mapping of supplier names to their respective credential details (only the active suppliers on the branch specified in the research).
 
 ---
 
 ## Request
-
-- **Method:** GET
-- **URL:** `/check-supplier/supplier-data`
 - **Query Parameters:** None
 
 ---
@@ -1552,7 +1729,7 @@ The response is a JSON object where:
 
 ---
 
-# POST /check-supplier/check-supplier-search
+### ✈️ Endpoint: `POST /check-supplier/check-supplier-search`
 
 ## Description
 Checks supplier request/response status based on search input and credential.  
@@ -1562,11 +1739,7 @@ Checks supplier request/response status based on search input and credential.
 
 ## Request
 
-- **Method:** POST
-- **URL:** `/check-supplier/check-supplier-search`
-- **Content-Type:** `application/json`
-
-### Request Body
+- Request Body
 
 ```json
 {
@@ -1640,11 +1813,11 @@ Checks supplier request/response status based on search input and credential.
 
 ```
 
-## RESPONSE
+## Response
 
 - **Content-Type:** `application/json`
 
-### Request Body
+### Response Body
 
 ```json
 {
@@ -1653,16 +1826,21 @@ Checks supplier request/response status based on search input and credential.
   "...": "// many other fields to be ignored"
 }
 ```
+Show huge [Response](./huge-response/check-supplier-result.json)
 
 #### 📝 Notes
 - This endpoint is used mainly for debugging supplier integration.
-
 - Use only the supplierRequest and supplierResponse to validate supplier communication.
-
 - Rest of the response data is verbose and non-critical for most use cases.
 
 
-#### Recommended
+### ✅ Recommended Approach:
 - Ignore all unused filed in response object
+- Return just supplier status
+```json
+{
+  "status": Status.FAIL
+}
+```
 
 
