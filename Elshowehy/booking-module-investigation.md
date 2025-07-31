@@ -1,15 +1,12 @@
 # ✈️ Booking Module Investigation – Front/Back Contract Review
 
-Welcome aboard! This document captures the ongoing work and analysis related to the **Booking Module** of our system.  
-The goal? To modernize, simplify, and document the backend/frontend contracts — with elegance and no nonsense (well, maybe a little).
+Welcome aboard! This document captures the ongoing work and analysis related to the **Booking Module** of our system.
 
 ---
 
 ### 🎯 Objective
 
-Break down the legacy structure of booking-related pages and endpoints  
-→ Compare them to modern, RESTful API's, Angular-friendly alternatives  
-→ Recommend transformations that make the codebase cleaner, leaner, and future-proof.
+Break down the legacy structure of booking-related pages and endpoints
 
 ---
 
@@ -17,16 +14,16 @@ Break down the legacy structure of booking-related pages and endpoints
 
 As part of this larger task, my responsibility is the **Passenger Details**, which includes:
 
-- **Manual invoice || ordinary booking scenarios**
-- **Passenger data forms**
-- **Payment methods**
-- **Flight Summary**
-- **Fare breakup**
-- And these are specific for some airlines:
-- **Meal** for airArabia
-- **Baggage** for airArabia
-- **Seat** for airArabia
-- **Bundle** for flyNas, flyAdeal, and airIndia
+1. Manual invoice || ordinary booking scenarios
+2. Passenger data forms
+3. Payment methods
+4. Flight Summary
+5. Fare breakup
+6. _The following items are specific to some airlines:_
+   1. Meal for airArabia
+   2. Baggage for airArabia
+   3. Seat for airArabia
+   4. Bundle for flyNas, flyAdeal, and airIndia
 
 Each flow is analyzed for:
 
@@ -39,1016 +36,739 @@ Each flow is analyzed for:
 
 Let’s dive into page or endpoints step by step, comparing how it works now vs how it _should_.
 
-## 🏢 Endpoint: `odeysysadmin/flight/passengerDetail`
+## ⚠️ There are two main scenarios in this page:
 
-### 📄 Description
+## 1️⃣ The first scenario is manual invoice or manual booking:
 
-This is one of the legacy endpoints in the booking system. It returns a `ModelAndView/Document` object used to render a **passenger details** in a JSP view.
+### 1️⃣ Endpoint: `odeysysadmin/flight/flightOneWayManual` (POST - `ModelAndView/Document`)
 
-<!-- ![Branch Selection page](./assets/images/screenshots/branchSelection.png) -->
+**Important:** there is no endpoint called `odeysysadmin/flight/flightRoundManual` if trip type is round and the same with multi cities trip.
+this endpoint: `odeysysadmin/flight/flightOneWayManual` called if trip type is oneway, round, and multi.
 
-#### 🔄 My Role in This
+#### 📤 Payload: none
 
-As part of the passenger details Module investigation, this page is analyzed for potential improvement.  
-It currently works in a traditional Spring MVC + JSP flow, but can be enhanced to better support RESTful, frontend-driven architecture.
+#### 📥 Response: none
+
+### 📄 Description:
+
+This is one of the two endpoints for manual invoice scenario used to render a **passenger details** in a JSP view.
+I will provide a payload and response after discuss with backend bcz the payload and response doesn't appear in network.
+
+### 📥 Request Structure (after discuss with backend)
+
+<!-- - **Type:** Spring `ModelAndView/Document`
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>request</code> Value:</h4> </summary>
+
+```json
+
+```
+</details> -->
+
+### 📥 Request will be done (after discuss with backend)
+
+<!-- - **Type:** Spring `ModelAndView/Document`
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>request</code> Value:</h4> </summary>
+
+```json
+
+```
+</details> -->
+
+### 📥 Recommended Request (after discuss with backend)
+
+<!-- - **Type:** Spring `ModelAndView/Document`
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>request</code> Value:</h4> </summary>
+
+```json
+
+```
+</details> -->
 
 ---
 
-### 📥 Recuest Structure
+### 2️⃣ Endpoint: `odeysysadmin/flight/passengerDetailManual` (GET - `ModelAndView/Document`)
 
-- **Type:** Spring `ModelAndView/Document`
+### 📄 Description:
+
+This is the second of the two endpoints for manual invoice scenario used to render a **passenger details** in a JSP view.
+
+#### 📤 Payload:
+
+- type: `query params`
+- value: isCoreSystem = boolean
+
+### 📥 Response Structure (current)
+
+- Type: `ModelAndView/Document`
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample <code>current request</code> Value:</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>response</code> Value:</h4> </summary>
 
 ```json
-{
-  "onwardFlightOptionJson": {
-    "viaFlight": false,
-    "origin": "CAI",
-    "useTFPrepay": false,
-    "gdsOfficeId": null,
-    "flightDetKey": null,
-    "promoFare": false,
-    "tagFlight": null,
-    "ndcintegration": true,
-    "quantity": 1,
-    "lccPromoCode": null,
-    "routingId": null,
-    "adtBagCode": null,
-    "chdBagCode": null,
-    "trackingId": null,
-    "ssrPrice": 0,
-    "validLaggage": false,
-    "lfId": null,
-    "offerImgPath": null,
-    "offerDesc": null,
-    "tagFlightDesc": "",
-    "offerItemID": null,
-    "orderItemID": null,
-    "discountIdAdult": null,
-    "platingCarrierName": "FLYNAS",
-    "flyDubaiFlightOptionDetails": null,
-    "discountIdInfant": null,
-    "noOfTotalStops": 0,
-    "discountIdChild": null,
-    "connecting": false,
-    "supplierCurrency": "EGP",
-    "optionSegmentBean": null,
-    "ticketUsingSearchPCC": false,
-    "ticketingPCCId": null,
-    "marketingCarrier": "XY",
-    "childCheckinBaggage": "",
-    "infantCheckinBaggage": "",
-    "journeySellKey": null,
-    "adultHandBaggage": "Depends on bundle choice.",
-    "totalJourneyDuration": "145",
-    "childHandBaggage": "",
-    "infantHandBaggage": "",
-    "platingCarrier": "XY",
-    "adultCheckinBaggage": "Depends on bundle choice.",
-    "onwardJourneyDate": null,
-    "bundledServiceName": null,
-    "includedServies": null,
-    "bundledServiceId": null,
-    "airAirarabiaFlightOptionDetails": null,
-    "hazUmarhJed": false,
-    "destination": "JED",
-    "destinationId": null,
-    "rulesCommonBean": null,
-    "airlinePNR": null,
-    "moreOptions": null,
-    "flightUUID": null,
-    "noOfAdults": 1,
-    "noOfChilds": 0,
-    "noOfInfants": 0,
-    "currencyRate": 1,
-    "flightFare": {
-      "markup": false,
-      "currency": "EGP",
-      "offerItemID": null,
-      "actualAdultBaseFare": 625.96,
-      "actualAdultTax": 925.51,
-      "actualAdultFees": 0,
-      "actualChildBaseFare": 0,
-      "infantTourCode": null,
-      "voluntaryChangesChild": null,
-      "voluntaryRefundsChild": null,
-      "voluntaryChangesInfant": null,
-      "voluntaryRefundsInfant": null,
-      "voluntaryChangesAdult": null,
-      "childActualTotalFare": 0,
-      "actualTravelFusionFee": 0,
-      "infantActualTotalFare": 0,
-      "adultActualTotalFare": 0,
-      "voluntaryRefundsAdult": null,
-      "actualTotalInfantFee": 0,
-      "actualTotalAdultBaseFare": 0,
-      "actualInfantTax": 0,
-      "actualBundledServiceCharge": 0,
-      "adultAllowedHandBaggage": "",
-      "infantAllowedCheckinBaggage": "",
-      "totalAgencyCommission": 0,
-      "childCorporateDealCode": null,
-      "actualTotalChildBaseFare": 0,
-      "infantFareType": null,
-      "travelFusionFeeDescription": null,
-      "actualTotalInfantBaseFare": 0,
-      "adultAllowedCheckinBaggage": "",
-      "actualTotalAdultFee": 0,
-      "infantAllowedHandBaggage": "",
-      "refundableInfo": "FlyNas STG",
-      "baggageIncluded": false,
-      "actualTotalChildFee": 0,
-      "actualTotalInfantTax": 0,
-      "childAllowedHandBaggage": "",
-      "actualInfantFees": 0,
-      "actualchildFees": 0,
-      "childAllowedCheckinBaggage": "",
-      "airpricingInfoADT": null,
-      "transactionFee": 0,
-      "actualInfantBaseFare": 0,
-      "actualChildTax": 0,
-      "actualTotalAdultTax": 0,
-      "actualTotalChildTax": 0,
-      "travelFusionBookingFee": 0,
-      "infantCorporateDealCode": null,
-      "adultFareInfoRef": null,
-      "flightSurchargeBreakUps": null,
-      "paxJourneyRefID": null,
-      "airPricingSolution": null,
-      "totalSurchargeAmout": 0,
-      "infantFareInfoRef": null,
-      "airPricingInfoMapCHD": null,
-      "childFareInfoRef": null,
-      "airPricingInfoMapINFT": null,
-      "galileoHostTokenList": null,
-      "childNegoFare": false,
-      "paxRefID": null,
-      "cancelPanelty": null,
-      "changePanelty": null,
-      "childFareType": null,
-      "adultFareType": null,
-      "serviceFee": 0,
-      "adultNegoFare": false,
-      "tds": 0,
-      "adultFareId": null,
-      "fareTypeID": null,
-      "fareClass": null,
-      "infantNegoFare": false,
-      "fareNote": null,
-      "fareBrand": null,
-      "plb": 0,
-      "infantFareId": null,
-      "childFareId": null,
-      "serviceChargePrice": 0,
-      "actualTotalAgencyCommission": 0,
-      "corporateDealCode": null,
-      "actualTotalBaseFare": 625.96,
-      "actualTotalFare": 1551.47,
-      "actualTotalFee": 0,
-      "actualTotalTaxFare": 925.51,
-      "infantBaseFare": 0,
-      "childServiceChargePrice": 0,
-      "childDiscountPrice": 0,
-      "infantMarkupPrice": 0,
-      "adultDiscountPrice": 0,
-      "childMarkupPrice": 0,
-      "adultServiceChargePrice": 0,
-      "infantServiceChargePrice": 0,
-      "infantDiscountPrice": 0,
-      "adultMarkupPrice": 0,
-      "bundledServiceCharge": 0,
-      "serviceTax": 0,
-      "cabinClass": "ECONOMY",
-      "remark": null,
-      "agentMarkup": 0,
-      "odeysysPrice": 1551.47,
-      "markupPrice": 0,
-      "discountPrice": 0,
-      "agencyMarkup": 0,
-      "totalTax": 925.51,
-      "totalBaseFare": 625.96,
-      "fareTypeCode": null,
-      "branchMarkup": 0,
-      "childBaseFare": 0,
-      "totalFees": 0,
-      "adultBaseFare": 625.96,
-      "fareSellKey": null,
-      "adultTax": 925.51,
-      "infantTax": 0,
-      "childFees": 0,
-      "infantFees": 0,
-      "childTax": 0,
-      "adultFees": 0,
-      "paxChdFeesBreakup": null,
-      "paxInfTaxBreakup": null,
-      "paxChdTaxBreakup": null,
-      "paxAdtFeesBreakup": null,
-      "paxInfFeesBreakup": null,
-      "paxAdtTaxBreakup": [
-        {
-          "actualTaxAmount": 188.4,
-          "taxAmount": 188.4,
-          "taxDesc": "",
-          "taxCode": "YQ"
-        },
-        {
-          "actualTaxAmount": 57.46,
-          "taxAmount": 57.46,
-          "taxDesc": "",
-          "taxCode": "EGT"
-        },
-        {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
-          "taxDesc": "",
-          "taxCode": "EQ"
-        },
-        {
-          "actualTaxAmount": 32.97,
-          "taxAmount": 32.97,
-          "taxDesc": "",
-          "taxCode": "JK"
-        },
-        {
-          "actualTaxAmount": 9.42,
-          "taxAmount": 9.42,
-          "taxDesc": "",
-          "taxCode": "O2T"
-        },
-        {
-          "actualTaxAmount": 18.84,
-          "taxAmount": 18.84,
-          "taxDesc": "",
-          "taxCode": "O9T"
-        },
-        {
-          "actualTaxAmount": 0.94,
-          "taxAmount": 0.94,
-          "taxDesc": "",
-          "taxCode": "Q7"
-        },
-        {
-          "actualTaxAmount": 442.74,
-          "taxAmount": 442.74,
-          "taxDesc": "",
-          "taxCode": "QH"
-        },
-        {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
-          "taxDesc": "",
-          "taxCode": "S4"
-        },
-        {
-          "actualTaxAmount": 57.46,
-          "taxAmount": 57.46,
-          "taxDesc": "",
-          "taxCode": "XK"
-        },
-        {
-          "actualTaxAmount": 4.24,
-          "taxAmount": 4.24,
-          "taxDesc": "",
-          "taxCode": "XL"
-        },
-        {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
-          "taxDesc": "",
-          "taxCode": "E3"
-        }
-      ],
-      "actualSsrSeatAmt": 0,
-      "actualSsrBaggageAmt": 0,
-      "actualSsrMealAmt": 0,
-      "displayOnlycabinClass": null,
-      "totalNet": 0,
-      "offerID": null,
-      "childTourCode": null,
-      "adultTourCode": null,
-      "rph": null,
-      "fareBasisCode": null,
-      "markdown": false,
-      "bookingPcc": null,
-      "baggageOptionsList": null,
-      "manualDealCode": null,
-      "fareType": null
-    },
-    "flightlegs": [
-      {
-        "origin": "CAI",
-        "status": null,
-        "arrivalDateFromResponse": null,
-        "resBookDesignCode": null,
-        "supplierArrDate": null,
-        "eTicketability": null,
-        "departDateFromResponse": null,
-        "flightReference": null,
-        "supplierClassDescription": null,
-        "linkAvailability": null,
-        "participantLevel": null,
-        "flightSwitchingWaitingTimeMin": 0,
-        "availabilitySource": null,
-        "optionalServicesIndicator": null,
-        "supplierDepDate": null,
-        "travelFusionClass": null,
-        "availabilityDisplayType": null,
-        "polledAvailabilityOption": null,
-        "depDateTimeStr": "2025-09-29T01:15:00",
-        "arrDateTimeStr": "2025-09-29T03:40:00",
-        "equipmentSuffix": null,
-        "includedBaggage": null,
-        "fareInfoRefKey": null,
-        "validatingCarrierName": null,
-        "journeyDurationMin": 145,
-        "inventoryLegId": null,
-        "validatingCarrier": null,
-        "segmentSellKeyOld": null,
-        "fareApplicationType": null,
-        "technicalStopList": [],
-        "segmentSellKey": null,
-        "numSeatsAvailable": 0,
-        "classOfService": null,
-        "shuraArrTime": null,
-        "fareSequence": null,
-        "shuraDepDate": null,
-        "cabinBaggage": null,
-        "changeOfPlane": null,
-        "shuraArrDate": null,
-        "flightTimeStr": null,
-        "distance": null,
-        "segmentKeyUsed": false,
-        "legSequence": 0,
-        "shuraDeptTime": null,
-        "ruleNumber": null,
-        "segmentGroup": null,
-        "segmentCode": null,
-        "stopoverInfo": null,
-        "codeShareInfo": null,
-        "ontimeInfo": null,
-        "providerCode": null,
-        "originCityName": "Cairo",
-        "destinationCityName": "Jeddah",
-        "journeyDuration": "2h 25m",
-        "flightSwitchingWaitingTime": "",
-        "destinationName": "King Abdulaziz International",
-        "operatedByAirline": "",
-        "destination": "JED",
-        "cabinClass": "ECONOMY",
-        "bookingClass": "H",
-        "depTime": "01:15:00",
-        "equipment": "320",
-        "carrier": "XY",
-        "arrDate": "2025-09-29",
-        "arrTerminal": "1",
-        "arrTime": "03:40:00",
-        "carrierName": "FLYNAS",
-        "originName": "Cairo International Airport",
-        "ndcSegmentRef": "XY~ 568~ ~~CAI~09/29/2025 01:15~JED~09/29/2025 03:40~~",
-        "depTerminal": "1",
-        "depDate": "2025-09-29",
-        "stopover": "0",
-        "operatedByAirlineName": "FLYNAS",
-        "operatedByFound": false,
-        "originCityCode": "CAI",
-        "destinationCityCode": "JED",
-        "originCountry": "67",
-        "equipmentType": null,
-        "flightTime": 145,
-        "flightNumber": "568",
-        "rph": null,
-        "fareBasisCode": null,
-        "destinationCountry": "195"
-      }
-    ],
-    "serviceVendor": "FlyNas",
-    "lccflight": true,
-    "searchPCCId": "318",
-    "totalFare": 1551.47,
-    "onlyBaggageFareSearch": false,
-    "upSellingOption": false,
-    "fareAvailabilityKey": null,
-    "spiceFlightOptionDetails": null,
-    "airIndiaExpressFlightOption": null,
-    "noOfConnectingPoints": 0,
-    "fareBaseCodeSabre": [],
-    "brandCodeSabre": [],
-    "carryOnCharges": null,
-    "supplierSettings": {
-      "fareConfirmBeforePayAfterHoldAllowed": false,
-      "syncPnrAllowed": false,
-      "bundleAllowed": false,
-      "upSellingAllowed": false,
-      "cancelBookAndHoldAllowed": false,
-      "ticketVoidAllowed": false,
-      "iqamaAllowed": false,
-      "gdsSupplier": false,
-      "bspAllowed": false,
-      "baggageAllowed": false,
-      "dynamicCurrencyAllowed": false,
-      "bookAndHoldAllowed": false
-    },
-    "airMultiAvailabilityResp": false,
-    "cardPreRegister": false,
-    "bookAndHoldAllowedForSupplier": false,
-    "baggageAllowedForSupplier": false,
-    "vendorSignature": null,
-    "originCityCode": "CAI",
-    "destinationCityCode": "JED",
-    "fullLaggage": false,
-    "originCountry": "67",
-    "passengerList": null,
-    "laggage": null,
-    "originCity": "1300",
-    "originId": null,
-    "ndcSearchResponseID": "aa5ef308-00dc-4573-8c5e-7253f1385d9b",
-    "ndcRulesAndPenalties": null,
-    "journeyDurationInMinutes": 145,
-    "amadeusFlightOptionDetails": null,
-    "onwardJourneyDateFormat": null,
-    "baggageAllowed": false,
-    "offerID": "8e516f72-d8d2-4113-8dba-096a96a417e1",
-    "nDCjourneyID": "XY~ 568~ ~~CAI~09/29/2025 01:15~JED~09/29/2025 03:40~~",
-    "responseID": "3b8c1442-1446-49a7-9bb3-9c2f959b0e89",
-    "multiCarrier": false,
-    "importPnr": false,
-    "multiCarrierForApplyRule": false,
-    "agencyCurrencyCode": null,
-    "destinationCountry": "195",
-    "flightOptionKey": null,
-    "serviceProviderPNR": null,
-    "destinationCity": "3635",
-    "fareBasisCodes": null,
-    "destinationCountryCode": null,
-    "originCountryCode": null,
-    "platingAirlineType": 2,
-    "domestic": true,
-    "fareRule": null,
-    "offerId": null,
-    "orderID": null
-  },
-  "requestBean": {
-    "isNonStop": false,
-    "dataFromCacheOrNot": true,
-    "hotelCrossSell": false,
-    "passengerType": "",
-    "orderId": null,
-    "noOfAdults": "1",
-    "noOfChilds": 0,
-    "noOfInfants": 0,
-    "tripType": "OneWay",
-    "returnAllFaresResultFromGal": false,
-    "fareMismatch": 0,
-    "selectedHotel": null,
-    "isExcludeLcc": false,
-    "prefferedAirlineName": null,
-    "upgradeBooking": 0,
-    "prefferedAirline": null,
-    "flexibleDateForCaching": false,
-    "multiAvailability": false,
-    "baggageFareOnly": false,
-    "isDateFlexible": false,
-    "searchId": 0,
-    "lastFiveSearch": false,
-    "passengerIdList": [],
-    "corporateIdList": [],
-    "flightwidgetElement": [
-      {
-        "originCountryId": 67,
-        "cabinClass": "1",
-        "goingToCity": "Jeddah",
-        "destCountryId": 195,
-        "rbd": "",
-        "dateOfJourney": "29-09-2025",
-        "residency": "AE",
-        "residencyId": null,
-        "depCountry": null,
-        "startingFrom": "CAI",
-        "goingTo": "JED",
-        "multiOriginList": null,
-        "multiOriginNameList": null,
-        "multiOriginCountryIdList": null,
-        "preferredAirline": "",
-        "multiOriginCityNameList": null,
-        "age": ["45"],
-        "destinationCityId": 3635,
-        "returnDateOfJourney": null,
-        "covercountry": "SA",
-        "goingToName": "King Abdulaziz International",
-        "sourceCityId": 0,
-        "recheck": 0,
-        "startingFromCity": "Cairo",
-        "startingFromName": "Cairo International Airport"
-      }
-    ],
-    "bookingViaSearch": null,
-    "hotelRequestBean": null,
-    "seeMore": false,
-    "allianceName": "",
-    "nearByAirport": false
-  },
-  "insuranceOptionJson": null,
-  "indigoSession": null,
-  "signature": null,
-  "quotationId": null,
-  "productSequence": null,
-  "fromSaveQuote": false
-}
+
 ```
 
 </details>
 
+### 📥 Response Structure (will be done)
+
+- Type: `ModelAndView/Document`
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample <code>req will be done</code> Value:</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>response</code> Value:</h4> </summary>
+
+```json
+
+```
+
+</details>
+
+### 📥 Response Structurense (recommended)
+
+- Type: `ModelAndView/Document`
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>response</code> Value:</h4> </summary>
+
+```json
+
+```
+
+</details>
+
+---
+
+## 2️⃣ The second scenario is ordinary booking:
+
+### 1️⃣ Endpoint: `odeysysadmin/flight/passengerDetail` (POST - `ModelAndView/Document`)
+
+### 📄 Description:
+
+This is the only endpoint for ordinary booking scenario used to render a **passenger details** in a JSP view.
+
+### 📤 Payload in short (sent in body):
+
+current payload (oneway, round, & multicity) is a formData contain these objects and properties:
+
+1. `onwardFlightOptionJson`: the chosen flight from all flights which listed in flight search result page
+   > _Note:_ The chosen flight object is the same flight object returned from the search result endpoint.
+2. `requestBean`: same like flight widget page payload
+3. `insuranceOptionJson`
+4. `indigoSession`
+5. `Signature`
+6. `quotationId`
+7. `productSequence`
+8. `fromSaveQuote`: boolean
+
+### 📤 Payload Structure (current):
+
+- Type: `ModelAndView/Document`
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample <code>response</code> Value:</h4> </summary>
 
 ```json
 {
   "onwardFlightOptionJson": {
-    "viaFlight": false,
-    "origin": "CAI",
-    "useTFPrepay": false,
-    "gdsOfficeId": null,
-    "flightDetKey": null,
-    "promoFare": false,
-    "tagFlight": null,
-    "ndcintegration": true,
-    "quantity": 1,
-    "lccPromoCode": null,
-    "routingId": null,
-    "adtBagCode": null,
-    "chdBagCode": null,
-    "trackingId": null,
-    "ssrPrice": 0,
-    "validLaggage": false,
-    "lfId": null,
-    "offerImgPath": null,
-    "offerDesc": null,
-    "tagFlightDesc": "",
-    "offerItemID": null,
-    "orderItemID": null,
-    "discountIdAdult": null,
-    "platingCarrierName": "FLYNAS",
-    "flyDubaiFlightOptionDetails": null,
-    "discountIdInfant": null,
-    "noOfTotalStops": 0,
-    "discountIdChild": null,
-    "connecting": false,
-    "supplierCurrency": "EGP",
-    "optionSegmentBean": null,
-    "ticketUsingSearchPCC": false,
-    "ticketingPCCId": null,
-    "marketingCarrier": "XY",
-    "childCheckinBaggage": "",
-    "infantCheckinBaggage": "",
-    "journeySellKey": null,
-    "adultHandBaggage": "Depends on bundle choice.",
-    "totalJourneyDuration": "145",
-    "childHandBaggage": "",
-    "infantHandBaggage": "",
-    "platingCarrier": "XY",
-    "adultCheckinBaggage": "Depends on bundle choice.",
-    "onwardJourneyDate": null,
-    "bundledServiceName": null,
-    "includedServies": null,
-    "bundledServiceId": null,
-    "airAirarabiaFlightOptionDetails": null,
-    "hazUmarhJed": false,
+    "onwardJourneyDateFormat": null,
     "destination": "JED",
-    "destinationId": null,
-    "rulesCommonBean": null,
+    "origin": "CAI",
+    "multiCarrierForApplyRule": false,
+    "laggage": null,
+    "baggageAllowed": false,
+    "viaFlight": false,
+    "hazUmarhJed": false,
+    "agencyCurrencyCode": null,
+    "connecting": false,
+    "fullLaggage": false,
     "airlinePNR": null,
+    "offerId": null,
+    "originCountry": "67",
+    "destinationCountry": "195",
+    "orderID": null,
+    "domestic": false,
+    "ndcRulesAndPenalties": null,
+    "destinationCity": "3635",
     "moreOptions": null,
     "flightUUID": null,
+    "ticketingPCCId": null,
+    "serviceVendor": "Galileo",
     "noOfAdults": 1,
-    "noOfChilds": 0,
-    "noOfInfants": 0,
-    "currencyRate": 1,
+    "noOfChilds": 1,
+    "noOfInfants": 1,
+    "platingCarrier": "SV",
+    "journeySellKey": null,
+    "adultCheckinBaggage": "1P",
+    "adultHandBaggage": "",
+    "childCheckinBaggage": "1P",
+    "childHandBaggage": "",
+    "infantCheckinBaggage": "1P",
+    "infantHandBaggage": "",
+    "totalFare": 12700,
+    "totalJourneyDuration": "135",
+    "supplierCurrency": "AED",
+    "lccflight": false,
+    "marketingCarrier": "SV",
+    "searchPCCId": "287",
+    "ticketUsingSearchPCC": true,
+    "amadeusFlightOptionDetails": null,
+    "offerID": null,
+    "originCountryCode": null,
+    "destinationCountryCode": null,
+    "destinationId": null,
+    "currencyRate": 10,
     "flightFare": {
       "markup": false,
       "currency": "EGP",
-      "offerItemID": null,
-      "actualAdultBaseFare": 625.96,
-      "actualAdultTax": 925.51,
-      "actualAdultFees": 0,
-      "actualChildBaseFare": 0,
+      "baggageOptionsList": null,
+      "bookingPcc": null,
+      "childFareInfoRef": [
+        {
+          "fareRuleKey": "6UUVoSldxwiAW83Xh7ZL0MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA+9AUf3xBI7zxWa1uaqI55k3aSkvhp2ybVBTuMvYtAPV/m9XlS8/kMdN3J3NyYpz6X9yHq7E/zolyst5h5wAlv78n4ExpM8cvmLgFn3B9sPdSU8gecfbWEnsEf34vHSKSh5ilQoX7RIZzukd+fDqEGh3YT9dyBPONkPFc7ZmQhP+mpBH9wehGMEn6V7c0rHrrXS0awReAKN5/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/mdHfDeq1iSvsIhAEP8Hr99wXtO9a1rEPVV9ISKSaAaI=",
+          "fareInfoRef": "JHm6XhnAuDKAbsC7TGAAAA==",
+          "airSegmentRef": "JHm6XhnAuDKAarC7TGAAAA=="
+        }
+      ],
+      "infantFareInfoRef": [
+        {
+          "fareRuleKey": "6UUVoSldxwiAW83Xh7ZL0MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA+9AUf3xBI7zxWa1uaqI55k3aSkvhp2ybTpjS3pKX1E4ldbT4dmojqTnWmtUsVS8UbVf4qpEtG58qdxn/S4oEcKb3ATlAzyaOIX+hNfHEXoxUV3b2b+cmv9JBCYAkTJzwD/9+1PBdevmunfTOBv+12m392E/mQQXuoMN1QPqv5Kjd7qrB3nitl7cOOIUvvfH3mzos1z35jA/y5YV9dV3U4CXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAzzD4Wdjal2fHna1H5QsLdGaNi6zOfbTtY770mJHGJ8MQvdafCnE/eYs/QMtR32b03PekyWRs464bEHvHyI5ZlQ=",
+          "fareInfoRef": "JHm6XhnAuDKAJtC7TGAAAA==",
+          "airSegmentRef": "JHm6XhnAuDKAarC7TGAAAA=="
+        }
+      ],
+      "galileoHostTokenList": null,
+      "airPricingSolution": null,
+      "airPricingInfoMapCHD": null,
+      "airPricingInfoMapINFT": null,
+      "paxRefID": null,
+      "paxJourneyRefID": null,
+      "totalSurchargeAmout": 0,
+      "flightSurchargeBreakUps": null,
+      "cabinClass": "Economy",
+      "adultActualTotalFare": 0,
+      "serviceTax": 0,
+      "totalNet": 12700,
+      "fareTypeCode": "Published Fare",
+      "actualTotalAgencyCommission": 0,
+      "adultMarkupPrice": 0,
+      "adultDiscountPrice": 0,
+      "adultServiceChargePrice": 0,
+      "childMarkupPrice": 0,
+      "childDiscountPrice": 0,
+      "childServiceChargePrice": 0,
+      "infantMarkupPrice": 0,
+      "infantDiscountPrice": 0,
+      "infantServiceChargePrice": 0,
+      "corporateDealCode": null,
+      "adultBaseFare": 2400,
+      "adultFees": 0,
+      "adultTax": 3200,
+      "fareSellKey": "JHm6XhnAuDKAcrC7TGAAAA==",
+      "childBaseFare": 1800,
+      "childFees": 0,
+      "childTax": 3200,
+      "infantBaseFare": 300,
+      "infantFees": 0,
+      "infantTax": 1800,
+      "totalFees": 0,
+      "branchMarkup": 0,
+      "actualTotalBaseFare": 450,
+      "actualTotalTaxFare": 820,
+      "actualTotalFee": 0,
+      "actualTotalFare": 1270,
+      "adultTourCode": null,
+      "offerID": null,
+      "childTourCode": null,
+      "childActualTotalFare": 0,
+      "infantActualTotalFare": 0,
+      "adultNegoFare": false,
+      "childNegoFare": false,
+      "infantNegoFare": false,
       "infantTourCode": null,
+      "voluntaryRefundsAdult": null,
       "voluntaryChangesChild": null,
       "voluntaryRefundsChild": null,
       "voluntaryChangesInfant": null,
       "voluntaryRefundsInfant": null,
-      "voluntaryChangesAdult": null,
-      "childActualTotalFare": 0,
-      "actualTravelFusionFee": 0,
-      "infantActualTotalFare": 0,
-      "adultActualTotalFare": 0,
-      "voluntaryRefundsAdult": null,
-      "actualTotalInfantFee": 0,
-      "actualTotalAdultBaseFare": 0,
-      "actualInfantTax": 0,
-      "actualBundledServiceCharge": 0,
-      "adultAllowedHandBaggage": "",
-      "infantAllowedCheckinBaggage": "",
-      "totalAgencyCommission": 0,
-      "childCorporateDealCode": null,
-      "actualTotalChildBaseFare": 0,
-      "infantFareType": null,
-      "travelFusionFeeDescription": null,
-      "actualTotalInfantBaseFare": 0,
-      "adultAllowedCheckinBaggage": "",
-      "actualTotalAdultFee": 0,
-      "infantAllowedHandBaggage": "",
-      "refundableInfo": "FlyNas STG",
-      "baggageIncluded": false,
-      "actualTotalChildFee": 0,
-      "actualTotalInfantTax": 0,
-      "childAllowedHandBaggage": "",
-      "actualInfantFees": 0,
-      "actualchildFees": 0,
-      "childAllowedCheckinBaggage": "",
-      "airpricingInfoADT": null,
-      "transactionFee": 0,
-      "actualInfantBaseFare": 0,
-      "actualChildTax": 0,
-      "actualTotalAdultTax": 0,
-      "actualTotalChildTax": 0,
-      "travelFusionBookingFee": 0,
-      "infantCorporateDealCode": null,
-      "adultFareInfoRef": null,
-      "flightSurchargeBreakUps": null,
-      "paxJourneyRefID": null,
-      "airPricingSolution": null,
-      "totalSurchargeAmout": 0,
-      "infantFareInfoRef": null,
-      "airPricingInfoMapCHD": null,
-      "childFareInfoRef": null,
-      "airPricingInfoMapINFT": null,
-      "galileoHostTokenList": null,
-      "childNegoFare": false,
-      "paxRefID": null,
-      "cancelPanelty": null,
-      "changePanelty": null,
-      "childFareType": null,
-      "adultFareType": null,
-      "serviceFee": 0,
-      "adultNegoFare": false,
-      "tds": 0,
-      "adultFareId": null,
-      "fareTypeID": null,
-      "fareClass": null,
-      "infantNegoFare": false,
-      "fareNote": null,
-      "fareBrand": null,
-      "plb": 0,
-      "infantFareId": null,
-      "childFareId": null,
-      "serviceChargePrice": 0,
-      "actualTotalAgencyCommission": 0,
-      "corporateDealCode": null,
-      "actualTotalBaseFare": 625.96,
-      "actualTotalFare": 1551.47,
-      "actualTotalFee": 0,
-      "actualTotalTaxFare": 925.51,
-      "infantBaseFare": 0,
-      "childServiceChargePrice": 0,
-      "childDiscountPrice": 0,
-      "infantMarkupPrice": 0,
-      "adultDiscountPrice": 0,
-      "childMarkupPrice": 0,
-      "adultServiceChargePrice": 0,
-      "infantServiceChargePrice": 0,
-      "infantDiscountPrice": 0,
-      "adultMarkupPrice": 0,
-      "bundledServiceCharge": 0,
-      "serviceTax": 0,
-      "cabinClass": "ECONOMY",
-      "remark": null,
-      "agentMarkup": 0,
-      "odeysysPrice": 1551.47,
-      "markupPrice": 0,
-      "discountPrice": 0,
+      "adultFareType": "Published",
+      "odeysysPrice": 12700,
       "agencyMarkup": 0,
-      "totalTax": 925.51,
-      "totalBaseFare": 625.96,
-      "fareTypeCode": null,
-      "branchMarkup": 0,
-      "childBaseFare": 0,
-      "totalFees": 0,
-      "adultBaseFare": 625.96,
-      "fareSellKey": null,
-      "adultTax": 925.51,
-      "infantTax": 0,
-      "childFees": 0,
-      "infantFees": 0,
-      "childTax": 0,
-      "adultFees": 0,
-      "paxChdFeesBreakup": null,
-      "paxInfTaxBreakup": null,
-      "paxChdTaxBreakup": null,
-      "paxAdtFeesBreakup": null,
-      "paxInfFeesBreakup": null,
+      "agentMarkup": 0,
+      "discountPrice": 0,
+      "totalTax": 8200,
+      "totalBaseFare": 4500,
+      "markupPrice": 0,
+      "serviceChargePrice": 0,
+      "totalAgencyCommission": 0,
+      "actualBundledServiceCharge": 0,
+      "childCorporateDealCode": null,
+      "infantCorporateDealCode": null,
+      "adultAllowedCheckinBaggage": "",
+      "adultAllowedHandBaggage": "",
+      "childAllowedCheckinBaggage": "",
+      "childAllowedHandBaggage": "",
+      "infantAllowedCheckinBaggage": "",
+      "infantAllowedHandBaggage": "",
+      "fareClass": "Q",
+      "plb": 0,
+      "refundableInfo": "WT 1U-REFUNDABLE",
+      "serviceFee": 0,
+      "tds": 0,
+      "transactionFee": 0,
+      "fareNote": null,
+      "manualDealCode": null,
+      "remark": null,
+      "actualSsrMealAmt": 0,
+      "voluntaryChangesAdult": null,
+      "actualTravelFusionFee": 0,
+      "actualAdultBaseFare": 0,
+      "actualAdultTax": 0,
+      "actualAdultFees": 0,
+      "actualChildBaseFare": 0,
+      "actualChildTax": 0,
+      "actualchildFees": 0,
+      "actualInfantBaseFare": 0,
+      "actualInfantTax": 0,
+      "actualInfantFees": 0,
+      "actualTotalAdultBaseFare": 0,
+      "actualTotalAdultTax": 0,
+      "actualTotalAdultFee": 0,
+      "actualTotalChildBaseFare": 0,
+      "actualTotalChildTax": 0,
+      "actualTotalChildFee": 0,
+      "actualTotalInfantBaseFare": 0,
+      "actualTotalInfantTax": 0,
+      "actualTotalInfantFee": 0,
+      "travelFusionFeeDescription": null,
+      "travelFusionBookingFee": 0,
+      "childFareType": "Published",
+      "infantFareType": "Published",
+      "fareBrand": "BASIC ECO",
+      "fareTypeID": null,
+      "cancelPanelty": "AED350.00",
+      "changePanelty": "AED200.00",
+      "baggageIncluded": false,
+      "airpricingInfoADT": null,
+      "adultFareId": null,
+      "childFareId": null,
+      "infantFareId": null,
+      "adultFareInfoRef": [
+        {
+          "fareRuleKey": "6UUVoSldxwiAW83Xh7ZL0MbKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA+9AUf3xBI7zxWa1uaqI55k3aSkvhp2ybTpjS3pKX1E4YGnrkUjMH0hN3J3NyYpz6X9yHq7E/zolyst5h5wAlv78n4ExpM8cvmLgFn3B9sPdSU8gecfbWEnMU535bvD9TB5ilQoX7RIZzukd+fDqEGh3YT9dyBPONkPFc7ZmQhP+mpBH9wehGMEn6V7c0rHrrVMx2ZlxTdlf/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/qc2V/LDU7azsIhAEP8Hr99wXtO9a1rEPVV9ISKSaAaI=",
+          "fareInfoRef": "JHm6XhnAuDKArrC7TGAAAA==",
+          "airSegmentRef": "JHm6XhnAuDKAarC7TGAAAA=="
+        }
+      ],
+      "displayOnlycabinClass": null,
+      "bundledServiceCharge": 0,
+      "rph": null,
+      "fareBasisCode": null,
       "paxAdtTaxBreakup": [
         {
-          "actualTaxAmount": 188.4,
-          "taxAmount": 188.4,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "YQ"
+          "taxAmount": 200,
+          "taxCode": "EG"
         },
         {
-          "actualTaxAmount": 57.46,
-          "taxAmount": 57.46,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "EGT"
-        },
-        {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
-          "taxDesc": "",
+          "taxAmount": 100,
           "taxCode": "EQ"
         },
         {
-          "actualTaxAmount": 32.97,
-          "taxAmount": 32.97,
+          "actualTaxAmount": 0,
           "taxDesc": "",
+          "taxAmount": 100,
           "taxCode": "JK"
         },
         {
-          "actualTaxAmount": 9.42,
-          "taxAmount": 9.42,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "O2T"
+          "taxAmount": 100,
+          "taxCode": "O2"
         },
         {
-          "actualTaxAmount": 18.84,
-          "taxAmount": 18.84,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "O9T"
+          "taxAmount": 100,
+          "taxCode": "O9"
         },
         {
-          "actualTaxAmount": 0.94,
-          "taxAmount": 0.94,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "Q7"
-        },
-        {
-          "actualTaxAmount": 442.74,
-          "taxAmount": 442.74,
-          "taxDesc": "",
+          "taxAmount": 1000,
           "taxCode": "QH"
         },
         {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
+          "actualTaxAmount": 0,
           "taxDesc": "",
+          "taxAmount": 100,
           "taxCode": "S4"
         },
         {
-          "actualTaxAmount": 57.46,
-          "taxAmount": 57.46,
+          "actualTaxAmount": 0,
           "taxDesc": "",
+          "taxAmount": 200,
           "taxCode": "XK"
         },
         {
-          "actualTaxAmount": 4.24,
-          "taxAmount": 4.24,
+          "actualTaxAmount": 0,
           "taxDesc": "",
-          "taxCode": "XL"
+          "taxAmount": 100,
+          "taxCode": "E3"
         },
         {
-          "actualTaxAmount": 37.68,
-          "taxAmount": 37.68,
+          "actualTaxAmount": 0,
           "taxDesc": "",
+          "taxAmount": 1200,
+          "taxCode": "YR"
+        }
+      ],
+      "paxChdTaxBreakup": [
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 200,
+          "taxCode": "EG"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "EQ"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "JK"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "O2"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "O9"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 1000,
+          "taxCode": "QH"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "S4"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 200,
+          "taxCode": "XK"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "E3"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 1200,
+          "taxCode": "YR"
+        }
+      ],
+      "paxInfTaxBreakup": [
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 200,
+          "taxCode": "EG"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "EQ"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "JK"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "O2"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "O9"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 1000,
+          "taxCode": "QH"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
+          "taxCode": "XK"
+        },
+        {
+          "actualTaxAmount": 0,
+          "taxDesc": "",
+          "taxAmount": 100,
           "taxCode": "E3"
         }
       ],
-      "actualSsrSeatAmt": 0,
-      "actualSsrBaggageAmt": 0,
-      "actualSsrMealAmt": 0,
-      "displayOnlycabinClass": null,
-      "totalNet": 0,
-      "offerID": null,
-      "childTourCode": null,
-      "adultTourCode": null,
-      "rph": null,
-      "fareBasisCode": null,
+      "paxAdtFeesBreakup": null,
+      "paxChdFeesBreakup": null,
+      "paxInfFeesBreakup": null,
       "markdown": false,
-      "bookingPcc": null,
-      "baggageOptionsList": null,
-      "manualDealCode": null,
-      "fareType": null
+      "fareType": "Published Fare",
+      "offerItemID": null,
+      "actualSsrBaggageAmt": 0,
+      "actualSsrSeatAmt": 0
     },
     "flightlegs": [
       {
+        "destination": "JED",
         "origin": "CAI",
         "status": null,
-        "arrivalDateFromResponse": null,
-        "resBookDesignCode": null,
-        "supplierArrDate": null,
-        "eTicketability": null,
-        "departDateFromResponse": null,
-        "flightReference": null,
-        "supplierClassDescription": null,
-        "linkAvailability": null,
-        "participantLevel": null,
-        "flightSwitchingWaitingTimeMin": 0,
-        "availabilitySource": null,
-        "optionalServicesIndicator": null,
-        "supplierDepDate": null,
-        "travelFusionClass": null,
-        "availabilityDisplayType": null,
-        "polledAvailabilityOption": null,
-        "depDateTimeStr": "2025-09-29T01:15:00",
-        "arrDateTimeStr": "2025-09-29T03:40:00",
-        "equipmentSuffix": null,
-        "includedBaggage": null,
-        "fareInfoRefKey": null,
-        "validatingCarrierName": null,
-        "journeyDurationMin": 145,
-        "inventoryLegId": null,
-        "validatingCarrier": null,
-        "segmentSellKeyOld": null,
-        "fareApplicationType": null,
-        "technicalStopList": [],
-        "segmentSellKey": null,
-        "numSeatsAvailable": 0,
-        "classOfService": null,
-        "shuraArrTime": null,
-        "fareSequence": null,
-        "shuraDepDate": null,
-        "cabinBaggage": null,
-        "changeOfPlane": null,
-        "shuraArrDate": null,
-        "flightTimeStr": null,
-        "distance": null,
-        "segmentKeyUsed": false,
-        "legSequence": 0,
-        "shuraDeptTime": null,
-        "ruleNumber": null,
-        "segmentGroup": null,
-        "segmentCode": null,
-        "stopoverInfo": null,
-        "codeShareInfo": null,
-        "ontimeInfo": null,
-        "providerCode": null,
-        "originCityName": "Cairo",
-        "destinationCityName": "Jeddah",
-        "journeyDuration": "2h 25m",
-        "flightSwitchingWaitingTime": "",
-        "destinationName": "King Abdulaziz International",
-        "operatedByAirline": "",
-        "destination": "JED",
-        "cabinClass": "ECONOMY",
-        "bookingClass": "H",
-        "depTime": "01:15:00",
-        "equipment": "320",
-        "carrier": "XY",
-        "arrDate": "2025-09-29",
-        "arrTerminal": "1",
-        "arrTime": "03:40:00",
-        "carrierName": "FLYNAS",
-        "originName": "Cairo International Airport",
-        "ndcSegmentRef": "XY~ 568~ ~~CAI~09/29/2025 01:15~JED~09/29/2025 03:40~~",
-        "depTerminal": "1",
-        "depDate": "2025-09-29",
-        "stopover": "0",
-        "operatedByAirlineName": "FLYNAS",
-        "operatedByFound": false,
-        "originCityCode": "CAI",
-        "destinationCityCode": "JED",
-        "originCountry": "67",
         "equipmentType": null,
-        "flightTime": 145,
-        "flightNumber": "568",
+        "stopover": "0",
+        "bookingClass": "Q",
+        "cabinClass": "Economy",
+        "originCountry": "67",
+        "destinationCountry": "195",
+        "flightTime": 0,
+        "departDateFromResponse": null,
+        "arrivalDateFromResponse": null,
+        "flightReference": null,
+        "shuraArrDate": null,
+        "shuraArrTime": null,
+        "flightSwitchingWaitingTimeMin": 0,
+        "shuraDeptTime": null,
+        "cabinBaggage": null,
+        "includedBaggage": null,
+        "supplierClassDescription": null,
+        "technicalStopList": null,
+        "travelFusionClass": null,
+        "changeOfPlane": "false",
+        "eTicketability": null,
+        "linkAvailability": "true",
+        "optionalServicesIndicator": "false",
+        "participantLevel": "Secure Sell",
+        "polledAvailabilityOption": "O and D cache or polled status used with different local status",
+        "availabilityDisplayType": "Fare Specific Fare Quote Unbooked",
+        "availabilitySource": "S",
+        "flightTimeStr": "135",
+        "segmentKeyUsed": false,
+        "shuraDepDate": null,
+        "depDate": "2025-09-25",
+        "operatedByAirline": "SV",
+        "ndcSegmentRef": "",
+        "originCityName": "Cairo",
+        "originName": "Cairo International Airport",
+        "destinationCityName": "Jeddah",
+        "destinationName": "King Abdulaziz International",
+        "journeyDuration": "2h 15m",
+        "carrierName": "Saudi Arabian",
+        "flightSwitchingWaitingTime": "",
+        "resBookDesignCode": null,
+        "supplierDepDate": null,
+        "supplierArrDate": null,
+        "distance": "769",
+        "depDateTimeStr": "2025-09-25T15:10:00.000+03:00",
+        "arrDateTimeStr": "2025-09-25T17:25:00.000+03:00",
+        "legSequence": 0,
+        "equipmentSuffix": null,
+        "fareApplicationType": null,
+        "fareSequence": null,
+        "ruleNumber": null,
+        "segmentSellKey": "JHm6XhnAuDKAarC7TGAAAA==",
+        "inventoryLegId": null,
+        "numSeatsAvailable": 0,
+        "ontimeInfo": null,
+        "stopoverInfo": null,
+        "validatingCarrier": null,
+        "validatingCarrierName": null,
+        "segmentCode": null,
+        "journeyDurationMin": 135,
+        "segmentGroup": "0",
+        "providerCode": "1G",
+        "codeShareInfo": "operatingCarrier:SV#operatingFlightNumber:null",
+        "classOfService": "Q",
+        "fareInfoRefKey": null,
+        "segmentSellKeyOld": null,
+        "arrTerminal": "1",
+        "arrDate": "2025-09-25",
+        "carrier": "SV",
+        "arrTime": "17:25:00",
+        "depTerminal": "2",
+        "depTime": "15:10:00",
+        "equipment": "333",
         "rph": null,
-        "fareBasisCode": null,
-        "destinationCountry": "195"
+        "flightNumber": "306",
+        "fareBasisCode": "QAOTEGB4",
+        "operatedByFound": false,
+        "operatedByAirlineName": "Saudi Arabian",
+        "originCityCode": "CAI",
+        "destinationCityCode": "JED"
       }
     ],
-    "serviceVendor": "FlyNas",
-    "lccflight": true,
-    "searchPCCId": "318",
-    "totalFare": 1551.47,
-    "onlyBaggageFareSearch": false,
-    "upSellingOption": false,
-    "fareAvailabilityKey": null,
-    "spiceFlightOptionDetails": null,
-    "airIndiaExpressFlightOption": null,
-    "noOfConnectingPoints": 0,
-    "fareBaseCodeSabre": [],
-    "brandCodeSabre": [],
-    "carryOnCharges": null,
-    "supplierSettings": {
-      "fareConfirmBeforePayAfterHoldAllowed": false,
-      "syncPnrAllowed": false,
-      "bundleAllowed": false,
-      "upSellingAllowed": false,
-      "cancelBookAndHoldAllowed": false,
-      "ticketVoidAllowed": false,
-      "iqamaAllowed": false,
-      "gdsSupplier": false,
-      "bspAllowed": false,
-      "baggageAllowed": false,
-      "dynamicCurrencyAllowed": false,
-      "bookAndHoldAllowed": false
-    },
-    "airMultiAvailabilityResp": false,
+    "optionSegmentBean": null,
+    "journeyDurationInMinutes": 0,
+    "ndcSearchResponseID": null,
+    "passengerList": null,
+    "serviceProviderPNR": null,
+    "fareBasisCodes": null,
+    "flightOptionKey": "OneWay|GAL|CAI|2025-09-25|SV|306|Q|2025-09-25|JED",
+    "rulesCommonBean": null,
+    "nDCjourneyID": null,
+    "promoFare": false,
+    "ndcintegration": false,
+    "validLaggage": false,
     "cardPreRegister": false,
+    "useTFPrepay": false,
+    "upSellingOption": false,
+    "ssrPrice": 0,
+    "fareAvailabilityKey": null,
+    "trackingId": "9d8b2409-1db7-42d8-bffa-60d09bae3de6",
     "bookAndHoldAllowedForSupplier": false,
     "baggageAllowedForSupplier": false,
-    "vendorSignature": null,
-    "originCityCode": "CAI",
-    "destinationCityCode": "JED",
-    "fullLaggage": false,
-    "originCountry": "67",
-    "passengerList": null,
-    "laggage": null,
+    "brandCodeSabre": [],
+    "fareBaseCodeSabre": [],
+    "bundledServiceId": null,
+    "bundledServiceName": null,
+    "includedServies": null,
+    "onwardJourneyDate": "2025-09-25",
+    "onlyBaggageFareSearch": false,
+    "importPnr": false,
+    "multiCarrier": false,
+    "responseID": null,
+    "flyDubaiFlightOptionDetails": null,
     "originCity": "1300",
     "originId": null,
-    "ndcSearchResponseID": "aa5ef308-00dc-4573-8c5e-7253f1385d9b",
-    "ndcRulesAndPenalties": null,
-    "journeyDurationInMinutes": 145,
-    "amadeusFlightOptionDetails": null,
-    "onwardJourneyDateFormat": null,
-    "baggageAllowed": false,
-    "offerID": "8e516f72-d8d2-4113-8dba-096a96a417e1",
-    "nDCjourneyID": "XY~ 568~ ~~CAI~09/29/2025 01:15~JED~09/29/2025 03:40~~",
-    "responseID": "3b8c1442-1446-49a7-9bb3-9c2f959b0e89",
-    "multiCarrier": false,
-    "importPnr": false,
-    "multiCarrierForApplyRule": false,
-    "agencyCurrencyCode": null,
-    "destinationCountry": "195",
-    "flightOptionKey": null,
-    "serviceProviderPNR": null,
-    "destinationCity": "3635",
-    "fareBasisCodes": null,
-    "destinationCountryCode": null,
-    "originCountryCode": null,
-    "platingAirlineType": 2,
-    "domestic": true,
+    "platingCarrierName": "Saudi Arabian",
+    "noOfTotalStops": 0,
+    "discountIdAdult": null,
+    "discountIdChild": null,
+    "discountIdInfant": null,
+    "tagFlight": null,
+    "quantity": 1,
+    "lccPromoCode": null,
+    "adtBagCode": null,
+    "chdBagCode": null,
+    "originCityCode": "CAI",
+    "destinationCityCode": "JED",
+    "offerItemID": null,
+    "orderItemID": null,
+    "carryOnCharges": null,
     "fareRule": null,
-    "offerId": null,
-    "orderID": null
+    "airAirarabiaFlightOptionDetails": null,
+    "spiceFlightOptionDetails": null,
+    "supplierSettings": {
+      "bspAllowed": false,
+      "bookAndHoldAllowed": false,
+      "gdsSupplier": false,
+      "fareConfirmBeforePayAfterHoldAllowed": false,
+      "dynamicCurrencyAllowed": false,
+      "iqamaAllowed": false,
+      "baggageAllowed": false,
+      "upSellingAllowed": false,
+      "ticketVoidAllowed": false,
+      "cancelBookAndHoldAllowed": false,
+      "syncPnrAllowed": false,
+      "bundleAllowed": false
+    },
+    "vendorSignature": null,
+    "routingId": null,
+    "lfId": null,
+    "airIndiaExpressFlightOption": null,
+    "offerImgPath": null,
+    "offerDesc": null,
+    "platingAirlineType": 1,
+    "tagFlightDesc": "",
+    "gdsOfficeId": "P3429834",
+    "noOfConnectingPoints": 0,
+    "airMultiAvailabilityResp": false,
+    "flightDetKey": "SV306|GAL"
   },
   "requestBean": {
-    "isNonStop": false,
-    "dataFromCacheOrNot": true,
-    "hotelCrossSell": false,
+    "multiAvailability": false,
+    "searchId": 0,
+    "prefferedAirline": null,
+    "upgradeBooking": 0,
+    "fareMismatch": 0,
     "passengerType": "",
     "orderId": null,
-    "noOfAdults": "1",
-    "noOfChilds": 0,
-    "noOfInfants": 0,
-    "tripType": "OneWay",
-    "returnAllFaresResultFromGal": false,
-    "fareMismatch": 0,
-    "selectedHotel": null,
-    "isExcludeLcc": false,
-    "prefferedAirlineName": null,
-    "upgradeBooking": 0,
-    "prefferedAirline": null,
-    "flexibleDateForCaching": false,
-    "multiAvailability": false,
     "baggageFareOnly": false,
-    "isDateFlexible": false,
-    "searchId": 0,
-    "lastFiveSearch": false,
+    "allianceName": "",
+    "nearByAirport": false,
+    "returnAllFaresResultFromGal": false,
     "passengerIdList": [],
+    "tripType": "OneWay",
+    "prefferedAirlineName": null,
+    "noOfAdults": "1",
+    "noOfChilds": "1",
+    "noOfInfants": "1",
+    "dataFromCacheOrNot": true,
+    "isDateFlexible": false,
+    "isNonStop": false,
+    "hotelCrossSell": false,
+    "flexibleDateForCaching": false,
     "corporateIdList": [],
+    "isExcludeLcc": false,
     "flightwidgetElement": [
       {
-        "originCountryId": 67,
-        "cabinClass": "1",
-        "goingToCity": "Jeddah",
+        "returnDateOfJourney": null,
+        "destinationCityId": 3635,
         "destCountryId": 195,
         "rbd": "",
-        "dateOfJourney": "29-09-2025",
-        "residency": "AE",
-        "residencyId": null,
-        "depCountry": null,
-        "startingFrom": "CAI",
-        "goingTo": "JED",
         "multiOriginList": null,
+        "cabinClass": "1",
         "multiOriginNameList": null,
+        "multiOriginCityNameList": null,
         "multiOriginCountryIdList": null,
         "preferredAirline": "",
-        "multiOriginCityNameList": null,
-        "age": ["45"],
-        "destinationCityId": 3635,
-        "returnDateOfJourney": null,
-        "covercountry": "SA",
+        "goingToCity": "Jeddah",
+        "startingFrom": "CAI",
+        "goingTo": "JED",
+        "depCountry": null,
+        "dateOfJourney": "25-09-2025",
+        "originCountryId": 67,
+        "age": ["45", "8", "1"],
+        "residency": "AE",
+        "residencyId": null,
         "goingToName": "King Abdulaziz International",
-        "sourceCityId": 0,
         "recheck": 0,
         "startingFromCity": "Cairo",
-        "startingFromName": "Cairo International Airport"
+        "covercountry": "SA",
+        "startingFromName": "Cairo International Airport",
+        "sourceCityId": 0
       }
     ],
-    "bookingViaSearch": null,
     "hotelRequestBean": null,
-    "seeMore": false,
-    "allianceName": "",
-    "nearByAirport": false
+    "selectedHotel": null,
+    "bookingViaSearch": null,
+    "lastFiveSearch": false,
+    "seeMore": false
   },
   "insuranceOptionJson": null,
   "indigoSession": null,
@@ -1059,29 +779,30 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 }
 ```
 
-### 🚀 Implementation
+## </details>
 
-- Just render data in dropdown
+### 📤 Payload Structurense (recommended):
 
-### ✅ Recommended Approach: REST API which already implemented in system
+> _Note_: depending on my colleagues (eng Nasr & Marwa) in requestBean and flightOption investigation.
 
-- POST Master2/Branch/search
+---
 
-#### 🧾 Sample `response` Value:
+### 📥 Response Structure (current):
 
-```json
-{
-  "payload": [
-    {
-      "branchId": 948,
-      "branchCode": "BRN2",
-      "branchName": "Test",
-      "countryId": 67,
-      "countryName": "Egypt",
-      "cityName": "Dahab",
-      "approvalStatus": 1
-    }
-  ],
-  "total": 53
-}
-```
+## // tommorow
+
+### 📥 Response Structure (recommended):
+
+## // tommorow
+
+### ⚠️ Global Observations:
+
+#### 1️⃣ Counter:
+
+- appear with ordinary booking and hidden with manual booking.
+
+#### 2️⃣ Ticket Number input:
+
+- appear only with manual booking
+
+---
