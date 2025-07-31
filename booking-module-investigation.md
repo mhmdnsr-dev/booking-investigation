@@ -151,7 +151,7 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 
 ### 📥 Current Behavior
 
-- **Type:** REST API
+- **Type:** XHR
 - **Triggered By:** Selecting a branch
 - **Data Returned:** A nested array called `agencyList1` and a flat `PRODUCTLIST`
 
@@ -184,7 +184,7 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 - N/A
 
 ### 🔍 Observation
-- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agencyList property founded in ModalAndView
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agencyList property founded in ModalAndView/Document
 - No values from this response are used in the UI or any known logic
 - The only side effect is navigating the browser to flight/flightWidget
 - The actual page load is handled separately by a ModelAndView, which we'll describe shortly
@@ -314,7 +314,7 @@ It returns a list of **agents (staff users)** under that agency, which is render
 
 ### 📥 Current Behavior
 
-- **Type:** REST API (POST)
+- **Type:** XHR (POST)
 - **Triggered By:** Selecting an agency
 - **Response:**
   - `agentList`: A list of deeply nested user objects
@@ -445,7 +445,7 @@ It returns a list of **agents (staff users)** under that agency, which is render
 
 
 ## ⚠️ Observations
-- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agentList property founded in ModalAndView
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agentList property founded in ModalAndView/Document
 - Overloaded, verbose payload with many unused fields
 - Nested structure makes it difficult to extract what’s actually needed
 - PRODUCTLIST is again unused, as in previous endpoints
@@ -479,7 +479,7 @@ However, it does **not** return any meaningful data — instead, it simply navig
 
 ### 📥 Current Behavior
 
-- **Type:** `POST`
+- **Type:** XHR (POST)
 - **Triggered By:** Agent selection
 - **Effect:** Redirects to `/flight/flightWidget`
 
@@ -498,6 +498,10 @@ GET agents/{agentId}
 ## 🔁 Endpoint GET `/odeysysadmin/flight/flightWidget` (Again)
 
 Re-fetches previously known values and injects them into the JSP view again:
+
+### 📥 Current Behavior
+- **Type:** ModalAndView/Document (GET)
+
 
 ### Injected Properties:
 
@@ -629,7 +633,7 @@ Re-fetches previously known values and injects them into the JSP view again:
 
 ---
 
-## ✈️ Endpoint: GET `/odeysysadmin/flight/getAllAirports`
+## ✈️ Endpoint: POST `/odeysysadmin/flight/getAllAirports`
 
 ### 📄 Description
 
@@ -640,8 +644,15 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
 
 ### 📥 Current Behavior
 
-- **Method:** `GET`
+- **Type:** XHR (POST)
 - **Response:** Full airport object with 40+ fields
+
+#### 🧾 Sample Request:
+```json
+{
+  "searchInput": "jed"
+}
+```
 
 #### 🧾 Sample Response:
 ```json
@@ -729,7 +740,7 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
 
 ---
 
-## ✈️ Endpoint: GET `/odeysysadmin/flight/getPreferedAirline`
+## ✈️ Endpoint: POST `/odeysysadmin/flight/getPreferedAirline`
 
 ### 📄 Description
 
@@ -739,9 +750,17 @@ This endpoint is responsible for retrieving **airline information** by name or c
 
 ### 📥 Current Behavior
 
-- **Method:** `GET`
+- **Type:** XHR (POST)
 - **Parameters:** airline name or code
 - **Response:** Full airline object with lots of extra and unused data
+
+#### 🧾 Sample Request:
+```json
+{
+  "airlineType": 1,
+  "airlineName": "test"
+}
+```
 
 #### 🧾 Sample Response:
 ```json
@@ -825,6 +844,7 @@ This endpoint is responsible for retrieving **airline information** by name or c
 ```
 
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic airline info.
+
 ---
 
 
@@ -837,7 +857,7 @@ Used to search for a passenger using their **name**. The system attempts to loca
 ---
 
 ### 📥 Current Behavior
-
+- **Type:** XHR (POST)
 - **Parameters:** Passenger name
 - **Response:** Large response object with redundant and deeply nested metadata.
 
@@ -983,6 +1003,11 @@ Used to search for a passenger using their **name**. The system attempts to loca
 This endpoint is responsible for searching one-way flights based on the user-selected criteria on the **Flight Widget Page**.
 
 ---
+
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
+
 
 ### 🧾 Current Request Format (FormData)
 
@@ -1321,6 +1346,10 @@ This endpoint also handles **RoundTrip** bookings. The request body is sent as `
 
 ---
 
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
+
 ### 🧾 Current Request Format (FormData)
 
 This is how the frontend currently sends a **RoundTrip** request:
@@ -1400,9 +1429,17 @@ allianceName = *O
 ### 📄 Description
 
 This endpoint is responsible for processing **Multi-City flight bookings**.  
-It currently accepts a `FormData` object containing all segments under indexed `flightwidgetElement[n]` fields, then returns a `ModalAndView` to render the results.
+It currently accepts a `FormData` object containing all segments under indexed `flightwidgetElement[n]` fields, then returns a `ModalAndView/Document` to render the results.
 
 ---
+
+
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
+
+
+
 
 ### 📥 Current Request Format (FormData)
 
@@ -1497,6 +1534,7 @@ This endpoint is used to validate the user's session and detect if the applicati
 - `windowName`: The name of the current browser window.
 
 #### 🧠 Current Behavior
+- **Type:** XHR (GET)
 - If `windowName` is empty and the server detects an already open session, it assigns `"loginUser"` to the current window.
 - If the server returns `"newTab"`, the application alerts the user and redirects them to an error page — this is used to prevent multiple tabs.
 - If the server returns `1`, it means the session is invalid, and the user should be redirected to the login page.
@@ -1533,8 +1571,8 @@ Fetches the current system configuration status for the **Up-Selling** feature. 
 ![CKeck Supplier](./assets/images/screenshots/up-sell.png)
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/settings/Up-Selling`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/settings/Up-Selling`
 
 #### 📤 Response (example)
 ```json
@@ -1554,8 +1592,8 @@ Returns a configuration flag that indicates whether the system should log or val
 ![CKeck Supplier](./assets/images/screenshots/check-supplier.png)
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
 
 #### 📤 Response (example)
 ```json
@@ -1575,8 +1613,8 @@ Returns a configuration flag that indicates whether the system should log or val
 This endpoint is intended to return the **last five flight search records** for the current user/session. However, in the current implementation, it usually returns an empty or default response.
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/flight/lastFiveSearchs`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/flight/lastFiveSearchs`
 
 #### 📤 Response (example)
 ```json
@@ -1622,8 +1660,10 @@ This endpoint is intended to return the **last five flight search records** for 
 
 #### 📄 Description
 This endpoint is currently used in the flightWidgetManual page only and includes test/dummy/invalid data.
+
+
 #### 📥 Request
-- **Method**: `GET`
+- **Type:** XHR (GET)
 - **URL**: `/flight/getSuppliersName`
 
 #### 📤 Response (example)
@@ -1670,6 +1710,7 @@ Returns a mapping of supplier names to their respective credential details (only
 ---
 
 ## Request
+- **Type:** XHR (GET)
 - **Query Parameters:** None
 
 ---
@@ -1736,7 +1777,7 @@ Checks supplier request/response status based on search input and credential.
 ---
 
 ## Request
-
+- **Type:** XHR (POST)
 - Request Body
 
 ```json
@@ -1837,7 +1878,7 @@ Show huge [Response](./huge-response/check-supplier-result.json)
 - Return just supplier status
 ```json
 {
-  "status": Status.FAIL
+  "status": 1
 }
 ```
 
