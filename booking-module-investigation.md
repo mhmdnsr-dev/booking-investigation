@@ -8,12 +8,12 @@ The goal? To modernize, simplify, and document the backend/frontend contracts �
 ### 🎯 Objective
 
 Break down the legacy structure of booking-related pages and endpoints  
-→ Compare them to modern, RESTful, Angular-friendly alternatives  
-→ Recommend transformations that make the codebase cleaner, leaner, and future-proof.
+→ Comparing them to modern, RESTful, Angular-friendly alternatives  
+→ Recommendations that make the codebase cleaner, leaner, and future-proof.
 
 ---
 
-### 👨‍💻 My Focus Area
+### 👨‍💻 Focus Area
 
 As part of this larger task, my responsibility is the **Flight Widget Page**, which includes:
 - 🛫 **One Way**
@@ -30,33 +30,33 @@ Each flow is analyzed for:
 
 Let’s dive into each page or endpoint step by step, comparing how it works now vs how it *should*.
 
-
 ---
 
 ## 📚 Table of Contents
 
-- [🏢 Endpoint: odeysysadmin/branchSelection/](#🏢-endpoint-odeysysadminbranchselection)
-- [🏢 Endpoint: branchSelection/selectBranch](#🏢-endpoint-branchselectionselectbranch)
-- [✈️ Endpoint: /flight/flightWidget](#✈️-endpoint-flightflightwidget)
-- [🧑‍💼 Endpoint: POST /flight/selectAgency](#🧑‍💼-endpoint-post-flightselectagency)
-- [👤 Endpoint: POST /flight/selectAgent](#👤-endpoint-post-flightselectagent)
-- [✈️ Endpoint: GET /getAllAirports](#✈️-endpoint-get-getallairports)
-- [✈️ Endpoint: GET /getPreferedAirline](#✈️-endpoint-get-getpreferedairline)
-- [👤 Endpoint: POST /searchPaxByNameMob](#👤-endpoint-post-searchpaxbynamemob)
-- [✈️ Endpoint: POST /flightOneWay (OneWay)](#✈️-endpoint-post-flightoneway-oneway)
-- [🔁 Endpoint: POST /flightOneWay (RoundTrip)](#🔁-endpoint-post-flightoneway-roundtrip)
-- [🌍 Endpoint: POST /flightMultiCity](#🌍-endpoint-post-flightmulticity)
-- [🔐 Endpoint: GET /checkIfValidUser/ValidateUserWindow](#🔐-endpoint-get-checkifvaliduservalidateuserwindow)
-- [📘 Endpoint: GET /settings/Up-Selling](#📘-endpoint-get-settingsup-selling)
-- [📘 Endpoint: GET /settings/CHECK-SUPPLIER-REQUEST-RESPONSE](#📘-endpoint-get-settingscheck-supplier-request-response)
-- [✈️ Endpoint: GET /flight/lastFiveSearchs](#✈️-endpoint-get-flightlastfivesearchs)
-- [✈️ Endpoint: GET /flight/getSuppliersName](#✈️-endpoint-get-flightgetsuppliersname)
-- [🧾 Endpoint: GET /check-supplier/supplier-data](#🧾-endpoint-get-check-suppliersupplier-data)
-- [🧾 Endpoint: POST /check-supplier/check-supplier-search](#🧾-endpoint-post-check-suppliercheck-supplier-search)
+1. [🏢 Endpoint: GET `/odeysysadmin/branchSelection/`](#-endpoint-get-odeysysadminbranchselection)
+2. [🏢 Endpoint: POST `/odeysysadmin/branchSelection/selectBranch`](#-endpoint-post-odeysysadminbranchselectionselectbranch)
+3. [✈️ Endpoint: GET `/odeysysadmin/flight/flightWidget`](#-endpoint-get-odeysysadminflightflightwidget)
+4. [🧑‍💼 Endpoint: POST `/odeysysadmin/flight/selectAgency`](#-endpoint-post-odeysysadminflightselectagency)
+5. [👤 Endpoint: POST `/odeysysadmin/flight/selectAgent`](#-endpoint-post-odeysysadminflightselectagent)
+6. [🔁 Endpoint GET `/odeysysadmin/flight/flightWidget` (Again)](#-endpoint-get-odeysysadminflightflightwidget-again)
+7. [✈️ Endpoint: GET `/odeysysadmin/flight/getAllAirports`](#-endpoint-get-odeysysadminflightgetallairports)
+8. [✈️ Endpoint: GET `/odeysysadmin/flight/getPreferedAirline`](#-endpoint-get-odeysysadminflightgetpreferedairline)
+9. [👤 Endpoint: POST `/odeysysadmin/pax/searchPaxByNameMob`](#-endpoint-post-odeysysadminpaxsearchpaxbynamemob)
+10. [✈️ Endpoint: POST `odeysysadmin/flight/flightOneWay`](#-endpoint-post-odeysysadminflightflightoneway)
+11. [🔁 Endpoint: POST `odeysysadmin/flight/flightRoundTrip`](#-endpoint-post-odeysysadminflightflightroundtrip)
+12. [🌍 Endpoint: POST `/odeysysadmin/flight//flightMultiCity`](#-endpoint-post-odeysysadminflightflightmulticity)
+13. [🔐 Endpoint: GET `/odeysysadmin/checkIfValidUser/ValidateUserWindow`](#-endpoint-get-odeysysadmincheckifvaliduservalidateuserwindow)
+14. [📘 Endpoint: GET `/odeysysadmin/settings/Up-Selling`](#-endpoint-get-odeysysadminsettingsup-selling)
+15. [📘 Endpoint: GET `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`](#-endpoint-get-odeysysadminsettingscheck-supplier-request-response)
+16. [✈️ Endpoint: GET `/odeysysadmin/flight/lastFiveSearchs`](#-endpoint-get-odeysysadminflightlastfivesearchs)
+17. [✈️ Endpoint: GET `/odeysysadmin/flight/getSuppliersName`](#-endpoint-get-odeysysadminflightgetsuppliersname)
+18. [✈️ Endpoint: GET `/odeysysadmin/check-supplier/supplier-data`](#-endpoint-get-odeysysadmincheck-suppliersupplier-data)
+19. [✈️ Endpoint: POST `/odeysysadmin/check-supplier/check-supplier-search`](#-endpoint-post-odeysysadmincheck-suppliercheck-supplier-search)
 
 ---
 
-## 🏢 Endpoint: GET `odeysysadmin/branchSelection/`
+## 🏢 Endpoint: GET `/odeysysadmin/branchSelection/`
 
 ### 📄 Description
 This is one of the legacy endpoints in the booking system. It returns a `ModelAndView/Document` object used to render a **branch selection page** in a JSP view.  
@@ -143,7 +143,7 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 
 ---
 
-## 🏢 Endpoint: POST `branchSelection/selectBranch`
+## 🏢 Endpoint: POST `/odeysysadmin/branchSelection/selectBranch`
 
 ### 📄 Description
 This endpoint is triggered when a user selects a branch in the branch selection dropdown.  
@@ -213,7 +213,7 @@ GET branch/{branchId}/agencies
 
 ---
 
-## ✈️ Endpoint: GET `/flight/flightWidget`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/flightWidget`
 
 ### 📄 Description
 This is the main **entry point** of the flight booking page.  
@@ -303,7 +303,7 @@ It returns a `ModelAndView/Document` that provides required data to the JSP view
 
 ---
 
-## 🧑‍💼 Endpoint: `POST /flight/selectAgency`
+## 🧑‍💼 Endpoint: POST `/odeysysadmin/flight/selectAgency`
 
 ### 📄 Description
 
@@ -468,7 +468,7 @@ GET agencies/{agencyId}/agents
 
 ---
 
-## 👤 Endpoint: `POST /flight/selectAgent`
+## 👤 Endpoint: POST `/odeysysadmin/flight/selectAgent`
 
 ### 📄 Description
 
@@ -495,7 +495,7 @@ GET agents/{agentId}
 
 ---
 
-## 🔁 GET `/flight/flightWidget` (Again)
+## 🔁 Endpoint GET `/odeysysadmin/flight/flightWidget` (Again)
 
 Re-fetches previously known values and injects them into the JSP view again:
 
@@ -627,10 +627,9 @@ Re-fetches previously known values and injects them into the JSP view again:
 - Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
 - Ignore `agentList` property for `GET agencies/{agencyId}/agents` recommended endpoint
 
-
 ---
 
-## ✈️ Endpoint: `GET /getAllAirports`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/getAllAirports`
 
 ### 📄 Description
 
@@ -730,7 +729,7 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
 
 ---
 
-## ✈️ Endpoint: `GET /getPreferedAirline`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/getPreferedAirline`
 
 ### 📄 Description
 
@@ -829,7 +828,7 @@ This endpoint is responsible for retrieving **airline information** by name or c
 ---
 
 
-## 👤 Endpoint: `POST /odeysysadmin/pax/searchPaxByNameMob`
+## 👤 Endpoint: POST `/odeysysadmin/pax/searchPaxByNameMob`
 
 ### 📄 Description
 
@@ -839,7 +838,6 @@ Used to search for a passenger using their **name**. The system attempts to loca
 
 ### 📥 Current Behavior
 
-- **Method:** `POST`
 - **Parameters:** Passenger name
 - **Response:** Large response object with redundant and deeply nested metadata.
 
@@ -978,7 +976,7 @@ Used to search for a passenger using their **name**. The system attempts to loca
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic passenger info.
 
 ---
-## ✈️ Endpoint: `POST odeysysadmin/flight/flightOneWay`
+## ✈️ Endpoint: POST `odeysysadmin/flight/flightOneWay`
 
 ### 📄 Description
 
@@ -1315,7 +1313,7 @@ export interface FlightSearchRequestModal {
 ---
 
 
-## 🔁 Endpoint: `POST odeysysadmin/flight/flightRoundTrip`
+## 🔁 Endpoint: POST `odeysysadmin/flight/flightRoundTrip`
 
 ### 📄 Description
 
@@ -1397,7 +1395,7 @@ allianceName = *O
 
 
 
-## 🌍 Endpoint: `POST POST /odeysysadmin/flight//flightMultiCity`
+## 🌍 Endpoint: POST `/odeysysadmin/flight//flightMultiCity`
 
 ### 📄 Description
 
@@ -1489,7 +1487,7 @@ flightwidgetElement[0].rbd                F
 
 ---
 
-### 🔐 Endpoint: `/checkIfValidUser/ValidateUserWindow`
+## 🔐 Endpoint: GET `/odeysysadmin/checkIfValidUser/ValidateUserWindow`
 
 #### 📄 Description
 This endpoint is used to validate the user's session and detect if the application is opened in multiple browser tabs. It helps ensure single-tab usage and redirect users when their session is no longer valid.
@@ -1528,7 +1526,7 @@ export enum UserValidateStatus  {
 
 ---
 
-### 📘 Endpoint: `GET settings/Up-Selling`
+## 📘 Endpoint: GET `/odeysysadmin/settings/Up-Selling`
 
 #### 📄 Description
 Fetches the current system configuration status for the **Up-Selling** feature. This configuration helps determine whether the Up-Selling option should be enabled or disabled in the application.
@@ -1549,7 +1547,7 @@ Fetches the current system configuration status for the **Up-Selling** feature. 
 ```
 
 
-### 📘 Endpoint: `GET settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+## 📘 Endpoint: GET `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
 
 #### 📄 Description
 Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes and if we will show "Check Supplier" button or not
@@ -1571,7 +1569,7 @@ Returns a configuration flag that indicates whether the system should log or val
 
 ---
 
-### ✈️ Endpoint: `GET flight/lastFiveSearchs`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/lastFiveSearchs`
 
 #### 📄 Description
 This endpoint is intended to return the **last five flight search records** for the current user/session. However, in the current implementation, it usually returns an empty or default response.
@@ -1620,7 +1618,7 @@ This endpoint is intended to return the **last five flight search records** for 
 
 ---
 
-### ✈️ Endpoint: `GET flight/getSuppliersName`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/getSuppliersName`
 
 #### 📄 Description
 This endpoint is currently used in the flightWidgetManual page only and includes test/dummy/invalid data.
@@ -1664,7 +1662,7 @@ This endpoint is currently used in the flightWidgetManual page only and includes
 ```
 
 --- 
-### ✈️ Endpoint: `GET /check-supplier/supplier-data`
+## ✈️ Endpoint: GET `/odeysysadmin/check-supplier/supplier-data`
 
 ## Description
 Returns a mapping of supplier names to their respective credential details (only the active suppliers on the branch specified in the research).
@@ -1729,7 +1727,7 @@ The response is a JSON object where:
 
 ---
 
-### ✈️ Endpoint: `POST /check-supplier/check-supplier-search`
+## ✈️ Endpoint: POST `/odeysysadmin/check-supplier/check-supplier-search`
 
 ## Description
 Checks supplier request/response status based on search input and credential.  
