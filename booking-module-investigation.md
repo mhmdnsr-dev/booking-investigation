@@ -8,12 +8,12 @@ The goal? To modernize, simplify, and document the backend/frontend contracts �
 ### 🎯 Objective
 
 Break down the legacy structure of booking-related pages and endpoints  
-→ Compare them to modern, RESTful, Angular-friendly alternatives  
-→ Recommend transformations that make the codebase cleaner, leaner, and future-proof.
+→ Comparing them to modern, RESTful, Angular-friendly alternatives  
+→ Recommendations that make the codebase cleaner, leaner, and future-proof.
 
 ---
 
-### 👨‍💻 My Focus Area
+### 👨‍💻 Focus Area
 
 As part of this larger task, my responsibility is the **Flight Widget Page**, which includes:
 - 🛫 **One Way**
@@ -30,8 +30,33 @@ Each flow is analyzed for:
 
 Let’s dive into each page or endpoint step by step, comparing how it works now vs how it *should*.
 
+---
 
-## 🏢 Endpoint: `odeysysadmin/branchSelection/`
+## 📚 Table of Contents
+
+1. [🏢 Endpoint: GET `/odeysysadmin/branchSelection/`](#-endpoint-get-odeysysadminbranchselection)
+2. [🏢 Endpoint: POST `/odeysysadmin/branchSelection/selectBranch`](#-endpoint-post-odeysysadminbranchselectionselectbranch)
+3. [✈️ Endpoint: GET `/odeysysadmin/flight/flightWidget`](#-endpoint-get-odeysysadminflightflightwidget)
+4. [🧑‍💼 Endpoint: POST `/odeysysadmin/flight/selectAgency`](#-endpoint-post-odeysysadminflightselectagency)
+5. [👤 Endpoint: POST `/odeysysadmin/flight/selectAgent`](#-endpoint-post-odeysysadminflightselectagent)
+6. [🔁 Endpoint GET `/odeysysadmin/flight/flightWidget` (Again)](#-endpoint-get-odeysysadminflightflightwidget-again)
+7. [✈️ Endpoint: GET `/odeysysadmin/flight/getAllAirports`](#-endpoint-get-odeysysadminflightgetallairports)
+8. [✈️ Endpoint: GET `/odeysysadmin/flight/getPreferedAirline`](#-endpoint-get-odeysysadminflightgetpreferedairline)
+9. [👤 Endpoint: POST `/odeysysadmin/pax/searchPaxByNameMob`](#-endpoint-post-odeysysadminpaxsearchpaxbynamemob)
+10. [✈️ Endpoint: POST `odeysysadmin/flight/flightOneWay`](#-endpoint-post-odeysysadminflightflightoneway)
+11. [🔁 Endpoint: POST `odeysysadmin/flight/flightRoundTrip`](#-endpoint-post-odeysysadminflightflightroundtrip)
+12. [🌍 Endpoint: POST `/odeysysadmin/flight//flightMultiCity`](#-endpoint-post-odeysysadminflightflightmulticity)
+13. [🔐 Endpoint: GET `/odeysysadmin/checkIfValidUser/ValidateUserWindow`](#-endpoint-get-odeysysadmincheckifvaliduservalidateuserwindow)
+14. [📘 Endpoint: GET `/odeysysadmin/settings/Up-Selling`](#-endpoint-get-odeysysadminsettingsup-selling)
+15. [📘 Endpoint: GET `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`](#-endpoint-get-odeysysadminsettingscheck-supplier-request-response)
+16. [✈️ Endpoint: GET `/odeysysadmin/flight/lastFiveSearchs`](#-endpoint-get-odeysysadminflightlastfivesearchs)
+17. [✈️ Endpoint: GET `/odeysysadmin/flight/getSuppliersName`](#-endpoint-get-odeysysadminflightgetsuppliersname)
+18. [✈️ Endpoint: GET `/odeysysadmin/check-supplier/supplier-data`](#-endpoint-get-odeysysadmincheck-suppliersupplier-data)
+19. [✈️ Endpoint: POST `/odeysysadmin/check-supplier/check-supplier-search`](#-endpoint-post-odeysysadmincheck-suppliercheck-supplier-search)
+
+---
+
+## 🏢 Endpoint: GET `/odeysysadmin/branchSelection/`
 
 ### 📄 Description
 This is one of the legacy endpoints in the booking system. It returns a `ModelAndView/Document` object used to render a **branch selection page** in a JSP view.  
@@ -39,7 +64,7 @@ As part of the booking workflow, this page allows the user to choose a branch fr
 
 ![Branch Selection page](./assets/images/screenshots/branchSelection.png)
 
-#### 🔄 My Role in This
+#### 🔄 Role in This
 As part of the Flight Widget/Booking Module investigation, this page is analyzed for potential improvement.  
 It currently works in a traditional Spring MVC + JSP flow, but can be enhanced to better support RESTful, frontend-driven architecture.
 
@@ -118,17 +143,15 @@ It currently works in a traditional Spring MVC + JSP flow, but can be enhanced t
 
 ---
 
-## 🚫 Endpoint: `branchSelection/selectBranch`
+## 🏢 Endpoint: POST `/odeysysadmin/branchSelection/selectBranch`
 
 ### 📄 Description
 This endpoint is triggered when a user selects a branch in the branch selection dropdown.  
-It returns some backend data, but it is **not used meaningfully** anywhere in the frontend or backend logic.
-
----
+It returns some backend data, but it is **not used meaningfully** anywhere in the frontend.
 
 ### 📥 Current Behavior
 
-- **Type:** REST API
+- **Type:** XHR
 - **Triggered By:** Selecting a branch
 - **Data Returned:** A nested array called `agencyList1` and a flat `PRODUCTLIST`
 
@@ -157,35 +180,40 @@ It returns some backend data, but it is **not used meaningfully** anywhere in th
 }
 ```
 
-
 ### 🚀 Implementation
-
-- Not found
+- N/A
 
 ### 🔍 Observation
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agencyList property founded in ModalAndView/Document
 - No values from this response are used in the UI or any known logic
-
 - The only side effect is navigating the browser to flight/flightWidget
-
 - The actual page load is handled separately by a ModelAndView, which we'll describe shortly
 
-- Backend need to call this endpoint thus we can replace it with  `agencyList` property of agencies (nested arrays)
-
-### ✅ Recommendation
-
-- 🧼 Recommended Action: Ignore or Deprecate
-
-- ✅ Do not rely on or maintain this endpoint
-
-- ✅ Remove or comment out frontend call
-
-- ✅ Redirect/navigation should be handled directly without needing a fake API
-
-- ✅ All real data loading is handled by the next endpoint: flight/flightWidget
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Return consistent values
+```http
+GET branch/{branchId}/agencies
+```
+#### 🧾 Sample `response` Value:
+```json
+[
+  {
+    "id": 10696,
+    "name": "samir",
+    "code": "AGN9663",
+    "countryName": "Egypt",
+    "cityName": "aswan",
+    "branchName": "samir",
+    "status": 1,
+    "approvalStatus": 1
+  }
+]
+```
 
 ---
 
-## ✈️ Endpoint: `/flight/flightWidget`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/flightWidget`
 
 ### 📄 Description
 This is the main **entry point** of the flight booking page.  
@@ -266,37 +294,16 @@ It returns a `ModelAndView/Document` that provides required data to the JSP view
 ```
 
 ### 🚀 Implementation
-- Just render data in dropdown
+- Just render data in dropdown lists
 
 ---
 ### ✅ Recommended Approach: REST API
-
-- POST api/branches/{branchId}/agencies
-- (Dynamically load agencies based on selected branch)
-
-#### 🧾 Sample `response` Value:
-```json
-{
-  "payload": [
-    {
-      "id": 10696,
-      "name": "samir",
-      "code": "AGN9663",
-      "countryName": "Egypt",
-      "cityName": "aswan",
-      "branchName": "samir",
-      "status": 1,
-      "approvalStatus": 1
-    }
-  ],
-  "total": 66
-}
-```
-
+- Ignore`branchList` property for `POST Master2/Branch/search` which already implemented in system
+- Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
 
 ---
 
-## 🧑‍💼 Endpoint: `POST /flight/selectAgency`
+## 🧑‍💼 Endpoint: POST `/odeysysadmin/flight/selectAgency`
 
 ### 📄 Description
 
@@ -307,7 +314,7 @@ It returns a list of **agents (staff users)** under that agency, which is render
 
 ### 📥 Current Behavior
 
-- **Type:** REST API (POST)
+- **Type:** XHR (POST)
 - **Triggered By:** Selecting an agency
 - **Response:**
   - `agentList`: A list of deeply nested user objects
@@ -438,31 +445,30 @@ It returns a list of **agents (staff users)** under that agency, which is render
 
 
 ## ⚠️ Observations
+- The backend needs to call this endpoint in ablution, and thus we can only improve the data return from it and use it instead of agentList property founded in ModalAndView/Document
 - Overloaded, verbose payload with many unused fields
-
 - Nested structure makes it difficult to extract what’s actually needed
-
 - PRODUCTLIST is again unused, as in previous endpoints
 
 ---
-### ✅ Recommended Approach: REST API
 
-- GET /api/agencies/{agencyId}/agents
-- (Dynamically load agents based on selected agency)
-
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Return consistent values
+```http
+GET agencies/{agencyId}/agents
+```
 #### 🧾 Sample `response` Value:
 ```json
 [{
   "staffId": 10482,
   "staffName": "Mohamed Nasr"
 }]
-
 ```
 
 ---
 
-
-## 👤 Endpoint: `POST /flight/selectAgent`
+## 👤 Endpoint: POST `/odeysysadmin/flight/selectAgent`
 
 ### 📄 Description
 
@@ -473,15 +479,29 @@ However, it does **not** return any meaningful data — instead, it simply navig
 
 ### 📥 Current Behavior
 
-- **Type:** `POST`
+- **Type:** XHR (POST)
 - **Triggered By:** Agent selection
 - **Effect:** Redirects to `/flight/flightWidget`
 
+## ⚠️ Observations
+- The backend needs to call this end point absolutely, but nothing is done in the frontend; Thus, the backend can ignore the return of any data
+
+### ✅ Recommended Approach
+- Improving the endpoint naming
+- Ignore the return of any data
+```http
+GET agents/{agentId}
+```
+
 ---
 
-## 🔁 `/flight/flightWidget` (Again)
+## 🔁 Endpoint GET `/odeysysadmin/flight/flightWidget` (Again)
 
 Re-fetches previously known values and injects them into the JSP view again:
+
+### 📥 Current Behavior
+- **Type:** ModalAndView/Document (GET)
+
 
 ### Injected Properties:
 
@@ -521,7 +541,7 @@ Re-fetches previously known values and injects them into the JSP view again:
 ]
 ```
 
-#### 🏢 2) `branchList`:
+#### 🏢 2) `agencyList`:
 ```json
 [
   [
@@ -543,7 +563,7 @@ Re-fetches previously known values and injects them into the JSP view again:
 ]
 ```
 
-#### 🏢 3) `branchList`:
+#### 🏢 3) `agentList`:
 ```json
 [
   {
@@ -599,27 +619,21 @@ Re-fetches previously known values and injects them into the JSP view again:
 
 ### ⚠️ Observations
 - This flow creates an unnecessary page reload
-
 - All values (branchList, agencyList, agentList) are already retrieved in previous steps
-
 - No meaningful state is changed during this POST
 
-### ✅ Recommendation
-#### ❌ Skip this step entirely.
+### 🚀 Implementation
+- Just render data in dropdown lists
 
-- Do not call POST /flight/selectAgent
-
-- Avoid re-navigating to /flight/flightWidget
-
-- Maintain agent selection state locally in frontend
-
-- Only fire relevant logic when actual submission or validation is needed
-
+---
+### ✅ Recommended Approach: REST API
+- Ignore`branchList` property for `POST Master2/Branch/search` which already implemented in system
+- Ignore `agencyList` property for `GET branch/{branchId}/agencies` recommended endpoint
+- Ignore `agentList` property for `GET agencies/{agencyId}/agents` recommended endpoint
 
 ---
 
-
-## ✈️ Endpoint: `GET /getAllAirports`
+## ✈️ Endpoint: POST `/odeysysadmin/flight/getAllAirports`
 
 ### 📄 Description
 
@@ -630,8 +644,15 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
 
 ### 📥 Current Behavior
 
-- **Method:** `GET`
+- **Type:** XHR (POST)
 - **Response:** Full airport object with 40+ fields
+
+#### 🧾 Sample Request:
+```json
+{
+  "searchInput": "jed"
+}
+```
 
 #### 🧾 Sample Response:
 ```json
@@ -688,23 +709,30 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
   }
 ]
 ```
-### ✅ Recommended Approach: REST API
 
-- GET /api/get-all-airports?search={codeOrName}
+### ✅ Recommended Approach
+- Use REST API already implemented in system `POST Master2/airport/search`
+#### 🧾 Sample `request` body value:
+```json
+{
+  "status": 1,
+  "code": "CAI",
+  "name": "Cairo"
+}
+```
 
 #### 🧾 Sample `response` Value:
 ```json
-[
-  {
-    "airportId": 3231,
-    "airportCode": "JED",
-    "airportName": "King Abdulaziz International",
-    "cityId": 3635,
-    "cityName": "Jeddah",
-    "countryId": 195,
-    "countryName": "Saudi Arabia"
-  }
-]
+{
+  "payload": [
+    {
+      "id": 1075,
+      "name": "Cairo International Airport",
+      "iataCode": "CAI"
+    }
+  ],
+  "total": 1
+}
 ```
 
 - 🎯 Returns just enough information to identify the airport, link it to city/country, and display in dropdowns or selectors.
@@ -712,7 +740,7 @@ Currently, it returns a **heavy and verbose** payload with many unused or redund
 
 ---
 
-## ✈️ Endpoint: `GET /getPreferedAirline`
+## ✈️ Endpoint: POST `/odeysysadmin/flight/getPreferedAirline`
 
 ### 📄 Description
 
@@ -722,9 +750,17 @@ This endpoint is responsible for retrieving **airline information** by name or c
 
 ### 📥 Current Behavior
 
-- **Method:** `GET`
+- **Type:** XHR (POST)
 - **Parameters:** airline name or code
 - **Response:** Full airline object with lots of extra and unused data
+
+#### 🧾 Sample Request:
+```json
+{
+  "airlineType": 1,
+  "airlineName": "test"
+}
+```
 
 #### 🧾 Sample Response:
 ```json
@@ -767,38 +803,62 @@ This endpoint is responsible for retrieving **airline information** by name or c
 ]
 ```
 
-- ✅ Recommendation
-- 🔄 Replace with:
-- GET /api/get-airline?search={codeOrName} 
-- 🧾 Sample Response (Recommended):
+### ✅ Recommended Approach
+- Use REST API already implemented in system `GET Master2/airline/`
+- Recommend to short of response value ( id, name, code )
+#### 🧾 Sample `request` query params value:
 ```json
-[
-  {
-    "airlineCode": "TEST",
-    "airlineName": "test",
-    "airlineType": 1,
-    "approvalStatus": 1,
-    "status": 1
-  }
-]
+{
+  "status": 1,
+  "airlineCode": "test",
+  "airlineName": "test"
+}
 ```
+
+#### 🧾 Sample `response` Value:
+```json
+{
+  "payload": [
+    {
+      "id": 783,
+      "name": "test1",
+      "code": "TES",
+      "type": 0,
+      "networkType": 2,
+      "status": 1,
+      "approvalStatus": 1,
+      "userId": 1,
+      "airlineHistory": [
+        {
+          "operationType": "Approve",
+          "operationDate": "2021-10-11 08:11:47",
+          "userName": "odeysysadmin",
+          "clientIP": "59.152.40.227",
+          "modificationValues": "STATUS=Active,APPROVAL_STATUS=Approved"
+        }
+      ]
+    }
+  ],
+  "total": 2
+}
+```
+
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic airline info.
 
 ---
 
 
-## 👤 Endpoint: `POST /searchPaxByNameMob`
+## 👤 Endpoint: POST `/odeysysadmin/pax/searchPaxByNameMob`
 
 ### 📄 Description
 
-Used to search for a passenger using their **name** or **mobile number**. The system attempts to locate and match existing passenger records, most likely for reuse in booking forms.
+Used to search for a passenger using their **name**. The system attempts to locate and match existing passenger records, most likely for reuse in booking forms.
 
 ---
 
 ### 📥 Current Behavior
-
-- **Method:** `POST`
-- **Parameters:** Passenger name (and optionally mobile)
+- **Type:** XHR (POST)
+- **Parameters:** Passenger name
 - **Response:** Large response object with redundant and deeply nested metadata.
 
 #### 🧾 Sample Response:
@@ -914,9 +974,8 @@ Used to search for a passenger using their **name** or **mobile number**. The sy
 ```
 
 
-- ✅ Recommendation
-- 🔄 Replace with:
-- GET /api/get-passenger?search={passengerName}
+### ✅ Recommended Approach
+- 🔄 Replace with `GET /odeysysadmin/passengers?search={name}`
 - 🧾 Sample Response (Recommended):
 ```json
 [
@@ -937,13 +996,18 @@ Used to search for a passenger using their **name** or **mobile number**. The sy
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic passenger info.
 
 ---
-## ✈️ Endpoint: `POST /flightOneWay`
+## ✈️ Endpoint: POST `odeysysadmin/flight/flightOneWay`
 
 ### 📄 Description
 
 This endpoint is responsible for searching one-way flights based on the user-selected criteria on the **Flight Widget Page**.
 
 ---
+
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
+
 
 ### 🧾 Current Request Format (FormData)
 
@@ -993,64 +1057,304 @@ prefferedAirlineName = Transportes Aeromar
 ```
 
 
-- ✅ Recommendation
-- 🔄 Replace with:
-```http
-- POST /api/flight-one-way 
-- Content-Type: application/json
+## ✅ Recommendation
+- 🔄 Replace with: `POST odeysysadmin/flight/flight-one-way`
+- ###### 🧾 Sample of the request for flights (Long-time Recommended):
+```ts
+export enum CabinClass {
+  ECONOMY = 1,
+  PREMIUM_ECONOMY,
+  BUSINESS,
+  FIRST_CLASS,
+}
+
+export enum TripType {
+  OneWay = 1,
+  RoundTrip,
+  MultiCity,
+}
+
+export interface LegsModal {
+  origins: string[] // In Multicity It will be one element in the list
+  destination: string
+  
+  coverCountry?: string // One way and Round trip
+  residency?: string // One way and Round trip
+  depCountry?: string // Round trip
+  
+  dateOfJourney?: Date //Oneway and Multicity
+  cabinClass?: number, // Multicity
+  rbd?: number[] // enums Multicity
+  
+  onwardDateOfJourney?: Date // Round trip
+  onwardCabinClass?: number, // Round trip
+  onwardRbd?: number[], // enums Round trip
+  
+  returnDateOfJourney?: Date  // Round trip
+  returnCabinClass?: number, // Round trip
+  returnRbd?: number[] // enums Round trip
+}
+
+export interface FlightSearchRequestModal {
+  tripType: TripType.RoundTrip,
+  passengers: {
+    adults: number,
+    children: number,
+    infants: number
+  },
+
+  baggageFareOnly: boolean,
+  returnAllFaresResultFromGal: boolean
+  passengerIdList: number[],
+
+  nearByAirport?: boolean,  // Oneway and round trip
+  isNonStop?: boolean, // Oneway and round trip
+  isExcludeLcc?: boolean, // Oneway and round trip
+
+  cabinClass?: CabinClass.ECONOMY, // enum   OneWay
+  rbd?: number[], // enums      OneWay
+
+  allianceName?: string, //Oneway and round trip
+  preferredAirline?: string, //Oneway and round trip
+  
+  legs: LegsModal[]
+}
 ```
-- 🧾 Sample Request (Recommended):
+
+```json
+
+{
+  "tripType": 1,
+  "passengers": {
+    "adults": 2,
+    "children": 3,
+    "infants": 1
+  },
+
+  "baggageFareOnly": true,
+  "returnAllFaresResultFromGal": false,
+  "passengerIdList": [1213, 2525, 2422],
+
+  "nearByAirport": true,
+  "isNonStop": true, 
+  "isExcludeLcc": false, 
+
+  "cabinClass": 3,
+  "rbd": [1 ,4, 6],
+
+  "allianceName": "test", 
+  "preferredAirline": "AUG",
+  
+  "legs": [
+    {
+        "origins": ["CAI", "DXB"],
+        "destination": "JDE",
+  
+        "coverCountry": "AE",
+        "residency": "SA",
+        "depCountry": "HT",
+  
+        "dateOfJourney": "31-07-2025",
+        "cabinClass": 5,
+        "rbd": [1, 6, 6] ,
+
+        "onwardDateOfJourney": "31-07-2025" ,
+        "onwardCabinClass": 5, 
+        "onwardRbd": [1, 2, 3, 4] , 
+  
+        "returnDateOfJourney": "31-07-2025",
+        "returnCabinClass": 3,
+        "returnRbd": [1, 2, 3, 4] 
+    }
+  ]
+}
+```
+
 ```json
 {
-  "passengerType": null,
-  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
-  "tripType": "OneWay",
-  "branchId": 123,
-  "agencyId": 532,
-  "agentId": 1234,
-  "passengers": {
-    "adults": 3,
-    "children": 3,
-    "infants": 3
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "tripType": {
+      "type": "number"
+    },
+    "passengers": {
+      "type": "object",
+      "properties": {
+        "adults": {
+          "type": "number"
+        },
+        "children": {
+          "type": "number"
+        },
+        "infants": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "adults",
+        "children",
+        "infants"
+      ]
+    },
+    "baggageFareOnly": {
+      "type": "boolean"
+    },
+    "returnAllFaresResultFromGal": {
+      "type": "boolean"
+    },
+    "passengerIdList": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "nearByAirport": {
+      "type": "boolean"
+    },
+    "isNonStop": {
+      "type": "boolean"
+    },
+    "isExcludeLcc": {
+      "type": "boolean"
+    },
+    "cabinClass": {
+      "type": "number"
+    },
+    "rbd": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "allianceName": {
+      "type": "string"
+    },
+    "preferredAirline": {
+      "type": "string"
+    },
+    "legs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "destination": {
+            "type": "string"
+          },
+          "coverCountry": {
+            "type": "string"
+          },
+          "residency": {
+            "type": "string"
+          },
+          "depCountry": {
+            "type": "string"
+          },
+          "dateOfJourney": {
+            "type": "string"
+          },
+          "cabinClass": {
+            "type": "number"
+          },
+          "rbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "onwardDateOfJourney": {
+            "type": "string"
+          },
+          "onwardCabinClass": {
+            "type": "number"
+          },
+          "onwardRbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "returnDateOfJourney": {
+            "type": "string"
+          },
+          "returnCabinClass": {
+            "type": "number"
+          },
+          "returnRbd": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": [
+          "origins",
+          "destination",
+          "coverCountry",
+          "residency",
+          "depCountry",
+          "dateOfJourney",
+          "cabinClass",
+          "rbd",
+          "onwardDateOfJourney",
+          "onwardCabinClass",
+          "onwardRbd",
+          "returnDateOfJourney",
+          "returnCabinClass",
+          "returnRbd"
+        ]
+      }
+    }
   },
-  "nearByAirport": true,
-  "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "isNonStop": true,
-  "isExcludeLcc": true,
-  "cabinClass": 2,
-  "rbd": ["B", "C", "D"],
-  "preferredAirlineCode": "VW",
-  "allianceName": "*A",
-  "flightWidgetElement": {
-    "multiOrigins": ["SHH", "DXB"],
-    "coverCountry": "SA",
-    "residency": "AE",
-    "originAirportCode": "CAI",
-    "destinationAirportCode": "JED",
-    "dateOfJourney": "31-07-2025"
-  }
+  "required": [
+    "tripType",
+    "passengers",
+    "baggageFareOnly",
+    "returnAllFaresResultFromGal",
+    "passengerIdList",
+    "nearByAirport",
+    "isNonStop",
+    "isExcludeLcc",
+    "cabinClass",
+    "rbd",
+    "allianceName",
+    "preferredAirline",
+    "legs"
+  ]
 }
 ```
 - 🎯 Keep only the essential details needed to populate dropdowns, filters, or display basic info.
+---
+
+### 🧾 Current Response [Link to Response Section]()
 
 ---
 
 
-
-## 🔁 Endpoint: `POST /flightOneWay` (Used for RoundTrip too!)
+## 🔁 Endpoint: POST `odeysysadmin/flight/flightRoundTrip`
 
 ### 📄 Description
 
-Although named `flightOneWay`, this endpoint also handles **RoundTrip** bookings. The request body is sent as `FormData`, consisting of multiple scattered fields and indexed lists.
+This endpoint also handles **RoundTrip** bookings. The request body is sent as `FormData`, consisting of multiple scattered fields and indexed lists.
 
 ---
+
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
 
 ### 🧾 Current Request Format (FormData)
 
 This is how the frontend currently sends a **RoundTrip** request:
 
-```plaintext
+```text
 passengerType = passengers
 passengerIdList[0] = 7631-null-Egypt
 
@@ -1092,7 +1396,7 @@ flightwidgetElement[1].cabinClass = 4
 flightwidgetElement[1].rbd = I
 flightwidgetElement[1].rbd = J
 flightwidgetElement[1].rbd = K
-flightwidgetElement[1].rbd = 
+flightwidgetElement[1].rbd = M
 
 agencyId = 0
 noOfAdults = 1
@@ -1107,60 +1411,35 @@ isExcludeLcc = true
 allianceName = *O
 ```
 
-- ✅ Recommended Request Format (JSON API)
-- 🔁 Replace with: POST /api/flight-round-trip
-```json
-{
-  "passengerType": "passengers",
-  "passengerIdList": ["7631-Mohamed Nasr-Egypt"],
-  "tripType": "RoundTrip",
-  "branchId": 1233,
-  "agencyId": 35252,
-  "agentId": 1234,
-  "passengers": {
-    "adults": 1,
-    "children": 2,
-    "infants": 5
-  },
-  "nearByAirport": true,
-  "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "isNonStop": true,
-  "isExcludeLcc": true,
-  "allianceName": "*O",
-  "preferredAirline": "VW",
-  "flightwidgetElement": [
-    {
-      "multiOrigins": ["SHH", "DXB"],
-      "covercountry": "IN",
-      "residency": "AE",
-      "age": 45,
-      "depCountry": "AE",
-      "originAirportCode": "CAI",
-      "destinationAirportCode": "JED",
-      "onwardDate": "2025-07-22",
-      "returnDate": "2025-07-31",
-      "onwardCabinClass": 3,
-      "onwardRbd": ["A", "E"],
-      "returnCabinClass": 4,
-      "returnRbd": ["I", "J", "K"]
-    }
-  ]
-}
-```
-
+## ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: `POST odeysysadmin/flight/flight-round-trip`
+- #### [ 🧾 Sample of the `request` for flights (Long-time Recommended):](#-Sample-of-the-request-for-flights-Long-time-Recommended)
 
 ---
 
 
-## 🌍 Endpoint: `POST /flightMultiCity`
+### 🧾 Current Response [Link to Response Section]()
+
+--- 
+
+
+
+## 🌍 Endpoint: POST `/odeysysadmin/flight//flightMultiCity`
 
 ### 📄 Description
 
 This endpoint is responsible for processing **Multi-City flight bookings**.  
-It currently accepts a `FormData` object containing all segments under indexed `flightwidgetElement[n]` fields, then returns a `ModalAndView` to render the results.
+It currently accepts a `FormData` object containing all segments under indexed `flightwidgetElement[n]` fields, then returns a `ModalAndView/Document` to render the results.
 
 ---
+
+
+### 📥 Current Behavior
+
+- **Type:** Document/ModalAndView (POST)
+
+
+
 
 ### 📥 Current Request Format (FormData)
 
@@ -1233,59 +1512,19 @@ _returnAllFaresResultFromGal              on
 flightwidgetElement[0].rbd                F
 ```
 
-- ✅ Recommended Request Format (JSON API)
-- 🔁 Replace with: POST /api/flight-multicity
-```json
-{
-  "tripType": "MultiCity",
-  "passengerIdList": ["7631-Name-Egypt"],
-  "branchId": 1233,
-  "agencyId": 35252,
-  "agentId": 1234,
-  "passengers": {
-    "adults": 2,
-    "children": 4,
-    "infants": 1
-  },
-  "baggageFareOnly": true,
-  "returnAllFaresResultFromGal": true,
-  "flightwidgetElement": [
-    {
-      "originAirportCode": "CAI",
-      "destinationAirportCode": "JED",
-      "dateOfJourney": "2025-07-22",
-      "cabinClass": 3,
-      "rbd": ["B", "D", "F"]
-    },
-    {
-      "originAirportCode": "JED",
-      "destinationAirportCode": "DXB",
-      "dateOfJourney": "2025-07-31",
-      "cabinClass": 4,
-      "rbd": ["U"]
-    },
-    {
-      "originAirportCode": "DXB",
-      "destinationAirportCode": "AUH",
-      "dateOfJourney": "2025-11-30",
-      "cabinClass": 2,
-      "rbd": ["R", "S", "T"]
-    },
-    {
-      "originAirportCode": "AUH",
-      "destinationAirportCode": "KGL",
-      "dateOfJourney": "2026-06-23",
-      "cabinClass": 4,
-      "rbd": ["D", "E", "F", "H"]
-    }
-  ]
-}
-
-```
-
+## ✅ Recommended Request Format (JSON API)
+- 🔁 Replace with: `POST odeysysadmin/flight/flight-multicity`
+- #### [ 🧾 Sample of the `request` for flights (Long-time Recommended):](#-Sample-of-the-request-for-flights-Long-time-Recommended)
 
 --- 
-### 🔐 Endpoint: `/checkIfValidUser/ValidateUserWindow`
+
+
+### 🧾 Current Response [Link to Response Section]()
+
+
+---
+
+## 🔐 Endpoint: GET `/odeysysadmin/checkIfValidUser/ValidateUserWindow`
 
 #### 📄 Description
 This endpoint is used to validate the user's session and detect if the application is opened in multiple browser tabs. It helps ensure single-tab usage and redirect users when their session is no longer valid.
@@ -1295,6 +1534,7 @@ This endpoint is used to validate the user's session and detect if the applicati
 - `windowName`: The name of the current browser window.
 
 #### 🧠 Current Behavior
+- **Type:** XHR (GET)
 - If `windowName` is empty and the server detects an already open session, it assigns `"loginUser"` to the current window.
 - If the server returns `"newTab"`, the application alerts the user and redirects them to an error page — this is used to prevent multiple tabs.
 - If the server returns `1`, it means the session is invalid, and the user should be redirected to the login page.
@@ -1307,176 +1547,32 @@ This endpoint is used to validate the user's session and detect if the applicati
   - `VALID`
   - `INVALID_SESSION`
   - `MULTI_TAB_NOT_ALLOWED`
+```ts
+export enum UserValidateStatus  {
+    VALID,
+    INVALID_SESSION,
+    MULTI_TAB_NOT_ALLOWED
+}
+```
 
 #### 💡 Notes
 - Modern applications (like Angular 2+ frontends) should handle such checks using interceptors or centralized session services.
 - Using blocking synchronous validation methods should be avoided for performance and UX reasons.
 
---- 
-### 🌐 External Endpoint: `https://salesiq.zohopublic.com/visitor/v2/channels/website`
-
-#### 📄 Description
-This endpoint is part of Zoho SalesIQ’s public API. It is used by Zoho’s website widget to track and manage website visitor sessions.
-
-#### 📥 Request (as query parameters)
-- `widgetcode`: `07de97db4f603764716ff96e7371a6c5eaad4fa5b1b0e215b8de2214ef5bd7c8`
-- `internal_channel_req`: `true`
-- `last_modified_time`: `1737629810707`
-- `version`: `V26`
-- `browser_language`: `en`
-- `current_domain`: `http://192.168.1.210`
-- `pagetitle`: `NDC Admin`
-
-#### 🧠 Implementation Notes
-- This endpoint is **not implemented** anywhere in our application code.
-- It is automatically called and managed by the **Zoho SalesIQ widget**, which is likely embedded via a script tag or external integration.
-
-#### ✅ Recommendation
-- **No action required**.
-- Ensure the widget is correctly configured and does not conflict with core application behavior.
-- This call can be safely ignored in the context of backend/API architecture reviews.
-
-
---- 
-### 🌐 External Endpoint: `https://salesiq.zohopublic.com/wondertravel/fetchvisitorconfigurations.ls`
-
-#### 📄 Description
-This endpoint belongs to the **Zoho SalesIQ widget** service. It fetches dynamic visitor configuration forms that SalesIQ uses during chat sessions on the embedded widget.
-
-#### 📥 Request (as query parameters)
-- `avuid`: `5aa8e3ec-0e3d-4d59-98d9-ba15bad942d3`
-- `lsid`: `584883000006764759`
-- `visitor_question`: `undefined`
-- `fetchallfields`: `true`
-- `app_status`: `online`
-
-#### 📤 Response (simplified)
-Returns a list containing visitor form configuration including:
-```json
-[
-  {
-    "objString": {
-      "form": {
-        "form_type": "general",
-        "sync_time": 1737629810707,
-        "dname": "",
-        "title": "",
-        "msglist": [
-          {
-            "msg": "",
-            "meta": {
-              "format": "text",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "",
-                "type": "visitor_last_name"
-              },
-              "skippable": false,
-              "field_name": ""
-            },
-            "dname": "",
-            "mtime": "1753617280206"
-          },
-          {
-            "msg": "",
-            "meta": {
-              "format": "email",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "",
-                "type": "visitor_email"
-              },
-              "skippable": false,
-              "field_name": ""
-            },
-            "dname": "",
-            "mtime": "1753617280207"
-          },
-          {
-            "msg": "Can i have your phone number?",
-            "meta": {
-              "format": "phone",
-              "input_card": {
-                "visibility": "online",
-                "maxlength": 100,
-                "options": [],
-                "placeholder": "Enter your phone number",
-                "type": "visitor_phone"
-              },
-              "skippable": false,
-              "field_name": "Phone"
-            },
-            "dname": "",
-            "mtime": "1753617280208"
-          }
-        ],
-        "fields_prefill_type": {
-          "show_fields": true,
-          "prefill": true
-        }
-      }
-    },
-    "module": "fetchvisitorconfigurations",
-    "objType": "object"
-  }
-]
-```
-#### 🧠 Implementation Notes
-- This endpoint is **not part of our application logic**.
-- It is triggered **internally by the Zoho SalesIQ widget** embedded on the site.
-- Its purpose is to load predefined fields and messages used in Zoho's live chat functionality.
-
-#### ✅ Recommendation
-- **No action required** for backend system integration.
-- Confirm widget is properly embedded and allowed on necessary domains.
-- This endpoint can be ignored when designing or migrating internal APIs.
+### 🚀 Implementation
+![ValidateUserWindow](./assets/images/screenshots/ValidateUserWindow.png)
 
 ---
 
-### 📘 Endpoint: `GET json/globalProps.json`
-
-#### 📄 Description
-Fetches static global configuration values used across the system, such as validation rules and limits.
-
-#### 📥 Request
-- **Method**: `GET`
-- **URL**: `/json/globalProps.json`
-
-#### 📤 Response (example)
-```json
-{
-  "globalProps": [
-    {
-      "passengerNameLength": 50,
-      "arabicPattern": "[\\u0600-\\u06FF\\u0750-\\u077F]"
-    }
-  ]
-}
-```
-##### ✅ Recommendation
-
-- Functionality is fine as-is.
-
-- Enhancement Suggestion: Rename the endpoint to follow consistent RESTful naming conventions:
-
-- Replace json/globalProps.json with json/global-props
-
-- Benefits: cleaner URL, better maintainability, consistency across other endpoints.
-
----
-
-### 📘 Endpoint: `GET settings/Up-Selling`
+## 📘 Endpoint: GET `/odeysysadmin/settings/Up-Selling`
 
 #### 📄 Description
 Fetches the current system configuration status for the **Up-Selling** feature. This configuration helps determine whether the Up-Selling option should be enabled or disabled in the application.
+![CKeck Supplier](./assets/images/screenshots/up-sell.png)
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/settings/Up-Selling`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/settings/Up-Selling`
 
 #### 📤 Response (example)
 ```json
@@ -1489,14 +1585,15 @@ Fetches the current system configuration status for the **Up-Selling** feature. 
 ```
 
 
-### 📘 Endpoint: `GET settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+## 📘 Endpoint: GET `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
 
 #### 📄 Description
 Returns a configuration flag that indicates whether the system should log or validate **Supplier Request and Response** data for debugging or monitoring purposes and if we will show "Check Supplier" button or not
+![CKeck Supplier](./assets/images/screenshots/check-supplier.png)
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/settings/CHECK-SUPPLIER-REQUEST-RESPONSE`
 
 #### 📤 Response (example)
 ```json
@@ -1510,14 +1607,14 @@ Returns a configuration flag that indicates whether the system should log or val
 
 ---
 
-### ✈️ Endpoint: `GET flight/lastFiveSearchs`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/lastFiveSearchs`
 
 #### 📄 Description
 This endpoint is intended to return the **last five flight search records** for the current user/session. However, in the current implementation, it usually returns an empty or default response.
 
 #### 📥 Request
-- **Method**: `GET`
-- **URL**: `/flight/lastFiveSearchs`
+- **Type:** XHR (GET)
+- **URL**: `/odeysysadmin/flight/lastFiveSearchs`
 
 #### 📤 Response (example)
 ```json
@@ -1555,15 +1652,18 @@ This endpoint is intended to return the **last five flight search records** for 
 ```
 
 - ✅ Recommended replace response object with just list of data (resultList)
+- 🧼 Ignore this end point if it is not already used in the system
 
---- ---
+---
 
-### ✈️ Endpoint: `GET flight/getSuppliersName`
+## ✈️ Endpoint: GET `/odeysysadmin/flight/getSuppliersName`
 
 #### 📄 Description
 This endpoint is currently used in the flightWidgetManual page only and includes test/dummy/invalid data.
+
+
 #### 📥 Request
-- **Method**: `GET`
+- **Type:** XHR (GET)
 - **URL**: `/flight/getSuppliersName`
 
 #### 📤 Response (example)
@@ -1600,3 +1700,186 @@ This endpoint is currently used in the flightWidgetManual page only and includes
   ]
 }
 ```
+
+--- 
+## ✈️ Endpoint: GET `/odeysysadmin/check-supplier/supplier-data`
+
+## Description
+Returns a mapping of supplier names to their respective credential details (only the active suppliers on the branch specified in the research).
+
+---
+
+## Request
+- **Type:** XHR (GET)
+- **Query Parameters:** None
+
+---
+
+## Response
+
+The response is a JSON object where:
+- Each key is a supplier name.
+- Each value is a list of credential objects for that supplier.
+
+```json
+{
+  "AirArabiaEgypt": [
+    {
+      "supplierName": "AirArabiaEgypt",
+      "credId": 281,
+      "credName": "AirArabiaEgypt",
+      "pccType": null
+    }
+  ],
+  "Galileo": [
+    {
+      "supplierName": "Galileo",
+      "credId": 271,
+      "credName": "Galileo live",
+      "pccType": null
+    }
+  ]
+}
+```
+
+### ✅ Recommended Approach: Enhancing
+
+- Enhance response value
+
+#### 🧾 Sample `response` Value:
+```json
+[
+  {
+    "id": 171,
+    "name": "TravelportNdc",
+    "supplierCredential": [
+      {
+        "id": 329,
+        "name": "staging"
+      },
+      {
+        "id": 330,
+        "name": "StagingEGY"
+      }
+    ]
+  }
+]
+```
+
+---
+
+## ✈️ Endpoint: POST `/odeysysadmin/check-supplier/check-supplier-search`
+
+## Description
+Checks supplier request/response status based on search input and credential.  
+**Only `supplierRequest` and `supplierResponse` fields in the response are useful.**
+
+---
+
+## Request
+- **Type:** XHR (POST)
+- Request Body
+
+```json
+{
+  "flightWidget": {
+    "corporateIdList": [],
+    "dataFromCacheOrNot": true,
+    "tripType": "OneWay",
+    "upgradeBooking": 0,
+    "fareMismatch": 0,
+    "prefferedAirlineName": null,
+    "passengerType": "",
+    "hotelRequestBean": null,
+    "selectedHotel": null,
+    "isExcludeLcc": false,
+    "orderId": null,
+    "nearByAirport": false,
+    "seeMore": false,
+    "allianceName": "",
+    "isDateFlexible": false,
+    "isNonStop": false,
+    "hotelCrossSell": false,
+    "baggageFareOnly": false,
+    "multiAvailability": false,
+    "noOfAdults": "1",
+    "noOfChilds": "",
+    "noOfInfants": "",
+    "searchId": 0,
+    "prefferedAirline": null,
+    "passengerIdList": [],
+    "lastFiveSearch": false,
+    "returnAllFaresResultFromGal": false,
+    "flightwidgetElement": [
+      {
+        "destinationCityId": "3635",
+        "age": [45],
+        "multiOriginNameList": null,
+        "multiOriginCityNameList": null,
+        "multiOriginCountryIdList": null,
+        "preferredAirline": "",
+        "residency": "AE",
+        "residencyId": null,
+        "startingFrom": "CAI",
+        "goingTo": "JED",
+        "depCountry": null,
+        "rbd": "",
+        "goingToCity": "Jeddah",
+        "cabinClass": "1",
+        "dateOfJourney": "28-08-2025",
+        "returnDateOfJourney": null,
+        "multiOriginList": null,
+        "destCountryId": "195",
+        "originCountryId": 67,
+        "goingToName": "King Abdulaziz International",
+        "covercountry": "SA",
+        "sourceCityId": 0,
+        "recheck": 0,
+        "startingFromCity": "Cairo",
+        "startingFromName": "Cairo International Airport"
+      }
+    ],
+    "flexibleDateForCaching": false,
+    "bookingViaSearch": null
+  },
+  "supplierCredDto": {
+    "supplierName": "AmdNDC",
+    "credId": 333,
+    "credName": "Amadeus NDC",
+    "pccType": "SEARCH"
+  }
+}
+
+```
+
+## Response
+
+- **Content-Type:** `application/json`
+
+### Response Body
+
+```json
+{
+  "supplierRequest": "<RAW XML or JSON request to supplier>",
+  "supplierResponse": "<RAW XML or JSON response from supplier>",
+  "...": "// many other fields to be ignored"
+}
+```
+Show huge [Response](./huge-response/check-supplier-result.json)
+
+#### 📝 Notes
+- This endpoint is used mainly for debugging supplier integration.
+- Use only the supplierRequest and supplierResponse to validate supplier communication.
+- Rest of the response data is verbose and non-critical for most use cases.
+
+
+### ✅ Recommended Approach:
+- Ignore all unused filed in response object
+- Return just supplier status
+```json
+{
+  "status": 1
+}
+```
+
+
