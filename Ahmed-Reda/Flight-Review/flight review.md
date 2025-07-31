@@ -1,18 +1,14 @@
 ## ✈️ Booking Module Investigation – Flight Review Page Contract Review
 
-Welcome aboard! This document captures the ongoing work and analysis related to the **Flight Review Page** of our Booking Module. The goal? To modernize, simplify, and document the backend/frontend contracts with elegance and clarity.
+### 🎯 Goal
 
----
-
-### 🎯 Objective
-
-Break down the legacy structure of `requestBean`and `flightOption` on the Flight Review Page → Compare it to modern, RESTful, Angular-friendly alternatives → Recommend transformations that make the codebase cleaner, leaner, and future-proof.
+Break down the legacy structure of `requestBean`and `flightOption` on the Flight Review Page.
 
 ---
 
 ## 🛬 Page: Flight Review Page
 
-#### mainly this page Preview all information of the flight including Fare Details and Baggage Details
+### mainly this page Preview all information of the flight including Fare Details and Baggage Details
 
 ### 🧩 Object: `requestBean`
 
@@ -23,6 +19,26 @@ The `requestBean` object is central to the **Flight Review Page**, carrying key 
 - 🌍 Multi-City
 
 As part of the modernization effort, we compare the old legacy structure against a simplified, REST-compliant version.
+
+---
+
+### 🏷️ Legacy Endpoint Reference
+
+its called once you enter the page
+
+- **Endpoint URL:**  
+  `POST  odeysysadmin/flight/flightReview` <br>
+  response type : **Model&View**
+
+- **Payload Parameters:** (Body params)
+  - `requestBean`
+  - `onwardFlightOptionJson`
+  - `fareResponse`
+  - `fromSaveQuote`
+  - `quotationId`
+  - `productSequence`
+
+This legacy endpoint handled the flight review page using a POST request with multiple complex payload objects.
 
 ---
 
@@ -110,30 +126,14 @@ As part of the modernization effort, we compare the old legacy structure against
 
 ---
 
-### 🏷️ Legacy Endpoint Reference
+### ✅ Recommended REST API `flightRequest` Structure
 
-- **Endpoint URL:**  
-  `odeysysadmin/flight/flightReview`
-- **Request Method:**  
-  `POST`
-- **Payload Parameters:**
-  - `requestBean`
-  - `onwardFlightOptionJson`
-  - `fareResponse`
-  - `fromSaveQuote`
-  - `quotationId`
-  - `productSequence`
-
-This legacy endpoint handled the flight review page using a POST request with multiple complex payload objects.
-
----
-
-### ✅ Recommended REST API `requestBean` Structure
-
-- **API Endpoint:** `GET /flight/request/${flightId}or{bookingRef}or${orderId}`
+- **API Endpoint:** `GET /flight/request/${flightId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 - only 14 proprties
+<details>
+<summary> <h4 style="display: inline-block"> 🧾will be done  sample of <code>RequestFlight</code> </h4> </summary>
 
 ```json
 {
@@ -157,14 +157,34 @@ This legacy endpoint handled the flight review page using a POST request with mu
 }
 ```
 
----
+</details>
 
-### 🧠 Observations
+#### - ✅Recommnded sample of <code>RequestFlight</code>
 
-- Old object includes multiple nulls, nested unused lists, and internal logic variables
-- Recommended structure includes **only user-facing, required fields**
-- Easier to validate, test, and debug in frontend/backend interaction
-- Designed to support all trip types with a normalized structure
+```json
+{
+  "flightRequest": {
+    "flightId": "number",
+    "tripType": "string",
+    "numberOfAdults": "number",
+    "numberOfChildren": "number",
+    "numberOfInfants": "number",
+
+    "journeySegments": [
+      {
+        "departureAirportName": "string",
+        "departureCityName": "string",
+        "departureCityCode": "string",
+        "arrivalAirportName": "string",
+        "arrivalCityName": "string",
+        "arrivalCityCode": "string",
+
+        "dateOfJourney": "string"
+      }
+    ]
+  }
+}
+```
 
 ---
 
@@ -725,16 +745,14 @@ This legacy endpoint handled the flight review page using a POST request with mu
 
 </details>
 
----
+### ✅ Recommended REST API `flightData`(one way) Structure
 
-### ✅ Recommended REST API `Flight option `(one way) Structure
-
-- **API Endpoint:** `GET /flight-review/oneway/${flightId}or{bookingRef}or${orderId}`
+- **API Endpoint:** `GET /flight-review/oneway/${flightId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample new  <code>flightOption</code> (one way) value : 58 proprties</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample will be done  <code>flightData</code> (one way) value : 58 proprties</h4> </summary>
 
 ```json
 {
@@ -786,7 +804,7 @@ This legacy endpoint handled the flight review page using a POST request with mu
       "agentMarkup": "number",
       "agencyMarkup": "number",
       "markupPrice": "number",
-      "discountPrice": "number",
+      "discount": "number",
       "serviceChargePrice": "number",
       "totalBaseFare": "number",
       "totalTax": "number",
@@ -796,6 +814,99 @@ This legacy endpoint handled the flight review page using a POST request with mu
       "cancelPanelty": "string",
       "changePanelty": "string"
     },
+    "supplierSettings": {
+      "baggageAllowed": "boolean"
+    }
+  }
+}
+```
+
+</details>
+<details>
+<summary> <h4 style="display: inline-block"> ✅ Sample recommended  <code>flightData</code> (one way) value : 58 proprties</h4> </summary>
+
+```json
+{
+  "flightData": {
+    "flightId": "number", // Unique identifier for the flight option
+    "serviceVendor": "string", // e.g., Amadeus, Sabre
+    "totalFareAmount": "number", // Total fare including taxes and fees
+    "baggageAllowance": {
+      "adult": {
+        "handBaggage": "string",
+        "checkInBaggage": "string"
+      },
+      "child": {
+        "checkInBaggage": "string"
+      },
+      "infant": {
+        "checkInBaggage": "string"
+      }
+    },
+    "flightSegments": [
+      {
+        "marketingCarrierCode": "string",
+        "marketingCarrierName": "string",
+        "flightNumber": "string",
+        "travelCabinClass": "string",
+
+        "isOperatedByDifferentCarrier": "boolean",
+        "operatingCarrierName": "string",
+
+        "departureCity": "string",
+        "departureAirportCode": "string",
+        "departureDate": "string", // Format: YYYY-MM-DD
+        "departureTime": "string", // Format: HH:mm
+        "departureAirportName": "string",
+        "departureTerminal": "string",
+
+        "arrivalCity": "string",
+        "arrivalAirportCode": "string",
+        "arrivalDate": "string",
+        "arrivalTime": "string",
+        "arrivalAirportName": "string",
+        "arrivalTerminal": "string",
+
+        "segmentDuration": "string",
+        "technicalStops": "array | null",
+        "layoverDuration": "string", // e.g., for connecting flights
+
+        "aircraftType": "string" // (mapped from "equipment")
+      }
+    ],
+
+    "flightFare": {
+      "travelCabinClass": "string",
+      "currencyCode": "string",
+
+      "adultBaseFare": "number",
+      "adultTaxAmount": "number",
+      "adultFeeAmount": "number",
+
+      "childBaseFare": "number",
+      "childTaxAmount": "number",
+      "childFeeAmount": "number",
+
+      "infantBaseFare": "number",
+      "infantTaxAmount": "number",
+      "infantFeeAmount": "number",
+
+      "agentMarkupAmount": "number",
+      "agencyMarkupAmount": "number",
+      "totalMarkupAmount": "number",
+      "discountAmount": "number",
+
+      "serviceChargeAmount": "number",
+      "totalBaseFareAmount": "number",
+      "totalTaxAmount": "number",
+      "totalFeeAmount": "number",
+      "totalSurchargeAmount": "number",
+      "bundledServiceChargeAmount": "number",
+
+      "cancellationPenaltyDescription": "string",
+      "changePenaltyDescription": "string"
+    },
+
     "supplierSettings": {
       "baggageAllowed": "boolean"
     }
@@ -1502,19 +1613,19 @@ This legacy endpoint handled the flight review page using a POST request with mu
 
 ---
 
-### ✅ Recommended REST API `Flight option `(round) Structure
+### ✅ Recommended REST API `flightData`(round) Structure
 
-- **API Endpoint:** `GET /flight-review/round/${flightId}or{bookingRef}or${orderId}`
+- **API Endpoint:** `GET /flight-review/round/${flightId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample new  <code>flightOption</code> (Round) value : 136 proprties</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample will be done  <code>flightData</code> (Round) value : 136 proprties</h4> </summary>
 
 ```json
 {
   "currency": "string",
   "totalJourneyFare": "number",
-  "discountPrice": "number",
+  "discount": "number",
   "markupPrice": "number",
   "serviceChargePrice": "number",
   "odeysysPrice": "number",
@@ -1574,7 +1685,7 @@ This legacy endpoint handled the flight review page using a POST request with mu
       "agentMarkup": "number",
       "agencyMarkup": "number",
       "markupPrice": "number",
-      "discountPrice": "number",
+      "discount": "number",
       "serviceChargePrice": "number",
       "totalBaseFare": "number",
       "totalTax": "number",
@@ -1639,7 +1750,7 @@ This legacy endpoint handled the flight review page using a POST request with mu
       "agentMarkup": "number",
       "agencyMarkup": "number",
       "markupPrice": "number",
-      "discountPrice": "number",
+      "discount": "number",
       "serviceChargePrice": "number",
       "totalBaseFare": "number",
       "totalTax": "number",
@@ -1662,16 +1773,208 @@ This legacy endpoint handled the flight review page using a POST request with mu
 ```
 
 </details>
-
----
-
-## 🌍 `multi city `
-
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample old  <code>flightOption</code> (multi city) Value : 866<proprties</h4> </summary>
+<summary> <h4 style="display: inline-block"> ✅ Sample recommended  <code>flightData</code> (Round) value : 136 proprties</h4> </summary>
 
 ```json
 {
+  "currency": "string",
+  "totalJourneyFare": "number",
+  "discount": "number",
+  "markupPrice": "number",
+  "serviceChargePrice": "number",
+  "odeysysPrice": "number",
+  "cabinClass": "string",
+
+  "onwardService": {
+    "serviceVendor": "string",
+    "baggage": {
+      "adultHandBaggage": "string",
+      "adultCheckinBaggage": "string",
+      "childCheckinBaggage": "string",
+      "infantCheckinBaggage": "string"
+    },
+    "flightLegs": [
+      {
+        "carrier": "string",
+        "carrierName": "string",
+        "flightNumber": "string",
+        "cabinClass": "string",
+
+        "operatedByFound": "boolean",
+        "operatedByAirlineName": "string",
+
+        "origin": {
+          "airportCode": "string",
+          "airportName": "string",
+          "cityName": "string",
+          "terminal": "string",
+          "depDate": "string",
+          "depTime": "string"
+        },
+
+        "destination": {
+          "airportCode": "string",
+          "airportName": "string",
+          "cityName": "string",
+          "terminal": "string",
+          "arrDate": "string",
+          "arrTime": "string"
+        },
+
+        "segmentDuration": "string",
+        "technicalStops": "array | null",
+        "layoverDuration": "string", // e.g., for connecting flights
+        "equipment": "string"
+      }
+    ],
+    "flightFare": {
+      "currency": "string",
+
+      // Adult
+      "adultBaseFare": "number",
+      "adultTax": "number",
+      "adultFees": "number",
+
+      // Child
+      "childBaseFare": "number",
+      "childTax": "number",
+      "childFees": "number",
+
+      // Infant
+      "infantBaseFare": "number",
+      "infantTax": "number",
+      "infantFees": "number",
+
+      // Charges
+      "agentMarkup": "number",
+      "agencyMarkup": "number",
+      "markupPrice": "number",
+      "discount": "number",
+      "serviceChargePrice": "number",
+
+      "totalBaseFare": "number",
+      "totalTax": "number",
+      "totalFees": "number",
+      "totalSurchargeAmout": "number",
+      "bundledServiceCharge": "number",
+
+      // Policy
+      "cancelPanelty": "string",
+      "changePanelty": "string",
+
+      // Baggage Info
+      "adultAllowedHandBaggage": "string",
+      "adultAllowedCheckinBaggage": "string",
+      "childAllowedCheckinBaggage": "string",
+      "infantAllowedCheckinBaggage": "string"
+    },
+    "supplierSettings": {
+      "baggageAllowed": "boolean"
+    }
+  },
+
+  // Return trip (JED → CAI)
+  "returnService": {
+    "serviceVendor": "string",
+    "baggage": {
+      "adultHandBaggage": "string",
+      "adultCheckinBaggage": "string",
+      "childCheckinBaggage": "string",
+      "infantCheckinBaggage": "string"
+    },
+    "flightLegs": [
+      {
+        "carrier": "string",
+        "carrierName": "string",
+        "flightNumber": "string",
+        "cabinClass": "string",
+
+        "operatedByFound": "boolean",
+        "operatedByAirlineName": "string",
+
+        "origin": {
+          "airportCode": "string",
+          "airportName": "string",
+          "cityName": "string",
+          "terminal": "string",
+          "depDate": "string",
+          "depTime": "string"
+        },
+
+        "destination": {
+          "airportCode": "string",
+          "airportName": "string",
+          "cityName": "string",
+          "terminal": "string",
+          "arrDate": "string",
+          "arrTime": "string"
+        },
+
+        "segmentDuration": "string",
+        "technicalStops": "array | null",
+        "layoverDuration": "string", // e.g., for connecting flights
+        "aircraftType": "string"
+      }
+    ],
+    "flightFare": {
+      "currency": "string",
+
+      // Adult
+      "adultBaseFare": "number",
+      "adultTax": "number",
+      "adultFees": "number",
+
+      // Child
+      "childBaseFare": "number",
+      "childTax": "number",
+      "childFees": "number",
+
+      // Infant
+      "infantBaseFare": "number",
+      "infantTax": "number",
+      "infantFees": "number",
+
+      // Charges
+      "agentMarkup": "number",
+      "agencyMarkup": "number",
+      "markupPrice": "number",
+      "discount": "number",
+      "serviceChargePrice": "number",
+
+      "totalBaseFare": "number",
+      "totalTax": "number",
+      "totalFees": "number",
+      "totalSurchargeAmout": "number",
+      "bundledServiceCharge": "number",
+
+      // Policy
+      "cancelPanelty": "string",
+      "changePanelty": "string",
+
+      // Baggage Info
+      "adultAllowedHandBaggage": "string",
+      "adultAllowedCheckinBaggage": "string",
+      "childAllowedCheckinBaggage": "string",
+      "infantAllowedCheckinBaggage": "string"
+    },
+    "supplierSettings": {
+      "baggageAllowed": "boolean"
+    }
+  }
+}
+```
+
+</details>
+
+---
+
+## 🌍 `Multi trip `
+
+<details>
+<summary> <h4 style="display: inline-block"> 🧾 Sample old  <code>flightOption</code> (multi) Value : 866 proprties</h4> </summary>
+
+```json{
   "destination": "SHJ",
   "fareBasisCodes": null,
   "onlyBaggageFareSearch": false,
@@ -2461,12 +2764,12 @@ This legacy endpoint handled the flight review page using a POST request with mu
         "airSegmentRef": "qOTurfRAuDKA4kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2e9FgIhvdpcFZsAAj+BuCugLfy3wMN9r38Y/mSeFJuPTpMIuND+gKg/oSO/ccnsft/5H7vDXWBywjJl05nNLZqOs6oaHkyP37L/f4rfU1ufcFx6+oRDDo25zGMhnSuhxgABZlh9ApfHhVdcf3rSVre6rcHhghHI+LHAanDB/IrHxgzcTGpKgbTnRZGZcRLetlfGqWWrczPHvckdfIMBLpdcuDMFdwI5fQuZ+mAxfE8usRc7GfnmwzVslFd29m/nJr/SU8gecfbWEnFYRggmRA5VpHRFfOGk1iaywFLwGa5JvTU6uDNOFnAkEPFc7ZmQhP+3lgY/QVsQ6sn6V7c0rHrrT3Ti/yujLNa/AFKEXb03hK/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDHxDGJun84l6GmjYuszn207WOnxkQ2WPPHvaVUAnec78/Y1hQE97vjMSGa/jnHeJQjdwXtO9a1rEPZoueQ3FkE4Y=",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2eWvZiPOF0Vr+9G5zTqJvncRRTPY+LUXr4KdSuQmrpsZQeH32IWnpe+fiwB0NqM9S2lbLAkJLmOE2EW9wzrfZ9toUT/EtP+YT7CiwEAgYv96fqWEsga9GrK0vPw0AdOBxIzS7vXJkNm3nPOvXkrT+ckErhoAAn55Dv83fZ3yCAPareYpDyJ5rb9WnNNcPVDbKyGWXoXHIgLpw2x+5ldzl1f++5kL4P+XIA+Fh8c5DYA46F/oTXxxF6MVFd29m/nJr/ln6LBZJHTtAlH90JVn05R+pDw/9iYJc/pofldJx4gyuakEf3B6EYwSpTidrC7Di4S0oOPF0O7yPM2DP23u/XKsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwM8w+FnY2pdnx52tR+ULC3RmjYuszn207WO+9JiRxifDLjjvsKRwy/SqIySm202WhYHtC/KW3FpMlZEJOm4RHLp",
         "fareInfoRef": "qOTurfRAuDKAPmGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA6kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2e9FgIhvdpcFZsAAj+BuCugHb79BGR+l9AY/mSeFJuPTpMIuND+gKg/oSO/ccnsft/5H7vDXWBywjJl05nNLZqOs6oaHkyP37L/f4rfU1ufcFx6+oRDDo25zGMhnSuhxgAhabxp9X1oDhdcf3rSVre6rcHhghHI+LHAanDB/IrHxgzcTGpKgbTnQrrFrElUcdS29FoU8KSiet47hPwL7bBn98ffNzQ2FIwJOAm97Kr6CngqLLRCmd4oFby9IE1rxlS4li0Xv08LdiTSddRKqi7xdVblOlRGNfxuymvCsB6Zn2dayjURTw+8ODYEwnSo6Z1zhhMKC0JUJzKvigNL8V0YoBv36hHUMXpfEpGxkydh+2/he9va7VDH7+F729rtUMfv4Xvb2u1Qx+/he9va7VDH7+F729rtUMfw42FXnSg17GXLmrFneovA3VHfIgBmQRL37HV/uV0byT2MjYCl5PrPIehbwqUxRJ09fBlKODAZSlmi55DcWQThg==",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMjJs02vwFm2eWvZiPOF0Vr+9G5zTqJvncZfvsHurXJyFKdSuQmrpsZQeH32IWnpe+fiwB0NqM9S2lbLAkJLmOE2EW9wzrfZ9toUT/EtP+YT7CiwEAgYv96eoZ+jI8V2t3kvPw0AdOBxIzS7vXJkNm3nPOvXkrT+ckErhoAAn55Dv83fZ3yCAPap++MoDftUT0Z3fotfFyW3pdnh4rXYhVVngzBXcCOX0LrwZbN5KCi0p2Qj2h6woen9JTyB5x9tYSVby9IE1rxlSqufOCYxTojcYmtXMshoI2jtG0MFS2uK4Q9/nEFxiJkSAdcY0m0a4yqPEokc7Ks035bqCRvMIoTmA70ro/ClmMYq+cJFUBzrily5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA3N5jV9Rrzq8nS+z6OxXpxJxi/Bcq3sXvB2WN4EjYakqeV2sLV4gSIBTLxZgyS7c0zO+PXml19s+VkQk6bhEcuk=",
         "fareInfoRef": "qOTurfRAuDKAHnGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA8kGGAvAAAA=="
       }
@@ -2500,7 +2803,7 @@ This legacy endpoint handled the flight review page using a POST request with mu
         "airSegmentRef": "qOTurfRAuDKA6kGGAvAAAA=="
       },
       {
-        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAxlpMnOssuF4xWa1uaqI55k3aSkvhp2ybRWCr7Cc8ewMG3ZyGOOHXWTnWmtUsVS8UVRqC/rsCwsm9O3nw4EXTCdR6kR7F0LFNMCIbRqMTJch6v9tEaRJgF6N3TEpBNIygiYIbNpGFgiVtXl4ZcfCsz9JTyB5x9tYSQLWhthMb3jl9WdIG1jtEIP7+JEehaejyH3voh5pu7vxly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA3N5jV9Rrzq8nS+z6OxXpxJxi/Bcq3sXvB2WN4EjYakqeV2sLV4gSIBTLxZgyS7c0zO+PXml19s+VkQk6bhEcuk=",
+        "fareRuleKey": "6UUVoSldxwhiV+mul58U38bKj3F8T9EyxsqPcXxP0TLGyo9xfE/RMsuWFfXVd1OAly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovAxlpMnOssuF4xWa1uaqI55k3aSkvhp2ybRWCr7Cc8ewMG3ZyGOOHXWTnWmtUsVS8UVRqC/rsCwsm9O3nw4EXTCdR6kR7F0LFNMCIbRqMTJch6v9tEaRJgF6N3TEpBNIygiYIbNpGFgiVtXl4ZcfCsz9JTyB5x9tYSQLWhthMb3jl9WdIG1jtEIP7+JEehaejyH3voh5pu7vxly5qxZ3qLwOXLmrFneovA5cuasWd6i8Dly5qxZ3qLwOXLmrFneovA2+QKPIWaRvq6oxE1UL944AzNvCWbTnKgPaVUAnec78/mHCIUdzqnbDJX9xvaZNe2hIqjC2Sa17EYXG9bbt770Y=",
         "fareInfoRef": "qOTurfRAuDKABqGGAvAAAA==",
         "airSegmentRef": "qOTurfRAuDKA8kGGAvAAAA=="
       }
@@ -2606,16 +2909,13 @@ This legacy endpoint handled the flight review page using a POST request with mu
 ```
 
 </details>
+### ✅ Recommended REST API `FlightData`(multi City) Structure
 
----
-
-### ✅ Recommended REST API `Flight option `(multi City) Structure
-
-- **API Endpoint:** `GET /flight-review/multi/${flightId}or{bookingRef}or${orderId}`
+- **API Endpoint:** `GET /flight-review/multi/${flightId}`
 - **Usage:** Frontend-driven, Angular compatible, form-based
 - **Design Goals:** Simplicity, relevance, clarity
 <details>
-<summary> <h4 style="display: inline-block"> 🧾 Sample new  <code>flightOption</code> (multi city) value : 61 proprties</h4> </summary>
+<summary> <h4 style="display: inline-block"> 🧾 Sample will be done  <code>flightData</code> (multi city) value : 61 proprties</h4> </summary>
 
 ```json
 {
@@ -2633,7 +2933,7 @@ This legacy endpoint handled the flight review page using a POST request with mu
     "agentMarkup": "number",
     "agencyMarkup": "number",
     "markupPrice": "number",
-    "discountPrice": "number",
+    "discount": "number",
     "serviceChargePrice": "number",
     "totalBaseFare": "number",
     "totalTax": "number",
@@ -2691,17 +2991,113 @@ This legacy endpoint handled the flight review page using a POST request with mu
 
 </details>
 
----
+<details>
+<summary> <h4 style="display: inline-block"> ✅ Sample Recommnded  <code>flightData</code> (multi city) value : 61 proprties</h4> </summary>
 
-## 🌟 Summary of Changes
+```json
+{
+  "currency": "string",
+  "totalFare": "number",
+  "serviceVendor": "string",
 
-This document meticulously detailed the legacy structures of the `requestBean` and `flightOption` objects, prevalent in the Flight Review Page of our Booking Module. Through a series of methodical comparisons, we showcased the transformation from the old verbose structures to modern, RESTful, and Angular-friendly formats. The recommended changes emphasize simplicity, relevance, and clarity, ensuring a cleaner and more efficient codebase. Additionally, the document provided insights into the legacy endpoint used for the flight review page, further aiding in understanding the previous system's intricacies.
+  "flightFare": {
+    "currency": "string",
+
+    // Fare breakdown by passenger type
+    "adultBaseFare": "number",
+    "adultTax": "number",
+    "adultFees": "number",
+    "childBaseFare": "number",
+    "childTax": "number",
+    "childFees": "number",
+    "infantBaseFare": "number",
+    "infantTax": "number",
+    "infantFees": "number",
+
+    // Markups and adjustments
+    "agentMarkup": "number",
+    "agencyMarkup": "number",
+    "markupPrice": "number",
+    "discount": "number",
+    "serviceChargePrice": "number",
+
+    // Totals
+    "totalBaseFare": "number",
+    "totalTax": "number",
+    "totalFees": "number",
+    "totalSurchargeAmout": "number",
+    "bundledServiceCharge": "number",
+
+    // Penalties
+    "cancelPanelty": "string",
+    "changePanelty": "string",
+
+    "cabinClass": "string"
+  },
+
+  "supplierSettings": {
+    "baggageAllowed": true
+  },
+
+  "multiCitySegments": [
+    {
+      "origin": "string",
+      "destination": "string",
+      "cabinClass": "string",
+
+      "baggage": {
+        "adultHandBaggage": "string",
+        "adultCheckinBaggage": "string",
+        "childCheckinBaggage": "string",
+        "infantCheckinBaggage": "string"
+      },
+
+      "flightLegs": [
+        {
+          "carrier": "string",
+          "carrierName": "string",
+          "flightNumber": "string",
+          "cabinClass": "string",
+
+          "operatedByFound": true,
+          "operatedByAirlineName": "string",
+
+          "origin": {
+            "airportCode": "string",
+            "airportName": "string",
+            "cityName": "string",
+            "terminal": "string",
+            "depDate": "string",
+            "depTime": "string"
+          },
+
+          "destination": {
+            "airportCode": "string",
+            "airportName": "string",
+            "cityName": "string",
+            "terminal": "string",
+            "arrDate": "string",
+            "arrTime": "string"
+          },
+
+          "segmentDuration": "string",
+          "technicalStops": "array | null",
+          "layoverDuration": "string", // e.g., for connecting flights
+          "aircraftType": "string" // formerly equipment
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
 
 ---
 
 ## `this page have no validation  its  only for reviewing the flight Details  `
 
-# related JSP
+# related JSPs
 
 we have two main JSP related files those files are : <br>
 <code>baggageDetailsjsp.jsp</code> and <code>fareDetailsjsp.jsp</code><br>
